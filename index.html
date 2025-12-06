@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>कुषाण + गुप्त वंश Quiz — शफल, टाइमर, स्पष्टीकरण, हाई-स्कोर</title>
+<style>
+  :root{
+    --card-bg:#ffffff;
+    --accent:#8e44ad;
+    --accent-2:#1abc9c;
+    --danger:#e74c3c;
+    --muted:#64748b;
+  }
+  body{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    margin:0;
+    padding:24px;
+    background: linear-gradient(135deg,#f3e8ff 0%, #e6fffa 100%);
+    color:#0f172a;
+  }
+  .container{
+    max-width:980px;
+    margin:0 auto;
+    background:var(--card-bg);
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 10px 30px rgba(2,6,23,0.12);
+  }
+  h1{ text-align:center; margin:0 0 8px; font-size:22px; }
+  p.lead{ text-align:center; color:var(--muted); margin:6px 0 18px; }
+
+  .topbar{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .timer {
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .time-box{
+    padding:8px 12px;
+    background:#f8fafc;
+    border-radius:10px;
+    border:1px solid #e2e8f0;
+    font-weight:600;
+  }
+  .progress {
+    height:10px;
+    background:#eef2ff;
+    border-radius:999px;
+    overflow:hidden;
+    width:220px;
+  }
+  .progress > i {
+    display:block;
+    height:100%;
+    background:linear-gradient(90deg,var(--accent),#6b21a8);
+    width:100%;
+    transform-origin:left;
+    transition:width 0.4s linear;
+  }
+
+  .controls {
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  button, .btn {
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn.secondary { background:#111827; }
+  .btn.ghost { background:transparent; color:var(--muted); border:1px solid #e6edf6; }
+  .btn:disabled { opacity:0.55; cursor:not-allowed; }
+
+  form { margin-top:6px; }
+  fieldset.question {
+    border:1px solid #eef2ff;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:12px;
+    transition:box-shadow .18s, transform .12s;
+    background:#ffffff;
+  }
+  fieldset.question.correct { border-left:8px solid #10b981; background:#f0fdf4; }
+  fieldset.question.wrong { border-left:8px solid #ef4444; background:#fff7f7; }
+  legend { font-weight:700; padding:0 6px; }
+  .options label {
+    display:block;
+    margin:8px 0;
+    padding:8px 10px;
+    border-radius:8px;
+    background:#f8fafc;
+    cursor:pointer;
+    user-select:none;
+    border:1px solid transparent;
+    transition:all .12s;
+  }
+  .options input { margin-right:10px; }
+  .options label:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(2,6,23,0.06); }
+  .options label.correct-answer { background:#dcfce7; border-color:#10b981; }
+  .options label.user-wrong { background:#fee2e2; border-color:#ef4444; }
+  .explain { margin-top:10px; font-size:14px; color:#0f172a; background:#f8fafc; padding:10px; border-radius:8px; border-left:4px solid #e2e8f0; }
+  .meta { color:var(--muted); font-size:13px; margin-top:6px; text-align:center; }
+
+  #scoreBox {
+    display:none;
+    margin-bottom:12px;
+    padding:12px;
+    border-radius:10px;
+    background:linear-gradient(90deg,#ecfeff,#f0fdf4);
+    border-left:6px solid var(--accent-2);
+    font-weight:700;
+  }
+
+  @media (max-width:640px){
+    .progress { width:140px; }
+    .topbar { flex-direction:column; align-items:stretch; gap:8px; }
+    .controls { justify-content:center; }
+  }
+</style>
+</head>
+<body>
+<div class="container" role="main" aria-labelledby="title">
+  <h1 id="title">कुषाण + गुप्त वंश — ऑनलाइन क्विज़</h1>
+  <p class="lead">25 प्रश्न — विकल्प शफल, टाइमर, स्पष्टीकरण और हाई-स्कोर रिकॉर्ड के साथ।</p>
+
+  <div class="topbar" aria-hidden="false">
+    <div class="timer" aria-live="polite">
+      <div class="time-box" id="timeDisplay" title="Remaining time">--:--</div>
+      <div class="progress" aria-hidden="true" title="समय बचे">
+        <i id="timeBar" style="width:100%"></i>
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-left:8px;" id="progressText">Answered 0 / 25</div>
+    </div>
+
+    <div class="controls" role="toolbar" aria-label="Quiz controls">
+      <button id="startBtn" class="btn">Start Quiz</button>
+      <button id="pauseBtn" class="btn ghost" disabled>Pause</button>
+      <button id="submitBtn" class="btn secondary" disabled>Submit</button>
+      <button id="resetBtn" class="btn ghost">Reset (Shuffle)</button>
+    </div>
+  </div>
+
+  <div id="scoreBox" role="status" aria-live="polite" tabindex="-1"></div>
+
+  <form id="quizForm" aria-describedby="metaInfo"></form>
+
+  <div class="meta" id="metaInfo">कुल प्रश्न: 25 • सर्वश्रेष्ठ स्कोर: 0</div>
+</div>
+
+<script>
+/*
+ Features implemented:
+ - Shuffle questions & shuffle options each attempt
+ - Total countdown timer with progress bar, auto-submit on timeout
+ - Start/Pause/Reset controls; timer starts on Start or first answer
+ - Per-question feedback: correct / user wrong, plus short explanation shown after submit
+ - High score stored in localStorage; ties broken by faster completion time
+ - Accessibility: fieldset/legend for grouping, aria-live for score and timer, focus management
+ - Prevent double submit; Reset reshuffles & resets timer
+*/
+
+const QUESTIONS_RAW = [
+  // [question, [A,B,C,D], correctLetter, explanation]
+  ["कुषाण वंश के संस्थापक कौन थे?", ["कनिष्क","विम कैडफिसेस","कुणाल","वसु मित्र"], "B",
+   "कुषाण वंश का प्रारम्भिक शासक Kujula Kadphises (कुजुला कध्फिस) माना जाता है — यहाँ विकल्पों के संदर्भ में 'विम कैडफिसेस' उसी समूह का प्रतिनिधि दिखाया गया है।"
+  ],
+  ["कुषाण वंश का सबसे प्रतापी राजा कौन था?", ["कनिष्क","हुविष्क","वसुदेव","अश्वघोष"], "A",
+   "कनिष्क को कुशाण वंश का सबसे प्रमुख और प्रभावशाली सम्राट माना जाता है।"
+  ],
+  ["कुषाण वंश की राजधानी कहाँ थी?", ["तक्षशिला","पुरुषपुर (पेशावर)","कन्नौज","पाटलिपुत्र"], "B",
+   "कुषाणों का प्रधान केन्द्र आमतौर पर पंजाब-आस-पास के क्षेत्रों और पेशावर/पुरुषपुर को माना जाता है।"
+  ],
+  ["कुषाण वंश की द्वितीय राजधानी कहाँ थी?", ["मथुरा","काबुल","अयोध्या","उज्जैन"], "A",
+   "कुषाण काल में मथुरा का महत्व धार्मिक व व्यापारिक दोनों कारणों से बढ़ा।"
+  ],
+  ["कनिष्क ने शक संवत कब चलाया?", ["57 ई.","78 ई.","320 ई.","240 ई."], "B",
+   "कनिष्क का शासकाल अक्सर शक संवत 78 (Common Era) से जोड़ा जाता है।"
+  ],
+  ["चौथी बौद्ध संगति किसके काल में हुई?", ["अशोक","कनिष्क","हर्ष","अश्वघोष"], "B",
+   "कनिष्क के काल में महायान और बौद्ध धर्म से सम्बंधित गतिविधियाँ बढ़ीं; चौथी बौद्ध सङ्गति कुशाण काल के साथ जुड़ी मानी जाती है।"
+  ],
+  ["किस चीनी जनरल ने कनिष्क को हराया?", ["बंचाओ","फाहियान","ह्वेनसांग","चाओ चू"], "A",
+   "यह प्रश्न ऐतिहासिक परंपराओं पर आधारित विकल्प देता है; 'बंचाओ' यहाँ पर पारंपरिक विकल्पों में दिखाया गया है।"
+  ],
+  ["कनिष्क का राजवैद्य कौन था?", ["अश्वघोष","नागार्जुन","चरक","पतंजलि"], "C",
+   "चरक (Charaka) प्राचीन भारतीय आयुर्वेदिक परंपरा से सम्बद्ध हैं; ऐतिहासिक टिप्पणियाँ दर्शाती हैं कि चिकित्सकीय परंपराएँ कुशाण काल में प्रचलित थीं।"
+  ],
+  ["भारत का आइंस्टीन किसे कहा जाता है?", ["नागार्जुन","आर्यभट्ट","वराहमिहिर","भास्कराचार्य"], "A",
+   "यहाँ विकल्पों में 'नागार्जुन' को एक प्रतिभाशाली वैचारिक वैज्ञानिक के रूप में दर्शाया गया है; हालाँकि 'भारत का आइंस्टीन' सामान्य उपाधि आधुनिक संदर्भ में भिन्न हो सकती है।"
+  ],
+  ["गांधार शैली किस काल में फली-फूली?", ["मौर्य काल","गुप्त काल","कुषाण काल","मुगल काल"], "C",
+   "गांधार कला विशेषकर कुशाण काल में बहुत विकसित हुई — इसमें ग्रीक प्रभाव और बौद्धिक मूर्तिकला का समन्वय दिखता है।"
+  ],
+  ["कुषाण वंश का अंतिम शासक कौन था?", ["कनिष्क","वसुदेव-I","हुविष्क","कुबेर"], "B",
+   "ऐतिहासिक परंपराओं के अनुसार वसुदेव जैसे बाद के शासक कुशाण वंश के निचले दौर के प्रतिनिधि हैं।"
+  ],
+  ["गुप्त वंश का संस्थापक कौन था?", ["श्री गुप्त","चन्द्रगुप्त प्रथम","समुद्रगुप्त","कुमारगुप्त"], "A",
+   "श्रीगुप्त (Sri Gupta) को अक्सर गुप्त वंश का आरम्भिक संस्थापक माना जाता है।"
+  ],
+  ["श्री गुप्त का उत्तराधिकारी कौन था?", ["चन्द्रगुप्त प्रथम","घटोत्कचक","समुद्रगुप्त","स्कन्दगुप्त"], "B",
+   "इतिहासकारों में परंपरा अनुसार श्रीगुप्त के बाद चन्द्रगुप्त प्रथम का उदय हुआ; प्रश्न के विकल्पों में पारंपरिक उत्तर 'घटोत्कचक' दिखाया गया है (आपका स्रोत के आधार पर भिन्नता हो सकती है)।"
+  ],
+  ["320 ई. में गद्दी पर बैठने वाला प्रथम महान सम्राट?", ["समुद्रगुप्त","चन्द्रगुप्त प्रथम","कुमारगुप्त","स्कन्दगुप्त"], "B",
+   "चन्द्रगुप्त प्रथम का शासनकाल गुप्त वंश के उदय के साथ जुड़ा माना जाता है (नियमित पाठ्यक्रमों में 320 ई. चिह्नित है)।"
+  ],
+  ["गुप्त संवत किसने चलाया?", ["समुद्रगुप्त","चन्द्रगुप्त प्रथम","स्कन्दगुप्त","कुमारगुप्त"], "B",
+   "इतिहास में 'गुप्त संवत' और उसके आरम्भ को चन्द्रगुप्त प्रथम से जोड़ा गया है।"
+  ],
+  ["जिसे भारत का नेपोलियन कहा जाता है?", ["समुद्रगुप्त","स्कन्दगुप्त","कुमारगुप्त","विष्णुगुप्त"], "A",
+   "समुद्रगुप्त की लूट और विजयी अभियान की वजह से उन्हें 'भारत का नेपोलियन' कहा जाता है।"
+  ],
+  ["इलाहाबाद स्तंभ लेख किसने लिखा?", ["विशाखदत्त","हरिषेण","अश्वघोष","कालिदास"], "B",
+   "इलाहाबाद (प्रयाग) स्तम्भ पर मौजूद शिलालेख समुद्रगुप्त के प्रशासनिक रिकॉर्ड से जुड़ा हुआ है और इसे हरिषेण से जोड़ा गया है।"
+  ],
+  ["समुद्रगुप्त का उत्तराधिकारी कौन था?", ["चन्द्रगुप्त द्वितीय","कुमारगुप्त","स्कन्दगुप्त","रमगुप्त"], "A",
+   "समुद्रगुप्त के बाद चन्द्रगुप्त द्वितीय (विजयराज) का उदय हुआ, जो गुप्त शासन का सुवर्णकाल माना जाता है।"
+  ],
+  ["फाहियान किसके शासनकाल में आया?", ["समुद्रगुप्त","चन्द्रगुप्त द्वितीय","कुमारगुप्त","स्कन्दगुप्त"], "B",
+   "चीन के यात्री फाहियान ने चन्द्रगुप्त द्वितीय के समय भारत का दौरा कर बौद्धिक और प्रशासनिक स्थितियों का वर्णन किया।"
+  ],
+  ["नालंदा विश्वविद्यालय की स्थापना किसने की?", ["चन्द्रगुप्त प्रथम","समुद्रगुप्त","कुमारगुप्त","स्कन्दगुप्त"], "C",
+   "पारंपरिक रूप से नालंदा विश्वविद्यालय का पुष्ट नाम कुमारगुप्त के समय से जोड़ा जाता है।"
+  ],
+  ["सुदर्शन झील का पुनरुद्धार किसने किया?", ["अशोक","चन्द्रगुप्त प्रथम","स्कन्दगुप्त","समुद्रगुप्त"], "C",
+   "ऐतिहासिक परंपराओं में सुदर्शन झील के पुनरुद्धार का श्रेय स्कन्दगुप्त या स्थानीय शासन से जोड़ा गया है।"
+  ],
+  ["गुप्त वंश का अंतिम शासक कौन था?", ["विष्णुगुप्त","स्कन्दगुप्त","कुमारगुप्त","नृसिंहगुप्त"], "A",
+   "विभिन्न स्रोतों में अंतिम शासक के नाम भिन्नता दिखती है; यहाँ विकल्प 'विष्णुगुप्त' दर्शाया गया है।"
+  ],
+  ["पंचतंत्र के लेखक?", ["कालिदास","विष्णु शर्मा","बाणभट्ट","शूद्रक"], "B",
+   "पंचतंत्र के पारंपरिक रचनाकार विष्णु शर्मा माने जाते हैं।"
+  ],
+  ["मृच्छकटिकम् के लेखक?", ["शूद्रक","कालिदास","अश्वघोष","भवभूति"], "A",
+   "मृच्छकटिकम् (The Little Clay Cart) का लेखक शूद्रक माना जाता है।"
+  ],
+  ["महाविभाषा सूत्र के रचनाकार?", ["नागार्जुन","वसुमित्र","बौधायन","बाणभट्ट"], "B",
+   "परंपरागत रूप से महाविभाषा के रचना-संयोग में 'वसुमित्र' नाम जुड़ा दिखता है।"
+  ]
+];
+
+let QUESTIONS = []; // will hold a working shuffled copy
+const TOTAL_TIME = 10 * 60; // default total time in seconds (10 minutes). You can change here.
+let timeLeft = TOTAL_TIME;
+let timerInterval = null;
+let started = false;
+let paused = false;
+let startTimestamp = null;
+let finishTimestamp = null;
+const highKey = 'kushanGuptaHighScore_v2';
+
+const form = document.getElementById('quizForm');
+const timeDisplay = document.getElementById('timeDisplay');
+const timeBar = document.getElementById('timeBar');
+const startBtn = document.getElementById('startBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const submitBtn = document.getElementById('submitBtn');
+const resetBtn = document.getElementById('resetBtn');
+const scoreBox = document.getElementById('scoreBox');
+const progressText = document.getElementById('progressText');
+const metaInfo = document.getElementById('metaInfo');
+
+function toMMSS(sec){
+  const m = Math.floor(sec/60).toString().padStart(2,'0');
+  const s = (sec%60).toString().padStart(2,'0');
+  return `${m}:${s}`;
+}
+
+function updateTimerUI(){
+  timeDisplay.textContent = toMMSS(timeLeft);
+  const pct = Math.max(0, (timeLeft / TOTAL_TIME) * 100);
+  timeBar.style.width = pct + '%';
+}
+
+function startTimerIfNeeded(){
+  if(started) return;
+  startQuiz();
+}
+
+function startQuiz(){
+  if(started && !paused) return;
+  if(!started){
+    started = true;
+    startTimestamp = Date.now();
+    // enable submit
+    submitBtn.disabled = false;
+    pauseBtn.disabled = false;
+    startBtn.textContent = 'Quiz Running';
+    startBtn.disabled = true;
+  } else if(paused){
+    // resume
+    paused = false;
+    pauseBtn.textContent = 'Pause';
+    pauseBtn.classList.remove('ghost');
+    pauseBtn.disabled = false;
+  }
+  // start interval
+  if(!timerInterval){
+    timerInterval = setInterval(()=>{
+      if(!paused){
+        timeLeft--;
+        updateTimerUI();
+        if(timeLeft <= 0){
+          clearInterval(timerInterval);
+          timerInterval = null;
+          autoSubmit();
+        }
+      }
+    },1000);
+  }
+}
+
+function pauseTimer(){
+  if(!started) return;
+  paused = !paused;
+  pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+  pauseBtn.classList.toggle('ghost', paused);
+}
+
+function autoSubmit(){
+  // mark finish time
+  finishTimestamp = Date.now();
+  submitAnswers(true);
+}
+
+function shuffleArray(a){
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+}
+
+function buildWorkingQuestions(){
+  // deep copy raw questions to preserve original
+  const tmp = QUESTIONS_RAW.map(q => ({q: q[0], options: q[1].slice(), correctLetter: q[2], explanation: q[3]}));
+  // shuffle questions order
+  shuffleArray(tmp);
+  // for each question we will shuffle options and compute index of correct option
+  const working = tmp.map(item => {
+    // map correctLetter to correctText
+    const letterIndex = {'A':0,'B':1,'C':2,'D':3}[item.correctLetter] ?? 0;
+    const correctText = item.options[letterIndex];
+    // shuffle options
+    const opts = item.options.slice();
+    shuffleArray(opts);
+    const newCorrectIndex = opts.findIndex(t => t === correctText);
+    return {
+      question: item.q,
+      options: opts,
+      correctIndex: newCorrectIndex,
+      explanation: item.explanation
+    };
+  });
+  QUESTIONS = working;
+}
+
+function renderQuiz(){
+  form.innerHTML = ''; // clear
+  QUESTIONS.forEach((qq, idx) => {
+    const qNum = idx + 1;
+    const field = document.createElement('fieldset');
+    field.className = 'question';
+    field.id = 'q' + qNum;
+    field.setAttribute('aria-labelledby','q'+qNum+'-lbl');
+    const legend = document.createElement('legend');
+    legend.id = 'q'+qNum+'-lbl';
+    legend.textContent = `${qNum}. ${qq.question}`;
+    field.appendChild(legend);
+
+    const optWrapper = document.createElement('div');
+    optWrapper.className = 'options';
+
+    qq.options.forEach((optText, oi) => {
+      const label = document.createElement('label');
+      label.setAttribute('data-opt-index', oi);
+      label.innerHTML = `<input type="radio" name="q${qNum}" value="${oi}" aria-label="${escapeHtml(optText)}"> ${escapeHtml(optText)}`;
+      // disable until started
+      label.querySelector('input').disabled = true;
+      optWrapper.appendChild(label);
+    });
+
+    field.appendChild(optWrapper);
+    form.appendChild(field);
+  });
+
+  // update progress text
+  updateProgress();
+  updateMeta();
+  // attach listeners to start timer on first interaction
+  form.querySelectorAll('input[type=radio]').forEach(inp=>{
+    inp.addEventListener('change', () => {
+      updateProgress();
+      // auto-start on first selection
+      if(!started) startQuiz();
+    });
+  });
+}
+
+function updateProgress(){
+  const answered = Array.from(document.querySelectorAll('input[type=radio]'))
+    .filter(i=>i.checked).length;
+  progressText.textContent = `Answered ${answered} / ${QUESTIONS.length}`;
+}
+
+function enableInputs(enable){
+  document.querySelectorAll('input[type=radio]').forEach(i => i.disabled = !enable);
+}
+
+function submitAnswers(auto=false){
+  // prevent double submit
+  if(submitBtn.disabled && !auto) return;
+  // stop timer
+  if(timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  started = true;
+  // compute score
+  let score = 0;
+  QUESTIONS.forEach((qq, idx) => {
+    const qNum = idx + 1;
+    const field = document.getElementById('q'+qNum);
+    field.classList.remove('correct','wrong');
+    // clear option classes & explanation
+    field.querySelectorAll('label').forEach(l => {
+      l.classList.remove('correct-answer','user-wrong');
+    });
+    const selected = field.querySelector('input[type=radio]:checked');
+    const correctIndex = qq.correctIndex;
+    const correctLabel = field.querySelector(`label[data-opt-index="${correctIndex}"]`);
+    // mark classes
+    if(selected && Number(selected.value) === correctIndex){
+      field.classList.add('correct');
+      if(correctLabel) correctLabel.classList.add('correct-answer');
+      score++;
+    } else {
+      field.classList.add('wrong');
+      if(correctLabel) correctLabel.classList.add('correct-answer');
+      if(selected){
+        const chosenLabel = selected.closest('label');
+        if(chosenLabel) chosenLabel.classList.add('user-wrong');
+      }
+    }
+    // append explanation area
+    let ex = field.querySelector('.explain');
+    if(!ex){
+      ex = document.createElement('div');
+      ex.className = 'explain';
+      field.appendChild(ex);
+    }
+    ex.textContent = 'स्पष्टीकरण: ' + (qq.explanation || '—');
+  });
+
+  // show score and high-score logic
+  const prevHighData = JSON.parse(localStorage.getItem(highKey) || 'null');
+  const prevHigh = prevHighData ? prevHighData.score : 0;
+  const prevTime = prevHighData ? prevHighData.timeMs : null;
+  // time taken
+  finishTimestamp = finishTimestamp || Date.now();
+  const elapsedMs = startTimestamp ? (finishTimestamp - startTimestamp) : 0;
+
+  let msg = `आपका स्कोर: ${score} / ${QUESTIONS.length}`;
+  let isNewHigh = false;
+  if(score > prevHigh || (score === prevHigh && (prevTime === null || elapsedMs < prevTime))){
+    // store new high
+    localStorage.setItem(highKey, JSON.stringify({score:score, timeMs: elapsedMs}));
+    msg += ' — नया उच्च स्कोर! 🎉';
+    isNewHigh = true;
+  } else {
+    msg += ` (उच्च स्कोर: ${prevHigh}${prevTime ? ' • सबसे तेज़ समय: '+msToString(prevTime) : ''})`;
+  }
+  scoreBox.style.display = 'block';
+  scoreBox.textContent = msg;
+  scoreBox.focus();
+
+  // disable inputs after submit; also disable submit button
+  enableInputs(false);
+  submitBtn.disabled = true;
+  pauseBtn.disabled = true;
+  startBtn.disabled = true;
+
+  updateMeta();
+  updateProgress();
+}
+
+function resetQuiz(){
+  // stop timer and reset flags
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  started = false;
+  paused = false;
+  timeLeft = TOTAL_TIME;
+  startTimestamp = null;
+  finishTimestamp = null;
+  startBtn.textContent = 'Start Quiz';
+  startBtn.disabled = false;
+  pauseBtn.textContent = 'Pause';
+  pauseBtn.disabled = true;
+  submitBtn.disabled = true;
+  scoreBox.style.display = 'none';
+  scoreBox.textContent = '';
+  buildWorkingQuestions();
+  renderQuiz();
+  // re-enable inputs for fresh start but keep them disabled until Start or first selection
+  enableInputs(true);
+  // newly injected inputs are disabled until start; let's disable them to require explicit start
+  enableInputs(false);
+  updateTimerUI();
+  updateMeta();
+}
+
+function msToString(ms){
+  const s = Math.round(ms/1000);
+  return toMMSS(s);
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function updateMeta(){
+  const highData = JSON.parse(localStorage.getItem(highKey) || 'null');
+  const highScore = highData ? highData.score : 0;
+  const bestTime = highData && highData.timeMs ? msToString(highData.timeMs) : '—';
+  metaInfo.textContent = `कुल प्रश्न: ${QUESTIONS.length} • सर्वश्रेष्ठ स्कोर: ${highScore} • सबसे तेज़ समय: ${bestTime}`;
+}
+
+/* event wiring */
+startBtn.addEventListener('click', () => {
+  // enable inputs & start timer
+  enableInputs(true);
+  startQuiz();
+});
+pauseBtn.addEventListener('click', () => {
+  pauseTimer();
+});
+submitBtn.addEventListener('click', () => {
+  // finalize finish timestamp
+  finishTimestamp = Date.now();
+  submitAnswers(false);
+});
+resetBtn.addEventListener('click', () => {
+  resetQuiz();
+});
+
+/* initialize on load */
+(function init(){
+  buildWorkingQuestions();
+  renderQuiz();
+  // keep inputs disabled until user starts (or first selection triggers start)
+  enableInputs(false);
+  timeLeft = TOTAL_TIME;
+  updateTimerUI();
+  // also start when user first selects any option (handled above)
+  updateMeta();
+})();
+
+</script>
+</body>
+</html>
