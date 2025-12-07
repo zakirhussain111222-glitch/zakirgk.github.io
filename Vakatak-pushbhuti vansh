@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vakataka + Pushyabhuti Quiz</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h2 { text-align: center; }
+.question { margin-bottom: 20px; }
+.correct { background: #c8f7c5; }
+.wrong { background: #f7c5c5; }
+button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+button:hover { background: #0056b3; }
+</style>
+</head>
+<body>
+<div class="container">
+<h2>Vakataka + Pushyabhuti + Pallav MCQ Quiz</h2>
+<form id="quizForm">
+
+<!-- Questions will be inserted here via JS -->
+</form>
+<button onclick="submitQuiz()">सबमिट करें</button>
+<h2 id="result"></h2>
+</div>
+
+<script>
+const quizData = [
+{q:"1. वाकाटक राजवंश के संस्थापक कौन थे?", options:["प्रवरा सेन I","रुद्रसेन I","विंध्यशक्ति","हरिषेण"], answer:2},
+{q:"2. प्रभावती गुप्ता किस वंश की शासक बनीं?", options:["गुप्त","वाकाटक","पल्लव","चालुक्य"], answer:1},
+{q:"3. वाकाटक की प्रधान शाखा का अंतिम शासक कौन था?", options:["हरिषेण","रुद्रसेन III","पृथ्वीसेन द्वितीय","प्रवरा सेन II"], answer:2},
+{q:"4. वत्सगुल्म शाखा की स्थापना किसने की?", options:["प्रवरा सेन","सर्वसेन","हरिषेण","रुद्रसेन"], answer:1},
+{q:"5. पुष्पभूति वंश का संस्थापक कौन था?", options:["प्रभाकरवर्धन","पुष्पभूति","हर्ष","आदित्यसेन"], answer:1},
+{q:"6. पुष्पभूति वंश की राजधानी?", options:["कन्नौज","थानेश्वर","पाटलिपुत्र","उज्जैन"], answer:1},
+{q:"7. प्रथम प्रभावशाली शासक?", options:["हर्ष","प्रभाकरवर्धन","ग्रहवर्मा","देवगुप्त"], answer:1},
+{q:"8. राज्यश्री का विवाह किससे हुआ?", options:["देवगुप्त","ग्रहवर्मा","शशांक","हर्ष"], answer:1},
+{q:"9. ग्रहवर्मा की हत्या किसने की?", options:["शशांक","देवदत्त","राज्यवर्धन","हर्ष"], answer:1},
+{q:"10. देवगुप्त की हत्या किसने की?", options:["हर्ष","शशांक","राज्यवर्धन","पुलकेशिन"], answer:2},
+{q:"11. राज्यवर्धन की हत्या किसने की?", options:["देवगुप्त","शशांक","हर्ष","पुलकेशिन"], answer:1},
+{q:"12. राज्यवर्धन के बाद कौन बैठा?", options:["प्रभाकरवर्धन","हर्षवर्धन","ग्रहवर्मा","आदित्यसेन"], answer:1},
+{q:"13. हर्ष ने राजधानी कहाँ बनाई?", options:["थानेश्वर","कन्नौज","वाराणसी","पाटलिपुत्र"], answer:1},
+{q:"14. युद्ध किस नदी पर हुआ?", options:["गोदावरी","नर्मदा","कृष्णा","तुंगभद्रा"], answer:1},
+{q:"15. युद्ध में कौन पराजित हुआ?", options:["पुलकेशिन II","हर्षवर्धन","दोनों","कोई नहीं"], answer:1},
+{q:"16. नरसिंहवर्मन I ने किसे हराया?", options:["हर्ष","पुलकेशिन II","देवगुप्त","शशांक"], answer:1},
+{q:"17. बाणभट्ट किसका कवि था?", options:["समुद्रगुप्त","अशोक","हर्षवर्धन","पृथ्वीराज"], answer:2},
+{q:"18. हर्षचरित व कादंबरी के लेखक?", options:["कालिदास","बाणभट्ट","भवभूति","ह्वेनसांग"], answer:1},
+{q:"19. बाणभट्ट के गुरु?", options:["विष्णुगुप्त","भर्चू","भवभूति","दिवाकर"], answer:1},
+{q:"20. रत्नावली व नागानंद के रचनाकार?", options:["कालिदास","हर्षवर्धन","बाणभट्ट","विष्णु शर्मा"], answer:1},
+{q:"21. चंद्रगुप्त II की पुत्री का विवाह?", options:["हरिषेण","रुद्रसेन II","प्रवरा सेन","सरवर्धन"], answer:1},
+{q:"22. हर्ष के दरबार में चीनी यात्री?", options:["फाहियान","ह्वेनसांग","इत्सिंग","मेगास्थनीज"], answer:1},
+{q:"23. हर्ष किस धर्म का अनुयायी था?", options:["जैन","बुद्ध","शैव","वैष्णव"], answer:1},
+{q:"24. सबसे शक्तिशाली शासक?", options:["प्रभाकरवर्धन","ग्रहवर्मा","हर्षवर्धन","देवगुप्त"], answer:2},
+{q:"25. पल्लव वंश का संस्थापक?", options:["महेन्द्रवर्मन","नरसिंहवर्मन","सिंहविष्णु","विष्णुगोप"], answer:2}
+];
+
+let form = document.getElementById('quizForm');
+quizData.forEach((q,i)=>{
+  let div = document.createElement('div');
+  div.className = 'question';
+  div.innerHTML = `<p><b>${q.q}</b></p>` + q.options.map((opt,j)=>`
+    <label><input type='radio' name='q${i}' value='${j}'> ${opt}</label><br>`).join('');
+  form.appendChild(div);
+});
+
+function submitQuiz(){
+  let score=0;
+  quizData.forEach((q,i)=>{
+    let chosen = document.querySelector(`input[name='q${i}']:checked`);
+    let div = document.getElementsByClassName('question')[i];
+    if(!chosen) return;
+    if(parseInt(chosen.value)==q.answer){ div.classList.add('correct'); score++; }
+    else { div.classList.add('wrong'); }
+  });
+  document.getElementById('result').innerText = `आपका स्कोर: ${score} / ${quizData.length}`;
+}
+</script>
+
+</body>
+</html>
