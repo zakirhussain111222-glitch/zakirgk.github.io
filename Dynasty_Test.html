@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>South Indian Dynasties MCQ Test</title>
+<style>
+body { font-family: Arial; background: #f2f2f2; padding: 20px; }
+.container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; }
+h2 { text-align: center; }
+.question { font-weight: bold; margin-top: 20px; }
+.correct { background: #c8f7c5; padding: 5px; border-radius: 5px; }
+.wrong { background: #f7c5c5; padding: 5px; border-radius: 5px; }
+#timer { font-size: 22px; color: red; font-weight: bold; text-align:center; margin-bottom:20px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h2>South Indian Dynasties MCQ Test</h2>
+<div id="timer">Timer: 10:00</div>
+<form id="quizForm">
+<script>
+const questions = [
+["पल्लव वंश के संस्थापक कौन थे?", "सिंहविष्णु"],
+["कराताजुर्नियां के लेखक कौन थे?", "भरवि"],
+["मतविलास प्रहसन की रचना किसने की?", "महेंद्रवर्मन"],
+["महाबलीपुरम मंदिर की स्थापना किसने की?", "नरसिंहवर्मन प्रथम"],
+["अरबों के आक्रमण के समय पल्लव का शासक कौन था?", "नरसिंहवर्मन द्वितीय"],
+["कांची के कैलाशनाथ मंदिर के संस्थापक कौन थे?", "नरसिंहवर्मन द्वितीय"],
+["किस मंदिर को राजसिदेश्वर मंदिर भी कहा जाता है?", "कांची का कैलाश मंदिर"],
+["दशकुमार चरित्र के लेखक कौन थे?", "दंडी"],
+["भारतवेणवा नामक ग्रंथ की रचना किसने की?", "पूरून्देवनार"],
+["पल्लव वंश का अंतिम शासक कौन था?", "कंप वर्मा"],
+["चोल वंश का संस्थापक कौन था?", "विजयालय"],
+["चोलो की राजधानी कहां थी?", "तंजाउर"],
+["तंजोर में राजराजेश्वर का शिव मंदिर किसने बनवाया था?", "राजराज प्रथम"],
+["राजराजेश्वर मंदिर को और किस नाम से जाना जाता हैं?", "बृहदेश्वर मंदिर"],
+["चोल वंश का सबसे शक्तिशाली राजा कौन था?", "राजराज प्रथम"],
+["चोल वंश का सर्वाधिक विकास किसके काल में हुआ?", "राजेंद्र चोल"],
+["तंजोर स्थित बृहदेश्वर मंदिर किसने बनाया?", "राजराज प्रथम"],
+["चोलों की सबसे बड़ी उपलब्धि क्या थीं?", "नौसेना और समुद्री विजय"],
+["कल्याणी के चालुक्य वंश की स्थापना किसने की?", "तैलप द्वितीय"],
+["विल्हण और विज्ञानेश्वर किसके दरबार में रहते थे?", "विक्रमादित्य VI"],
+["विक्रमदेवचारित्र की रचना किसने की?", "विल्हण"],
+["एहोल अभिलेख का संबंध किससे था?", "पुलकेशिन द्वितीय"],
+["एहोल अभिलेख को किसने लिखा?", "रवि कृति"],
+["पुलकेशिन द्वितीय को किसने हराया?", "नरसिंहवर्मन प्रथम"],
+["मंदिरों का शहर किसे कहते हैं?", "एहोल"],
+["राष्ट्रकूट वंश के संस्थापक कौन हैं?", "दांतीदुर्ग"],
+["राष्ट्रकूट वंश की राजधानी क्या थी?", "मान्यखेत"],
+["एलोरा के प्रसिद्ध कैलाश मंदिर का निर्माण किसने किया?", "कृष्ण प्रथम"],
+["शांतिपुराण की रचना किसने की?", "पोन्न"],
+["यादव वंश की स्थापना किसने की?", "विलाभ पंचम"],
+["यादव वंश की राजधानी कहां थी?", "देवगिरी"],
+["होयसल वंश के संस्थापक कौन थे?", "विष्णुवर्धन"],
+["होयसल वंश की राजधानी कहां थी?", "हेलीबिड"],
+["कदंब वंश का संस्थापक कौन था?", "म्योरसन"],
+["कदंब वंश की राजधानी कहां थी?", "वनवासी"],
+["गंग वंश का संस्थापक कौन था?", "ब्रजहस्थ पंचम"],
+["काकतीय वंश का संस्थापक कौन था?", "बीता प्रथम"],
+["राष्ट्रकूटों ने किस वंश के साथ त्रिपक्षीय संघर्ष किया?", "पाल और प्रतिहार"],
+["राष्ट्रकूट वंश का अंतिम प्रमुख शासक कौन था?", "कृष्ण III"],
+["त्रिपक्षीय संघर्ष किनके बीच था?", "राष्ट्रकूट-पाल-प्रतिहार"]
+];
+let html = "";
+questions.forEach((q, i) => {
+html += `<p class='question'>${i+1}. ${q[0]}</p>
+<label><input type='radio' name='q${i}' value='correct'> ${q[1]}</label><br>
+<label><input type='radio' name='q${i}' value='wrong'> विकल्प A</label><br>
+<label><input type='radio' name='q${i}' value='wrong'> विकल्प B</label><br>`;
+});
+document.write(html);
+</script>
+<br><button type="button" onclick="submitQuiz()" style="padding:10px 20px;">Submit</button>
+</form>
+<div id="result"></div>
+</div>
+
+<script>
+let t=600;
+let s=setInterval(()=>{
+let m=Math.floor(t/60),x=t%60;
+document.getElementById("timer").innerHTML="Timer: "+m+":"+(x<10?"0"+x:x);
+t--;
+if(t<0){clearInterval(s);submitQuiz();}
+},1000);
+
+function submitQuiz(){
+clearInterval(s);
+let score=0;
+document.querySelectorAll("input[type=radio]").forEach(r=>{
+r.disabled=true;
+if(r.value==="correct" && r.checked){score++; r.parentElement.classList.add("correct");}
+if(r.value==="correct" && !r.checked){r.parentElement.classList.add("correct");}
+if(r.value==="wrong" && r.checked){r.parentElement.classList.add("wrong");}
+});
+document.getElementById("result").innerHTML="<h2>Score: "+score+" / 40</h2><p>सही उत्तर हरे रंग में दिखाए गए हैं।</p>";
+}
+</script>
+</body>
+</html>
