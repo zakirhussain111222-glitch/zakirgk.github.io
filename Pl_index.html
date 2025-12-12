@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ पाल-सेन-कश्मीर वंश MCQ Quiz | 25 Questions</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(45deg, #ff6b6b, #feca57); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header p { font-size: 1.2em; opacity: 0.9; }
+        .timer { background: #ff4757; color: white; padding: 15px; text-align: center; font-size: 1.5em; font-weight: bold; }
+        .quiz-container { padding: 40px; }
+        .question { margin-bottom: 30px; padding: 25px; background: #f8f9fa; border-radius: 15px; border-left: 5px solid #667eea; }
+        .question h3 { color: #2f3542; margin-bottom: 20px; font-size: 1.3em; }
+        .options { list-style: none; }
+        .options li { margin-bottom: 12px; }
+        .options input[type="radio"] { transform: scale(1.3); margin-right: 15px; accent-color: #667eea; }
+        .options label { font-size: 1.1em; padding: 12px 15px; display: block; background: white; border-radius: 10px; cursor: pointer; transition: all 0.3s; border: 2px solid #e9ecef; }
+        .options label:hover { background: #667eea; color: white; transform: translateX(5px); }
+        .submit-btn, .download-btn { background: linear-gradient(45deg, #00b894, #00cec9); color: white; border: none; padding: 15px 40px; font-size: 1.2em; border-radius: 50px; cursor: pointer; transition: all 0.3s; margin: 10px; box-shadow: 0 10px 20px rgba(0,184,148,0.3); }
+        .submit-btn:hover, .download-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,184,148,0.4); }
+        .result { text-align: center; padding: 40px; display: none; }
+        .score { font-size: 3em; color: #00b894; font-weight: bold; margin-bottom: 20px; }
+        .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
+        .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
+        .progress { background: #e9ecef; height: 10px; border-radius: 10px; margin: 20px 0; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #ff6b6b, #feca57); width: 0%; transition: width 0.3s; border-radius: 10px; }
+        .controls { text-align: center; margin: 30px 0; }
+        @media print { .timer, .controls { display: none !important; } .question { page-break-inside: avoid; } }
+        @media (max-width: 768px) { .header h1 { font-size: 2em; } .quiz-container { padding: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏰 पाल-सेन-कश्मीर वंश MCQ Quiz</h1>
+            <p>25 प्रश्न | 30 मिनट | ऐतिहासिक तथ्य आधारित</p>
+        </div>
+        
+        <div class="timer" id="timer">⏰ समय बाकी: <span id="time">30:00</span></div>
+        
+        <div class="quiz-container" id="quiz">
+            <div class="progress">
+                <div class="progress-bar" id="progress"></div>
+            </div>
+            
+            <!-- Questions will be populated by JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button class="submit-btn" onclick="submitQuiz()" id="submitBtn">✅ Submit Quiz</button>
+            <button class="download-btn" onclick="downloadResults()">📥 Download Results</button>
+            <a class="download-btn" href="#" onclick="printQuiz()" style="background: linear-gradient(45deg, #e17055, #d63031);">🖨️ Print Quiz</a>
+        </div>
+        
+        <div class="result" id="result">
+            <div class="score" id="score"></div>
+            <h2 id="resultText"></h2>
+            <button class="submit-btn" onclick="restartQuiz()">🔄 Restart Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {q: "पाल वंश का संस्थापक कौन था?", a: "C", options: ["धर्मपाल", "देवपाल", "गोपाल", "महिपाल"], correct: "गोपाल"},
+            {q: "पाल वंश की राजधानी कहां थी?", a: "C", options: ["पाटलिपुत्र", "कन्नौज", "मुंगेर", "ताम्रलिप्ति"], correct: "मुंगेर"},
+            {q: "पाल शासक किस धर्म के अनुयायी थे?", a: "B", options: ["जैन", "बौद्ध धर्म", "वैष्णव", "शैव"], correct: "बौद्ध धर्म"},
+            {q: "पाल वंश का सबसे महान शासक कौन था?", a: "C", options: ["देवपाल", "गोपाल", "धर्मपाल", "नरपाल"], correct: "धर्मपाल"},
+            {q: "त्रिपक्षीय संघर्ष में पाल वंश की ओर से सबसे पहले कौन शामिल हुआ?", a: "B", options: ["गोपाल", "धर्मपाल", "देवपाल", "महिपाल"], correct: "धर्मपाल"},
+            {q: "सेन वंश के संस्थापक कौन थे?", a: "C", options: ["लक्ष्मण सेन", "विजय सेन", "सामंत सेन", "हेमंत सेन"], correct: "सामंत सेन"},
+            {q: "सेन वंश की राजधानी कहां थी?", a: "A", options: ["नदिया (नवद्वीप)", "वाराणसी", "मालवा", "मिथिला"], correct: "नदिया (नवद्वीप)"},
+            {q: "जयदेव, धोयि और हलयुद्ध किसके दरबार में थे?", a: "B", options: ["विजय सेन", "लक्ष्मण सेन", "बीर सेन", "गोविंद सेन"], correct: "लक्ष्मण सेन"},
+            {q: "बंगाल का अंतिम हिंदू शासक कौन था?", a: "C", options: ["गोविंद सेन", "महिपाल", "लक्ष्मण सेन", "विजय सेन"], correct: "लक्ष्मण सेन"},
+            {q: "करकोट वंश का संस्थापक कौन था?", a: "B", options: ["ललितादित्य", "दुरलभवर्धन", "जयापीड", "रामदेव"], correct: "दुरलभवर्धन"},
+            {q: "उत्पल वंश के बाद किस वंश ने शासन किया?", a: "B", options: ["गुप्त वंश", "लोहार वंश", "पाल वंश", "सेन वंश"], correct: "लोहार वंश"},
+            {q: "लोहार वंश का संस्थापक कौन था?", a: "B", options: ["हरपाल", "संग्रामराज", "जयसिंह", "उदयन"], correct: "संग्रामराज"},
+            {q: "राजतरंगिणी की रचना किसने की?", a: "C", options: ["भोज", "बाणभट्ट", "कल्हण", "कालिदास"], correct: "कल्हण"},
+            {q: "कल्हण किस शासक के दरबार में था?", a: "B", options: ["हरपाल", "जयसिंह द्वितीय", "ललितादित्य", "दुरलभ"], correct: "जयसिंह द्वितीय"},
+            {q: "राजतरंगिणी किस क्षेत्र का इतिहास बताती है?", a: "B", options: ["मगध", "कश्मीर", "बंगाल", "कन्नौज"], correct: "कश्मीर"},
+            {q: "लोहार वंश का अंतिम शासक कौन था?", a: "C", options: ["हरपाल", "संग्रामराज", "जय सिंह", "उदयन"], correct: "जय सिंह"},
+            {q: "अदंतपुरी बौद्ध मठ का निर्माण किसने करवाया?", a: "C", options: ["धर्मपाल", "गोपाल", "देवपाल", "महिपाल"], correct: "देवपाल"},
+            {q: "पाल वंश का शासन क्षेत्र कहाँ था?", a: "B", options: ["गुजरात", "बंगाल व बिहार", "पंजाब", "राजस्थान"], correct: "बंगाल व बिहार"},
+            {q: "पाल शासकों का मुख्य धर्म क्या था?", a: "A", options: ["बौद्ध धर्म", "जैन धर्म", "शैव धर्म", "वैष्णव धर्म"], correct: "बौद्ध धर्म"},
+            {q: "जयदेव किस सेन शासक के दरबार में थे?", a: "B", options: ["विजय सेन", "लक्ष्मण सेन", "बीर सेन", "गोविंद सेन"], correct: "लक्ष्मण सेन"},
+            {q: "मार्तण्ड सूर्य मंदिर का निर्माण किसने करवाया?", a: "A", options: ["ललितादित्य मुक्तापीड", "संग्रामराज", "हरपाल", "उदयन"], correct: "ललितादित्य मुक्तापीड"},
+            {q: "कश्मीर का 'अकबर' किसे कहा जाता है?", a: "C", options: ["ललितादित्य", "जयसिंह", "जैन–उल–आबिदीन", "दुरलभ"], correct: "जैन–उल–आबिदीन"},
+            {q: "देवपाल के शासनकाल में भारत आने वाला अरब यात्री कौन था?", a: "B", options: ["अलबरूनी", "सुलेमान", "इब्न बत्तूता", "मसूदी"], correct: "सुलेमान"},
+            {q: "'दानसागर' और 'अद्भुतसागर' के लेखक कौन हैं?", a: "C", options: ["हेमंत सेन", "जयदेव", "बल्लाल सेन", "हलयुद्ध"], correct: "बल्लाल सेन"},
+            {q: "'राजतरंगिणी' के लेखक कौन हैं?", a: "C", options: ["बाणभट्ट", "कालिदास", "कल्हण", "विष्णु शर्मा"], correct: "कल्हण"}
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = {};
+        let timeLeft = 30 * 60; // 30 minutes
+        let timer;
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quiz');
+            container.innerHTML = `
+                <div class="progress">
+                    <div class="progress-bar" id="progress" style="width: ${((currentQuestion + 1) / questions.length) * 100}%"></div>
+                </div>
+                <div class="question">
+                    <h3>${currentQuestion + 1}. ${q.q}</h3>
+                    <ul class="options">
+                        ${q.options.map((option, i) => 
+                            `<li><input type="radio" name="q${currentQuestion}" id="q${currentQuestion}_${i}" value="${String.fromCharCode(65 + i)}">
+                             <label for="q${currentQuestion}_${i}">${String.fromCharCode(65 + i)}. ${option}</label></li>`
+                        ).join('')}
+                    </ul>
+                </div>
+                <div class="controls">
+                    ${currentQuestion > 0 ? `<button class="submit-btn" onclick="prevQuestion()" style="background: #74b9ff;">⬅️ Previous</button>` : ''}
+                    ${currentQuestion < questions.length - 1 ? `<button class="submit-btn" onclick="nextQuestion()" style="background: #00b894;">Next ➡️</button>` : ''}
+                    <button class="submit-btn" onclick="submitQuiz()" id="submitBtn">✅ Submit Quiz</button>
+                </div>
+            `;
+            
+            // Load previous answer if exists
+            if (answers[currentQuestion]) {
+                document.querySelector(`input[name="q${currentQuestion}"][value="${answers[currentQuestion]}"]`).checked = true;
+            }
+        }
+
+        function nextQuestion() {
+            saveAnswer();
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function prevQuestion() {
+            saveAnswer();
+            currentQuestion--;
+            loadQuestion();
+        }
+
+        function saveAnswer() {
+            const selected = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+            if (selected) {
+                answers[currentQuestion] = selected.value;
+            }
+        }
+
+        function submitQuiz() {
+            clearInterval(timer);
+            saveAnswer();
