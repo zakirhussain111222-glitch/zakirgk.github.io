@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ गुर्जर प्रतिहार-चौहान MCQ Quiz | 25 Questions</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header p { font-size: 1.2em; opacity: 0.9; }
+        .timer { background: #ff4757; color: white; padding: 15px; text-align: center; font-size: 1.5em; font-weight: bold; }
+        .quiz-container { padding: 40px; }
+        .question { margin-bottom: 30px; padding: 25px; background: #f8f9fa; border-radius: 15px; border-left: 5px solid #667eea; }
+        .question h3 { color: #2f3542; margin-bottom: 20px; font-size: 1.3em; }
+        .options { list-style: none; }
+        .options li { margin-bottom: 12px; }
+        .options input[type="radio"] { transform: scale(1.3); margin-right: 15px; accent-color: #667eea; }
+        .options label { font-size: 1.1em; padding: 12px 15px; display: block; background: white; border-radius: 10px; cursor: pointer; transition: all 0.3s; border: 2px solid #e9ecef; }
+        .options label:hover { background: #667eea; color: white; transform: translateX(5px); }
+        .submit-btn, .download-btn { background: linear-gradient(45deg, #00b894, #00cec9); color: white; border: none; padding: 15px 40px; font-size: 1.2em; border-radius: 50px; cursor: pointer; transition: all 0.3s; margin: 10px; box-shadow: 0 10px 20px rgba(0,184,148,0.3); }
+        .submit-btn:hover, .download-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,184,148,0.4); }
+        .result { text-align: center; padding: 40px; display: none; }
+        .score { font-size: 3em; color: #00b894; font-weight: bold; margin-bottom: 20px; }
+        .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
+        .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
+        .progress { background: #e9ecef; height: 10px; border-radius: 10px; margin: 20px 0; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #ff6b6b, #feca57); width: 0%; transition: width 0.3s; border-radius: 10px; }
+        .controls { text-align: center; margin: 30px 0; }
+        .detailed-result { margin-top: 30px; }
+        .question-result { margin: 20px 0; padding: 15px; border-radius: 10px; }
+        @media print { .timer, .controls, .result { display: none !important; } .question { page-break-inside: avoid; page-break-after: always; } }
+        @media (max-width: 768px) { .header h1 { font-size: 2em; } .quiz-container { padding: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚔️ गुर्जर प्रतिहार-चौहान MCQ Quiz</h1>
+            <p>25 प्रश्न | 30 मिनट | मध्यकालीन इतिहास आधारित</p>
+        </div>
+        
+        <div class="timer" id="timer">⏰ समय बाकी: <span id="time">30:00</span></div>
+        
+        <div class="quiz-container" id="quiz">
+            <div class="progress">
+                <div class="progress-bar" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="submit-btn" onclick="prevQuestion()" id="prevBtn" style="display:none; background: #74b9ff;">⬅️ Previous</button>
+            <button class="submit-btn" onclick="nextQuestion()" id="nextBtn" style="background: #00b894;">Next ➡️</button>
+            <button class="submit-btn" onclick="submitQuiz()" id="submitBtn">✅ Submit Quiz</button>
+            <button class="download-btn" onclick="downloadResults()">📥 Download Results</button>
+            <a class="download-btn" href="#" onclick="printQuiz()" style="background: linear-gradient(45deg, #e17055, #d63031); text-decoration: none; display: inline-block;">🖨️ Print Quiz</a>
+        </div>
+        
+        <div class="result" id="result">
+            <div class="score" id="score"></div>
+            <h2 id="resultText"></h2>
+            <div class="detailed-result" id="detailedResult"></div>
+            <button class="submit-btn" onclick="restartQuiz()">🔄 Restart Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {q: "गुर्जर प्रतिहार वंश का संस्थापक कौन था?", a: "B", options: ["मिहिर भोज", "नागभट्ट प्रथम", "महेंद्रपाल", "हर्षवर्धन"], correct: "नागभट्ट प्रथम"},
+            {q: "मिहिर भोज किस वंश का शासक था?", a: "B", options: ["चौहान", "गुर्जर प्रतिहार", "परमार", "चंदेल"], correct: "गुर्जर प्रतिहार"},
+            {q: "चंदावर का युद्ध कब हुआ था?", a: "B", options: ["1192 ई.", "1194 ई.", "1191 ई.", "1200 ई."], correct: "1194 ई."},
+            {q: "चंदावर का युद्ध किसके बीच हुआ था?", a: "C", options: ["पृथ्वीराज चौहान और मुहम्मद गोरी", "जयचंद और कुतुबुद्दीन ऐबक", "मुहम्मद गोरी और जयचंद", "महिर भोज और मुहम्मद गजनवी"], correct: "मुहम्मद गोरी और जयचंद"},
+            {q: "जयचंद किस वंश का शासक था?", a: "A", options: ["गहड़वाल", "चौहान", "प्रतिहार", "चंदेल"], correct: "गहड़वाल"},
+            {q: "चौहान वंश का संस्थापक कौन था?", a: "A", options: ["वासुदेव", "अजयराज", "पृथ्वीराज प्रथम", "गोविंदराज"], correct: "वासुदेव"},
+            {q: "ढाई दिन का झोपड़ा नामक मस्जिद शुरू में किसके द्वारा निर्मित एक विद्यालय था?", a: "B", options: ["कुतुबुद्दीन ऐबक", "विग्रहराज चतुर्थ", "बलबन", "इल्तुतमिश"], correct: "विग्रहराज चतुर्थ"},
+            {q: "पृथ्वीराज रासो के लेखक कौन है?", a: "A", options: ["चंदबरदाई", "पृथ्वीराज चौहान", "अमीर खुसरो", "जयानक"], correct: "चंदबरदाई"},
+            {q: "चंद्रवरदाई किसके दरबार में रहते थे?", a: "B", options: ["जयचंद", "पृथ्वीराज चौहान", "मिहिर भोज", "भोज परमार"], correct: "पृथ्वीराज चौहान"},
+            {q: "तराइन का प्रथम युद्ध कब हुआ?", a: "B", options: ["1192 ई.", "1191 ई.", "1194 ई.", "1206 ई."], correct: "1191 ई."},
+            {q: "तराइन का प्रथम युद्ध किन-किन के बीच हुआ?", a: "A", options: ["पृथ्वीराज चौहान और मुहम्मद गोरी", "जयचंद और मुहम्मद गोरी", "पृथ्वीराज चौहान और मुहम्मद गजनवी", "पृथ्वीराज चौहान और कुतुबुद्दीन ऐबक"], correct: "पृथ्वीराज चौहान और मुहम्मद गोरी"},
+            {q: "तराइन के द्वितीय युद्ध में कौन जीता?", a: "B", options: ["पृथ्वीराज चौहान", "मुहम्मद गोरी", "कोई नहीं (अनिर्णीत)", "जयचंद"], correct: "मुहम्मद गोरी"},
+            {q: "तराइन का तृतीय युद्ध कब हुआ?", a: "D", options: ["1192 ई.", "1194 ई.", "1203 ई.", "तराइन का तीसरा युद्ध नहीं हुआ था"], correct: "तराइन का तीसरा युद्ध नहीं हुआ था"},
+            {q: "परमार वंश के संस्थापक कौन था?", a: "A", options: ["उपेंद्र / कृष्णराज", "राजा भोज", "मुंज", "सीयक"], correct: "उपेंद्र / कृष्णराज"},
+            {q: "परमार वंश की राजधानी क्या थी?", a: "C", options: ["उज्जैन", "कन्नौज", "धार", "अजमेर"], correct: "धार"},
+            {q: "चंदेल वंश के संस्थापक कौन थे?", a: "C", options: ["यशोवर्मन", "धंग", "नन्नुक", "विद्याधर"], correct: "नन्नुक"},
+            {q: "चंदेल वंश की राजधानी कहाँ थी?", a: "C", options: ["महोबा", "खजुराहो", "कालिंजर", "(a) और (b) दोनों"], correct: "कालिंजर"},
+            {q: "सोलंकी वंश का संस्थापक कौन था?", a: "C", options: ["भीमदेव प्रथम", "सिद्धराज जयसिंह", "मूलराज प्रथम", "कुमारपाल"], correct: "मूलराज प्रथम"},
+            {q: "किसके शासन काल में मोहम्मद गजनवी ने आक्रमण किया था?", a: "B", options: ["पृथ्वीराज चौहान", "जयपाल और आनंदपाल (शाही वंश)", "महिर भोज", "राजा भोज"], correct: "जयपाल और आनंदपाल (शाही वंश)"},
+            {q: "दिलवाड़ा का जैन मंदिर किस पर्वत पर स्थित है?", a: "B", options: ["अरावली", "माउंट आबू", "विंध्याचल", "सतपुड़ा"], correct: "माउंट आबू"},
+            {q: "विजय स्तंभ का निर्माण किसने किया?", a: "B", options: ["राणा सांगा", "राणा कुंभा", "महाराणा प्रताप", "राणा रतन सिंह"], correct: "राणा कुंभा"},
+            {q: "खतौली का युद्ध कब हुआ?", a: "C", options: ["1518 ई.", "1526 ई.", "1529 ई.", "1540 ई."], correct: "1529 ई."},
+            {q: "खतौली का युद्ध किसके बीच हुआ?", a: "C", options: ["बाबर और इब्राहिम लोदी", "राणा सांगा और इब्राहिम लोदी", "राणा सांगा और बाबर", "बहलोल लोदी और मुहम्मद शाह"], correct: "राणा सांगा और बाबर"},
+            {q: "जयपुर शहर (गुलाबी नगरी) की स्थापना किसने की?", a: "A", options: ["सवाई जय सिंह द्वितीय", "मान सिंह प्रथम", "सवाई प्रताप सिंह", "सवाई राम सिंह"], correct: "सवाई जय सिंह द्वितीय"},
+            {q: "गुजरात का प्रसिद्ध 'मोढ़ेरा सूर्य मंदिर' किस राजवंश से संबंधित है?", a: "A", options: ["सोलंकी", "गुर्जर प्रतिहार", "परमार", "चालुक्य"], correct: "सोलंकी"}
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = {};
+        let timeLeft = 30 * 60;
+        let timer;
+        let quizSubmitted = false;
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quiz');
+            container.innerHTML = `
+                <div class="progress">
+                    <div class="progress-bar" id="progress" style="width: ${((currentQuestion + 1) / questions.length) * 100}%"></div>
+                </div>
+                <div class="question">
+                    <h3>${currentQuestion + 1}. ${q.q}</h3>
+                    <ul class="options">
+                        ${q.options.map((option, i) => 
+                            `<li><input type="radio" name="q${currentQuestion}" id="q${currentQuestion}_${i}" value="${String.fromCharCode(65 + i)}">
+                             <label for="q${currentQuestion}_${i}">${String.fromCharCode(65 + i)}. ${option}</label></li>`
+                        ).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            if (answers[currentQuestion]) {
+                document.querySelector(`input[name="q${currentQuestion}"][value="${answers[currentQuestion]}"]`).checked = true;
+            }
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').style.display = currentQuestion > 0 ? 'inline-block' : 'none';
+            document.getElementById('nextBtn').style.display = currentQuestion < questions.length - 1 && !quizSubmitted ? 'inline-block' : 'none';
+        }
+
+        function nextQuestion() {
+            saveAnswer();
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function prevQuestion() {
+            saveAnswer();
+            currentQuestion--;
+            loadQuestion();
+        }
+
+        function saveAnswer() {
+            const selected = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+            if (selected) {
+                answers[currentQuestion] = selected.value;
+            }
+        }
+
+        function submitQuiz() {
+            clearInterval(timer);
+            saveAnswer();
+            
+            score = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (answers[i] === questions[i].a) {
+                    score++;
+                }
+            }
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('score').textContent = `${score}/${questions.length}`;
+            
+            let resultText = '';
+            if (percentage >= 80) resultText = '🎉 उत्कृष्ट प्रदर्शन!';
+            else if (percentage >= 60) resultText = '👍 अच्छा प्रयास!';
+            else if (percentage >= 40) resultText = '📚 और अभ्यास करें!';
+            else resultText = '🔄 फिर से प्रयास करें!';
+            
+            document.getElementById('resultText').textContent = resultText + ` (${percentage}%)`;
+            
+            let detailedHTML = '<h3>📊 विस्तृत परिणाम:</h3>';
+            questions.forEach((q, i) => {
+                const userAnswer = answers[i];
+                const isCorrect = userAnswer === q.a;
+                const correctOptionIndex = q.options.findIndex(opt => opt === q.correct);
+                detailedHTML += `
+                    <div class="question-result ${isCorrect ? 'correct' : 'wrong'}">
+                        <strong>प्रश्न ${i+1}:</strong> ${q.q}<br>
+                        आपका उत्तर: ${userAnswer ? String.fromCharCode(65 + parseInt(userAnswer)) + '. ' + q.options[parseInt(userAnswer)] : 'कोई उत्तर नहीं'}<br>
+                        सही उत्तर: ${String.fromCharCode(65 + correctOptionIndex)}: ${q.correct}
+                    </div>
+                `;
+            });
+            document.getElementById('detailedResult').innerHTML = detailedHTML;
+            
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('timer').style.display = 'none';
+            document.querySelector('.controls').style.display = 'none';
+            quizSubmitted = true;
+        }
+
+        function downloadResults() {
+            let content = `गुर्जर प्रतिहार-चौहान MCQ Quiz परिणाम
+`;
+            content += `============================
+
+`;
+            content += `स्कोर: ${score}/${questions.length} (${Math.round((score/questions.length)*100)}%)
+
+`;
+            
+            questions.forEach((q, i) => {
+                const userAnswer = answers[i];
+                const isCorrect = userAnswer === q.a;
+                const correctOptionIndex = q.options.findIndex(opt => opt === q.correct);
+                content += `प्रश्न ${i+1}: ${q.q}
+`;
+                content += `आपका उत्तर: ${userAnswer ? String.fromCharCode(65 + parseInt(userAnswer)) + '. ' + q.options[parseInt(userAnswer)] : 'कोई उत्तर नहीं'}
+`;
+                content += `सही उत्तर: ${String.fromCharCode(65 + correctOptionIndex)}: ${q.correct}
+`;
+                content += `${isCorrect ? '✅ सही' : '❌ गलत'}
+
+`;
+            });
+            
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Gurjar_Pratihar_Quiz_Results_${new Date().toISOString().slice(0,10)}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function printQuiz() {
+            window.print();
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answers = {};
+            timeLeft = 30 * 60;
+            quizSubmitted = false;
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('timer').style.display = 'block';
+            document.querySelector('.controls').style.display = 'block';
+            startTimer();
+            loadQuestion();
+        }
+
+        window.onload = function() {
+            startTimer();
+            loadQuestion();
+        };
+    </script>
+</body>
+  </html>
