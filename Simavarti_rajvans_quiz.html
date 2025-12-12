@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Advanced Colourful Quiz</title>
+<style>
+    body { font-family: Arial, sans-serif; background: #f2f7ff; margin: 0; padding: 0; }
+    .container { max-width: 700px; margin: auto; padding: 20px; }
+    .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 20px; }
+    h2 { text-align: center; color: #0a4a8a; }
+    .start-screen, .quiz-screen { display: none; }
+    .btn { background: #0a66c2; color: white; padding: 12px 18px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; width: 100%; }
+    .btn:hover { background: #004a98; }
+    .option { background: #e8f1ff; padding: 12px; border-radius: 10px; margin: 8px 0; cursor: pointer; border: 2px solid transparent; }
+    .option:hover { background: #d8e7ff; }
+    .correct { border-color: green; background: #d4ffd4; }
+    .wrong { border-color: red; background: #ffd4d4; }
+    #timer { font-size: 18px; color: #e60000; text-align: right; }
+</style>
+</head>
+<body>
+<div class="container"><div class="card start-screen" id="startScreen">
+    <h2>नाम लिखें और क्विज़ शुरू करें</h2>
+    <input type="text" id="userName" placeholder="अपना नाम दर्ज करें" style="width:100%; padding:12px; font-size:16px; border-radius:10px; border:1px solid #aaa;" />
+    <br><br>
+    <button class="btn" onclick="startQuiz()">क्विज़ शुरू करें</button>
+</div>
+
+<div class="card quiz-screen" id="quizScreen">
+    <div id="timer">समय: 00:00</div>
+    <h2 id="questionText">Question</h2>
+    <div id="options"></div>
+    <button class="btn" onclick="nextQuestion()" style="margin-top:15px;">Next</button>
+</div>
+
+<div class="card quiz-screen" id="resultScreen">
+    <h2>परिणाम</h2>
+    <p id="showName"></p>
+    <h3 id="score"></h3>
+    <button class="btn" onclick="location.reload()">फिर से शुरू करें</button>
+</div>
+
+</div><script>
+let questions = [
+    {q:"पाल वंश का संस्थापक कौन था?", o:["धर्मपाल","देवपाल","गोपाल","महिपाल"], a:2},
+    {q:"पाल वंश की राजधानी कहाँ थी?", o:["पाटलिपुत्र","कन्नौज","मुंगेर","ताम्रलिप्ति"], a:2},
+    {q:"पाल शासक किस धर्म के अनुयायी थे?", o:["जैन","बौद्ध","वैष्णव","शैव"], a:1},
+    {q:"पाल वंश का सबसे महान शासक?", o:["देवपाल","गोपाल","धर्मपाल","नरपाल"], a:2},
+    {q:"त्रिपक्षीय संघर्ष में पहले शामिल शासक?", o:["गोपाल","धर्मपाल","देवपाल","महिपाल"], a:1},
+    {q:"सेन वंश के संस्थापक कौन थे?", o:["लक्ष्मण सेन","विजय सेन","सामंत सेन","हेमंत सेन"], a:2},
+    {q:"सेन वंश की राजधानी?", o:["नदिया","वाराणसी","मालवा","मिथिला"], a:0},
+    {q:"जयदेव+धोयि+हलयुद्ध किसके दरबार में?", o:["विजय सेन","लक्ष्मण सेन","बीर सेन","गोविंद सेन"], a:1},
+    {q:"बंगाल का अंतिम हिंदू शासक?", o:["गोविंद सेन","महिपाल","लक्ष्मण सेन","विजय सेन"], a:2},
+    {q:"करकोट वंश का संस्थापक?", o:["ललितादित्य","दुरलभवर्धन","जयापीड","रामदेव"], a:1},
+    {q:"उत्पल वंश के बाद कौन?", o:["गुप्त","लोहार","पाल","सेन"], a:1},
+    {q:"लोहार वंश का संस्थापक?", o:["हरपाल","संग्रामराज","जयसिंह","उदयन"], a:1},
+    {q:"राजतरंगिणी के लेखक?", o:["भोज","बाणभट्ट","कल्हण","कालिदास"], a:2},
+    {q:"कल्हण किसके दरबार में?", o:["हरपाल","जयसिंह द्वितीय","ललितादित्य","दुरलभ"], a:1},
+    {q:"राजतरंगिणी किसका इतिहास?", o:["मगध
