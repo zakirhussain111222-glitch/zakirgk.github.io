@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GK Quiz – Timer + Result</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:0; }
+.container { max-width:750px; margin:auto; padding:20px; }
+.card { background:white; padding:25px; border-radius:12px; border:1px solid #ddd; margin-top:25px; }
+h2 { text-align:center; }
+.btn { background:black; color:white; padding:12px 18px; border:none; border-radius:6px; width:100%; font-size:18px; cursor:pointer; }
+.option { padding:12px; border-radius:6px; border:1px solid #999; margin:10px 0; cursor:pointer; background:#fafafa; }
+.correct { background:#d4ffd4 !important; border-color:green !important; }
+.wrong { background:#ffd4d4 !important; border-color:red !important; }
+#timer { font-size:18px; text-align:right; font-weight:bold; color:#444; }
+.start-screen, .quiz-screen, .result-screen { display:none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="card start-screen" id="startScreen">
+    <h2>अपना नाम लिखें और क्विज़ शुरू करें</h2>
+    <input type="text" id="userName" placeholder="नाम दर्ज करें" style="width:100%;padding:12px;border-radius:8px;border:1px solid #aaa;">
+    <br><br>
+    <button class="btn" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div class="card quiz-screen" id="quizScreen">
+    <div id="timer">समय: 00:00</div>
+    <h2 id="questionText"></h2>
+    <div id="options"></div>
+    <button class="btn" onclick="nextQuestion()" style="margin-top:15px;">Next</button>
+</div>
+
+<div class="card result-screen" id="resultScreen">
+    <h2>Result</h2>
+    <p id="userFinal"></p>
+    <h3 id="score"></h3>
+    <button class="btn" onclick="location.reload()">फिर से शुरू करें</button>
+</div>
+
+</div>
+
+<script>
+let questions = [
+ {q:"पाल वंश का संस्थापक कौन था?", o:["धर्मपाल","देवपाल","गोपाल","महिपाल"], a:2},
+ {q:"पाल वंश की राजधानी कहां थी?", o:["पाटलिपुत्र","कन्नौज","मुंगेर","ताम्रलिप्ति"], a:2},
+ {q:"पाल शासक किस धर्म के अनुयायी थे?", o:["जैन","बौद्ध धर्म","वैष्णव","शैव"], a:1},
+ {q:"पाल वंश का सबसे महान शासक कौन था?", o:["देवपाल","गोपाल","धर्मपाल","नरपाल"], a:2},
+ {q:"त्रिपक्षीय संघर्ष में पाल वंश की ओर से सबसे पहले कौन शामिल हुआ?", o:["गोपाल","धर्मपाल","देवपाल","महिपाल"], a:1},
+ {q:"सेन वंश के संस्थापक कौन थे?", o:["लक्ष्मण सेन","विजय सेन","सामंत सेन","हेमंत सेन"], a:2},
+ {q:"सेन वंश की राजधानी कहां थी?", o:["नदिया","वाराणसी","मालवा","मिथिला"], a:0},
+ {q:"जयदेव, धोयि और हलयुद्ध किसके दरबार में थे?", o:["विजय सेन","लक्ष्मण सेन","बीर सेन","गोविंद सेन"], a:1},
+ {q:"बंगाल का अंतिम हिंदू शासक कौन था?", o:["गोविंद सेन","महिपाल","लक्ष्मण सेन","विजय सेन"], a:2},
+ {q:"करकोट वंश का संस्थापक कौन था?", o:["ललितादित्य","दुरलभवर्धन","जयापीड","रामदेव"], a:1},
+ {q:"उत्पल वंश के बाद किस वंश ने शासन किया?", o:["गुप्त","लोहार","पाल","सेन"], a:1},
+ {q:"लोहार वंश का संस्थापक कौन था?", o:["हरपाल","संग्रामराज","जयसिंह","उदयन"], a:1},
+ {q:"राजतरंगिणी की रचना किसने की?", o:["भोज","बाणभट्ट","कल्हण","कालिदास"], a:2},
+ {q:"कल्हण किसके दरबार में था?", o:["हरपाल","जयसिंह द्वितीय","ललितादित्य","दुरलभ"], a:1},
+ {q:"राजतरंगिणी किस क्षेत्र का इतिहास बताती है?", o:["मगध","कश्मीर","बंगाल","कन्नौज"], a:1},
+ {q:"लोहार वंश का अंतिम शासक कौन था?", o:["हरपाल","संग्रामराज","जय सिंह","उदयन"], a:2},
+ {q:"अदंतपुरी बौद्ध मठ का निर्माण किसने करवाया?", o:["धर्मपाल","गोपाल","देवपाल","महिपाल"], a:2},
+ {q:"पाल वंश का शासन क्षेत्र कहाँ था?", o:["गुजरात","बंगाल व बिहार","पंजाब","राजस्थान"], a:1},
+ {q:"पाल शासकों का मुख्य धर्म क्या था?", o:["बौद्ध धर्म","जैन धर्म","शैव धर्म","वैष्णव धर्म"], a:0},
+ {q:"जयदेव किस सेन शासक के दरबार में थे?", o:["विजय सेन","लक्ष्मण सेन","बीर सेन","गोविंद सेन"], a:1},
+ {q:"मार्तण्ड सूर्य मंदिर का निर्माण किसने करवाया?", o:["ललितादित्य मुक्तापीड","संग्रामराज","हरपाल","उदयन"], a:0},
+ {q:"कश्मीर का 'अकबर' किसे कहा जाता है?", o:["ललितादित्य","जयसिंह","जैन–उल–आबिदीन","दुरलभ"], a:2},
+ {q:"देवपाल के शासनकाल में भारत आने वाला अरब यात्री कौन था?", o:["अलबरूनी","सुलेमान","इब्न बत्तूता","मसूदी"], a:1},
+ {q:"'दानसागर' और 'अद्भुतसागर' के लेखक कौन हैं?", o:["हेमंत सेन","जयदेव","बल्लाल सेन","हलयुद्ध"], a:2},
+ {q:"'राजतरंगिणी' के लेखक कौन हैं?", o:["बाणभट्ट","कालिदास","कल्हण","विष्णु शर्मा"], a:2}
+];
+
+let index = 0;
+let score = 0;
+let timer;
+let timeSec = 0;
+let selected = null;
+
+function updateTimer(){
+ timeSec++;
+ let m = String(Math.floor(timeSec/60)).padStart(2,'0');
+ let s = String(timeSec%60).padStart(2,'0');
+ document.getElementById("timer").innerText = `समय: ${m}:${s}`;
+}
+
+function startQuiz(){
+ let name = document.getElementById("userName").value.trim();
+ if(name=="") return alert("नाम दर्ज करें");
+ document.getElementById("startScreen").style.display="none";
+ document.getElementById("quizScreen").style.display="block";
+ timer = setInterval(updateTimer,1000);
+ loadQuestion();
+}
+
+function loadQuestion(){
+ let q = questions[index];
+ document.getElementById("questionText").innerText = (index+1)+". "+q.q;
+ let html = "";
+ q.o.forEach((op,i)=>{
+  html += `<div class='option' onclick='selectOption(this,${i})'>${op}</div>`;
+ });
+ document.getElementById("options").innerHTML = html;
+ selected = null;
+}
+
+function selectOption(el, i){
+ if(selected!==null) return;
+ selected = i;
+ let correct = questions[index].a;
+ if(i===correct){ score++; el.classList.add("correct"); }
+ else{
+  el.classList.add("wrong");
+  document.querySelectorAll('.option')[correct].classList.add("correct");
+ }
+}
+
+function nextQuestion(){
+ if(selected===null) return alert("पहले उत्तर चुनें");
+ index++;
+ if(index>=questions.length) endQuiz();
+ else loadQuestion();
+}
+
+function endQuiz(){
+ clearInterval(timer);
+ document.getElementById("quizScreen").style.display="none";
+ document.getElementById("resultScreen").style.display="block";
+ document.getElementById("userFinal").innerText = "नाम: " + document.getElementById("userName").value;
+ document.getElementById("score").innerText = `आपका स्कोर: ${score} / ${questions.length}`;
+}
+</script>
+
+</body>
+</html>
