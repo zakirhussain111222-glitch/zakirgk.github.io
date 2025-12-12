@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Advanced Colourful Quiz</title>
+<style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 750px; margin: auto; padding: 20px; }
+    .card { background: #ffffff; padding: 25px; border-radius: 12px; border:1px solid #e0e0e0; margin-top: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+    h2 { text-align: center; color: #333; font-weight: 700; }
+    .start-screen, .quiz-screen { display: none; }
+    .btn { background: #4a4a4a; color: white; padding: 12px 18px; border-radius: 6px; border: none; cursor: pointer; font-size: 17px; width: 100%; transition: 0.3s; }
+    .btn:hover { background: #000; }
+    .option { background: #fafafa; padding: 12px; border-radius: 6px; margin: 10px 0; cursor: pointer; border: 1px solid #ccc; transition: 0.25s; }
+    .option:hover { background: #ededed; }
+    .correct { background: #d8ffd8 !important; border-color: #2e7d32 !important; }
+    .wrong { background: #ffd8d8 !important; border-color: #c62828 !important; }
+    #timer { font-size: 18px; color: #333; text-align: right; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container"><div class="card start-screen" id="startScreen">
+    <h2>नाम लिखें और क्विज़ शुरू करें</h2>
+    <input type="text" id="userName" placeholder="अपना नाम दर्ज करें" style="width:100%; padding:12px; font-size:16px; border-radius:10px; border:1px solid #aaa;" />
+    <br><br>
+    <button class="btn" onclick="startQuiz()">क्विज़ शुरू करें</button>
+</div>
+
+<div class="card quiz-screen" id="quizScreen">
+    <div id="timer">समय: 00:00</div>
+    <h2 id="questionText">Question</h2>
+    <div id="options"></div>
+    <button class="btn" onclick="nextQuestion()" style="margin-top:15px;">Next</button>
+</div>
+
+<div class="card quiz-screen" id="resultScreen">
+    <h2>परिणाम</h2>
+    <p id="showName"></p>
+    <h3 id="score"></h3>
+    <button class="btn" onclick="location.reload()">फिर से शुरू करें</button>
+</div>
+
+</div><script>
+let questions = [
+    {q:"पाल वंश का संस्थापक कौन था?", o:["धर्मपाल","देवपाल","गोपाल","महिपाल"], a:2},
+    {q:"पाल वंश की राजधानी कहाँ थी?", o:["पाटलिपुत्र","कन्नौज","मुंगेर","ताम्रलिप्ति"], a:2},
+    {q:"पाल शासक किस धर्म के अनुयायी थे?", o:["जैन","बौद्ध","वैष्णव","शैव"], a:1},
+    {q:"पाल वंश का सबसे महान शासक?", o:["देवपाल","गोपाल","धर्मपाल","नरपाल"], a:2},
+    {q:"त्रिपक्षीय संघर्ष में पहले शामिल शासक?", o:["गोपाल","धर्मपाल","देवपाल","महिपाल"], a:1},
+    {q:"सेन वंश के संस्थापक कौन थे?", o:["लक्ष्मण सेन","विजय सेन","सामंत सेन","हेमंत सेन"], a:2},
+    {q:"सेन वंश की राजधानी?", o:["नदिया","वाराणसी","मालवा","मिथिला"], a:0},
+    {q:"जयदेव+धोयि+हलयुद्ध किसके दरबार में?", o:["विजय सेन","लक्ष्मण सेन","बीर सेन","गोविंद सेन"], a:1},
+    {q:"बंगाल का अंतिम हिंदू शासक?", o:["गोविंद सेन","महिपाल","लक्ष्मण सेन","विजय सेन"], a:2},
+    {q:"करकोट वंश का संस्थापक?", o:["ललितादित्य","दुरलभवर्धन","जयापीड","रामदेव"], a:1},
+    {q:"उत्पल वंश के बाद कौन?", o:["गुप्त","लोहार","पाल","सेन"], a:1},
+    {q:"लोहार वंश का संस्थापक?", o:["हरपाल","संग्रामराज","जयसिंह","उदयन"], a:1},
+    {q:"राजतरंगिणी के लेखक?", o:["भोज","बाणभट्ट","कल्हण","कालिदास"], a:2},
+    {q:"कल्हण किसके दरबार में?", o:["हरपाल","जयसिंह द्वितीय","ललितादित्य","दुरलभ"], a:1},
+    {q:"राजतरंगिणी किसका इतिहास?", o:["मगध","कश्मीर","बंगाल","कन्नौज"], a:1},
+    {q:"लोहार वंश का अंतिम शासक?", o:["हरपाल","संग्रामराज","जय सिंह","उदयन"], a:2},
+    {q:"अदंतपुरी मठ का निर्माता?", o:["धर्मपाल","गोपाल","देवपाल","महिपाल"], a:2},
+    {q:"पाल वंश क्षेत्र?", o:["गुजरात","बंगाल-बिहार","पंजाब","राजस्थान"], a:1},
+    {q:"पाल शासकों का धर्म?", o:["बौद्ध","जैन","शैव","वैष्णव"], a:0},
+    {q:"जयदेव किसके दरबार में?", o:["विजय सेन","लक्ष्मण सेन","बीर सेन","गोविंद सेन"], a:1},
+    {q:"मार्तण्ड सूर्य मंदिर किसने बनाया?", o:["ललितादित्य","संग्रामराज","हरपाल","उदयन"], a:0},
+    {q:"कश्मीर का अकबर?", o:["ललितादित्य","जयसिंह","जैन-उल-आबिदीन","दुरलभ"], a:2},
+    {q:"देवपाल के समय आया यात्री?", o:["अलबरूनी","सुलेमान","इब्न बत्तूता","मसूदी"], a:1},
+    {q:"दानसागर/अद्भुतसागर के लेखक?", o:["हेमंत सेन","जयदेव","बल्लाल सेन","हलयुद्ध"], a:2},
+    {q:"राजतरंगिणी के लेखक?", o:["बाणभट्ट","कालिदास","कल्हण","विष्णु शर्मा"], a:2}
+];
+
+let index = 0;
+let score = 0;
+let timer;
+let timeSec = 0;
+
+function updateTimer() {
+    timeSec++;
+    let min = String(Math.floor(timeSec/60)).padStart(2,'0');
+    let sec = String(timeSec%60).padStart(2,'0');
+    document.getElementById("timer").innerText = `समय: ${min}:${sec}`;
+}
+
+function startQuiz() {
+    let name = document.getElementById("userName").value;
+    if(name.trim()=="") return alert("कृपया नाम दर्ज करें");
+
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("quizScreen").style.display = "block";
+
+    timer = setInterval(updateTimer,1000);
+    loadQuestion();
+}
+
+function loadQuestion() {
+    let q = questions[index];
+    document.getElementById("questionText").innerText = (index+1)+". "+q.q;
+
+    let optHTML = "";
+    q.o.forEach((opt,i)=>{
+        optHTML += `<div class='option' onclick='selectOption(this,${i})'>${opt}</div>`;
+    });
+    document.getElementById("options").innerHTML = optHTML;
+    selected = null;
+}
+
+let selected = null;
+function selectOption(el, i){
+    if(selected!==null) return;
+    selected = i;
+    let correct = questions[index].a;
+
+    if(i===correct){ score++; el.classList.add("correct"); }
+    else{
+        el.classList.add("wrong");
+        document.querySelectorAll('.option')[correct].classList.add("correct");
+    }
+}
+
+function nextQuestion(){
+    if(selected===null) return alert("कृपया उत्तर चुनें");
+    index++;
+    if(index>=questions.length){ endQuiz(); }
+    else loadQuestion();
+}
+
+function endQuiz(){
+    clearInterval(timer);
+    document.getElementById("quizScreen").style.display="none";
+    document.getElementById("resultScreen").style.display="block";
+    document.getElementById("showName").innerText = "नाम: "+document.getElementById("userName").value;
+    document.getElementById("score").innerText = `आपका स्कोर: ${score} / ${questions.length}`;
+}
+</script></body>
+</html>
