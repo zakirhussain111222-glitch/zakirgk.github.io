@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delhi Sultanate Quiz</title>
+
+<!-- jsPDF CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body{margin:0;font-family:Arial;background:#f2f2f2;}
+.container{max-width:800px;margin:auto;background:#fff;min-height:100vh;}
+.header{background:#000;color:#fff;padding:15px;text-align:center;}
+
+.name-screen,.quiz-screen,.result-screen{display:none;}
+.active{display:block;}
+
+.name-box{text-align:center;padding:40px;}
+.name-input{width:80%;padding:12px;font-size:16px;}
+.start-btn{padding:12px 30px;background:#000;color:#fff;border:none;margin-top:15px;cursor:pointer;}
+
+.quiz-box{padding:25px;}
+.timer{text-align:right;font-weight:bold;}
+.question{font-size:18px;margin:15px 0;}
+.option{padding:10px;border:1px solid #333;margin-bottom:10px;cursor:pointer;}
+.option.selected{background:#ddd;}
+.option.correct{background:#c8f7c5;border-color:green;}
+.option.wrong{background:#f7c5c5;border-color:red;}
+
+.nav-buttons{text-align:center;margin-top:20px;}
+.nav-buttons button{padding:10px 25px;margin:5px;}
+
+.result-box{padding:30px;}
+.review-item{padding:10px;margin:10px 0;border-left:5px solid #999;}
+.review-item.correct{border-color:green;}
+.review-item.wrong{border-color:red;}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<!-- NAME -->
+<div class="name-screen active">
+    <div class="header"><h2>Delhi Sultanate MCQ Quiz</h2></div>
+    <div class="name-box">
+        <p>अपना नाम लिखें</p>
+        <input id="studentName" class="name-input" placeholder="Your Name">
+        <br>
+        <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+    </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-screen">
+    <div class="header">
+        <h3 id="quizTitle"></h3>
+        <div class="timer" id="timer">30:00</div>
+        <div>Question <span id="currentQ">1</span>/25</div>
+    </div>
+
+    <div class="quiz-box">
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+
+        <div class="nav-buttons">
+            <button onclick="prevQ()">Previous</button>
+            <button onclick="nextQ()">Next</button>
+            <button onclick="submitQuiz()">Submit</button>
+        </div>
+    </div>
+</div>
+
+<!-- RESULT -->
+<div class="result-screen">
+    <div class="header"><h3>Result</h3></div>
+    <div class="result-box">
+        <p>Name: <b id="rName"></b></p>
+        <p>Score: <b id="rScore"></b></p>
+        <button onclick="downloadPDF()">Download PDF</button>
+        <hr>
+        <div id="review"></div>
+        <button onclick="location.reload()">Restart</button>
+    </div>
+</div>
+
+</div>
+
+<script>
+const Q=[
+{q:"अरबों ने भारत पर कब आक्रमण किया?",o:["712 ई.","1025 ई.","1192 ई.","1206 ई."],c:0},
+{q:"सिंध का शासक कौन था?",o:["दाहिर","जयचंद","पृथ्वीराज","नागभट्ट"],c:0},
+{q:"पहला सफल अरब आक्रमण?",o:["महमूद","मुहम्मद बिन कासिम","तैमूर","चंगेज"],c:1},
+{q:"गजनी साम्राज्य का संस्थापक?",o:["महमूद","अलप्तगीन","सुबुक्तगीन","गौरी"],c:1},
+{q:"अलप्तगीन का गुलाम?",o:["महमूद","सुबुक्तगीन","ऐबक","इल्तुतमिश"],c:1},
+{q:"महमूद किसका पुत्र?",o:["अलप्तगीन","सुबुक्तगीन","गौरी","ऐबक"],c:1},
+{q:"महमूद गद्दी पर कब?",o:["998","1001","1025","1030"],c:0},
+{q:"सोमनाथ आक्रमण?",o:["1001","1015","1025","1030"],c:2},
+{q:"महमूद के आक्रमण?",o:["10","12","15","17"],c:3},
+{q:"तराइन प्रथम युद्ध?",o:["1178","1182","1191","1192"],c:2},
+
+{q:"तराइन द्वितीय युद्ध?",o:["1191","1192","1206","1211"],c:1},
+{q:"चंदावर युद्ध?",o:["गौरी-जयचंद","गौरी-पृथ्वी","ऐबक-बलबन","दाहिर-महमूद"],c:0},
+{q:"गुलाम वंश संस्थापक?",o:["बलबन","इल्तुतमिश","ऐबक","रजिया"],c:2},
+{q:"ऐबक गद्दी पर?",o:["1192","1194","1206","1210"],c:2},
+{q:"ऐबक राजधानी?",o:["दिल्ली","आगरा","लाहौर","अजमेर"],c:2},
+
+{q:"कुतुब मीनार नींव?",o:["इल्तुतमिश","बलबन","ऐबक","फिरोज"],c:2},
+{q:"लाख बख्श?",o:["इल्तुतमिश","ऐबक","बलबन","रजिया"],c:1},
+{q:"ऐबक उत्तराधिकारी?",o:["इल्तुतमिश","आरामशाह","बलबन","नसीर"],c:0},
+{q:"इल्तुतमिश गद्दी?",o:["1206","1210","1211","1220"],c:2},
+{q:"राजधानी दिल्ली किसने?",o:["ऐबक","इल्तुतमिश","बलबन","रजिया"],c:1},
+
+{q:"किस गुलामों का गुलाम?",o:["ऐबक","इल्तुतमिश","बलबन","रजिया"],c:1},
+{q:"इल्तुतमिश गवर्नर?",o:["दिल्ली","बदायूं","लाहौर","बंगाल"],c:1},
+{q:"रजिया सुल्ताना?",o:["पहली महिला","दूसरी","गुलाम","तुगलक"],c:0},
+{q:"बलबन नीति?",o:["खून","लौह","शांति","सुलह"],c:1},
+{q:"दिल्ली सल्तनत प्रारंभ?",o:["1192","1206","1211","1220"],c:1}
+];
+
+let i=0,ans=[],score=0,time=1800,timer,name="";
+
+function startQuiz(){
+name=document.getElementById("studentName").value.trim();
+if(!name)return alert("नाम लिखें");
+document.querySelector(".name-screen").classList.remove("active");
+document.querySelector(".quiz-screen").classList.add("active");
+document.getElementById("quizTitle").innerText=name;
+loadQ();startTimer();
+}
+
+function startTimer(){
+timer=setInterval(()=>{
+time--;
+let m=Math.floor(time/60),s=time%60;
+document.getElementById("timer").innerText=`${m}:${s.toString().padStart(2,"0")}`;
+if(time<=0)submitQuiz();
+},1000);
+}
+
+function loadQ(){
+document.getElementById("currentQ").innerText=i+1;
+document.getElementById("question").innerText=(i+1)+". "+Q[i].q;
+let o=document.getElementById("options");o.innerHTML="";
+Q[i].o.forEach((op,x)=>{
+let d=document.createElement("div");
+d.className="option";
+d.innerText=op;
+if(ans[i]==x)d.classList.add("selected");
+d.onclick=()=>{ans[i]=x;loadQ();}
+o.appendChild(d);
+});
+}
+
+function nextQ(){if(i<24){i++;loadQ();}}
+function prevQ(){if(i>0){i--;loadQ();}}
+
+function submitQuiz(){
+clearInterval(timer);
+document.querySelector(".quiz-screen").classList.remove("active");
+document.querySelector(".result-screen").classList.add("active");
+ans.forEach((a,x)=>{if(a==Q[x].c)score++;});
+document.getElementById("rName").innerText=name;
+document.getElementById("rScore").innerText=score+"/25";
+
+let r=document.getElementById("review");
+Q.forEach((q,x)=>{
+let d=document.createElement("div");
+d.className="review-item "+(ans[x]==q.c?"correct":"wrong");
+d.innerHTML=`<b>${q.q}</b><br>
+Your Answer: ${q.o[ans[x]] || "Not Answered"}<br>
+Correct Answer: ${q.o[q.c]}`;
+r.appendChild(d);
+});
+}
+
+function downloadPDF(){
+const { jsPDF } = window.jspdf;
+const pdf = new jsPDF();
+pdf.text("Delhi Sultanate Quiz Result",10,10);
+pdf.text("Name: "+name,10,20);
+pdf.text("Score: "+score+"/25",10,30);
+pdf.save("Quiz_Result.pdf");
+}
+</script>
+
+</body>
+</html>
