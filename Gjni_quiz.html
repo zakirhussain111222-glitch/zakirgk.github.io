@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delhi Sultanate Online Exam</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root{
+ --bg:#e3f2fd;
+ --card:#ffffff;
+ --text:#000;
+ --primary:#0d47a1;
+}
+.dark{
+ --bg:#121212;
+ --card:#1e1e1e;
+ --text:#fff;
+ --primary:#90caf9;
+}
+body{
+ margin:0;
+ font-family:Segoe UI,Arial;
+ background:var(--bg);
+ color:var(--text);
+}
+.container{
+ max-width:900px;
+ margin:25px auto;
+ background:var(--card);
+ border-radius:10px;
+ box-shadow:0 10px 25px rgba(0,0,0,0.2);
+ overflow:hidden;
+}
+.header{
+ background:var(--primary);
+ color:#fff;
+ padding:15px;
+ text-align:center;
+ position:relative;
+}
+.toggle{
+ position:absolute;
+ right:15px;
+ top:15px;
+ background:#fff;
+ color:#000;
+ border:none;
+ padding:5px 10px;
+ border-radius:5px;
+ cursor:pointer;
+}
+.screen{display:none;}
+.active{display:block;}
+
+.center{
+ text-align:center;
+ padding:40px;
+}
+input{
+ padding:12px;
+ width:80%;
+ max-width:300px;
+ font-size:16px;
+}
+button{
+ padding:10px 25px;
+ margin:8px;
+ background:var(--primary);
+ color:#fff;
+ border:none;
+ border-radius:5px;
+ cursor:pointer;
+}
+.timer{
+ text-align:right;
+ font-weight:bold;
+ padding:10px;
+}
+.question{
+ font-size:18px;
+ margin:15px 0;
+}
+.option{
+ padding:12px;
+ border:1px solid #888;
+ margin-bottom:10px;
+ border-radius:5px;
+ cursor:pointer;
+}
+.option.selected{background:#bbdefb;}
+.option.correct{background:#c8e6c9;border-color:green;}
+.option.wrong{background:#ffcdd2;border-color:red;}
+.review{
+ padding:10px;
+ margin:10px 0;
+ border-left:5px solid #999;
+}
+.review.correct{border-color:green;}
+.review.wrong{border-color:red;}
+</style>
+</head>
+
+<body>
+<div class="container">
+<div class="header">
+<h2>Delhi Sultanate Online Exam</h2>
+<button class="toggle" onclick="toggleDark()">🌙</button>
+</div>
+
+<!-- NAME -->
+<div class="screen active" id="nameScr">
+<div class="center">
+<h3>Enter Your Name</h3>
+<input id="name">
+<br><br>
+<button onclick="startExam()">Start Exam</button>
+</div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="quizScr">
+<div class="timer">Time: <span id="time">30:00</span></div>
+<div style="padding:25px">
+<div id="qno"></div>
+<div class="question" id="ques"></div>
+<div id="opts"></div>
+<button onclick="prev()">Previous</button>
+<button onclick="next()">Next</button>
+<button onclick="submitExam()">Submit</button>
+</div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="resScr">
+<div class="center">
+<h3>Result</h3>
+<p>Name: <b id="rName"></b></p>
+<p>Score: <b id="rScore"></b></p>
+<button onclick="downloadPDF()">Download PDF</button>
+<hr>
+<div id="reviewBox"></div>
+<button onclick="location.reload()">Restart</button>
+</div>
+</div>
+</div>
+
+<script>
+const Q=[/* 25 QUESTIONS */
+{q:"अरबों ने भारत पर कब आक्रमण किया?",o:["712","1025","1192","1206"],c:0},
+{q:"सिंध का शासक?",o:["दाहिर","जयचंद","पृथ्वीराज","नागभट्ट"],c:0},
+{q:"पहला सफल अरब आक्रमण?",o:["महमूद","कासिम","तैमूर","चंगेज"],c:1},
+{q:"गजनी संस्थापक?",o:["महमूद","अलप्तगीन","सुबुक्तगीन","गौरी"],c:1},
+{q:"अलप्तगीन का गुलाम?",o:["महमूद","सुबुक्तगीन","ऐबक","इल्तुतमिश"],c:1},
+{q:"सोमनाथ आक्रमण?",o:["1001","1015","1025","1030"],c:2},
+{q:"तराइन प्रथम युद्ध?",o:["1178","1182","1191","1192"],c:2},
+{q:"तराइन द्वितीय युद्ध?",o:["1191","1192","1206","1211"],c:1},
+{q:"गुलाम वंश संस्थापक?",o:["ऐबक","इल्तुतमिश","बलबन","रजिया"],c:0},
+{q:"कुतुब मीनार नींव?",o:["इल्तुतमिश","बलबन","ऐबक","फिरोज"],c:2},
+{q:"लाख बख्श?",o:["इल्तुतमिश","ऐबक","बलबन","रजिया"],c:1},
+{q:"इल्तुतमिश गद्दी?",o:["1206","1210","1211","1220"],c:2},
+{q:"रजिया सुल्ताना?",o:["पहली महिला","दूसरी","तुगलक","खिलजी"],c:0},
+{q:"बलबन नीति?",o:["लौह","शांति","सुलह","दान"],c:0},
+{q:"दिल्ली सल्तनत?",o:["1192","1206","1211","1220"],c:1},
+{q:"महमूद पिता?",o:["अलप्तगीन","सुबुक्तगीन","गौरी","ऐबक"],c:1},
+{q:"महमूद आक्रमण संख्या?",o:["10","12","15","17"],c:3},
+{q:"चंदावर युद्ध?",o:["जयचंद-गौरी","पृथ्वी-गौरी","दाहिर","ऐबक"],c:0},
+{q:"ऐबक मृत्यु?",o:["घोड़ा","बीमारी","हत्या","युद्ध"],c:0},
+{q:"इल्तुतमिश राजधानी?",o:["लाहौर","दिल्ली","अजमेर","आगरा"],c:1},
+{q:"बलबन पुत्र?",o:["कैखुसरो","नसीर","इल्तुतमिश","कुतुब"],c:0},
+{q:"न्याय नीति?",o:["बलबन","ऐबक","रजिया","फिरोज"],c:0},
+{q:"इल्तुतमिश गवर्नर?",o:["बदायूं","लाहौर","दिल्ली","बंगाल"],c:0},
+{q:"पहली महिला शासक?",o:["रजिया","नूरजहां","चांद","बेगम"],c:0},
+{q:"गुलामों का गुलाम?",o:["इल्तुतमिश","बलबन","ऐबक","रजिया"],c:0}
+];
+
+let i=0,ans=[],score=0,time=1800,timer,name="";
+
+function startExam(){
+ name=document.getElementById("name").value.trim();
+ if(!name)return alert("नाम लिखें");
+ document.getElementById("nameScr").classList.remove("active");
+ document.getElementById("quizScr").classList.add("active");
+ document.documentElement.requestFullscreen();
+ load();startTimer();
+}
+
+function startTimer(){
+ timer=setInterval(()=>{
+ time--;
+ let m=Math.floor(time/60),s=time%60;
+ document.getElementById("time").innerText=`${m}:${s.toString().padStart(2,"0")}`;
+ if(time<=0)submitExam();
+ },1000);
+}
+
+function load(){
+ document.getElementById("qno").innerText=`Question ${i+1}/25`;
+ document.getElementById("ques").innerText=Q[i].q;
+ let o=document.getElementById("opts");o.innerHTML="";
+ Q[i].o.forEach((x,j)=>{
+ let d=document.createElement("div");
+ d.className="option";
+ if(ans[i]==j)d.classList.add("selected");
+ d.innerText=x;
+ d.onclick=()=>{ans[i]=j;load();}
+ o.appendChild(d);
+ });
+}
+
+function next(){if(i<24){i++;load();}}
+function prev(){if(i>0){i--;load();}}
+
+function submitExam(){
+ clearInterval(timer);
+ document.exitFullscreen();
+ document.getElementById("quizScr").classList.remove("active");
+ document.getElementById("resScr").classList.add("active");
+ ans.forEach((a,x)=>{if(a==Q[x].c)score++;});
+ document.getElementById("rName").innerText=name;
+ document.getElementById("rScore").innerText=score+"/25";
+ let r=document.getElementById("reviewBox");
+ Q.forEach((q,x)=>{
+ let d=document.createElement("div");
+ d.className="review "+(ans[x]==q.c?"correct":"wrong");
+ d.innerHTML=`<b>${q.q}</b><br>Your: ${q.o[ans[x]]||"NA"}<br>Correct: ${q.o[q.c]}`;
+ r.appendChild(d);
+ });
+}
+
+function downloadPDF(){
+ const {jsPDF}=window.jspdf;
+ let pdf=new jsPDF();
+ pdf.text("Delhi Sultanate Exam Result",10,10);
+ pdf.text("Name: "+name,10,20);
+ pdf.text("Score: "+score+"/25",10,30);
+ let y=40;
+ Q.forEach((q,x)=>{
+ pdf.text(`${x+1}. ${q.q}`,10,y);y+=7;
+ pdf.text(`Your: ${q.o[ans[x]]||"NA"} | Correct: ${q.o[q.c]}`,10,y);y+=10;
+ if(y>270){pdf.addPage();y=20;}
+ });
+ pdf.save("Result.pdf");
+}
+
+function toggleDark(){
+ document.body.classList.toggle("dark");
+}
+
+/* TAB SWITCH WARNING */
+document.addEventListener("visibilitychange",()=>{
+ if(document.hidden){
+  alert("Tab switch detected! Exam focus required.");
+ }
+});
+</script>
+</body>
+</html>
