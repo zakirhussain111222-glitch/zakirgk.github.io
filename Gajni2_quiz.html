@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delhi Sultanate MCQ Quiz</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
+.container{
+    max-width:900px;
+    margin:auto;
+    background:#fff;
+    min-height:100vh;
+}
+.header{
+    background:#2d3436;
+    color:#fff;
+    padding:20px;
+    text-align:center;
+}
+.name-screen,.quiz-screen,.result-screen{display:none;}
+.active{display:block;}
+
+.name-box{text-align:center;padding:40px;}
+.name-input{
+    width:80%;
+    padding:15px;
+    font-size:18px;
+    margin:20px 0;
+}
+.start-btn{
+    padding:15px 40px;
+    font-size:18px;
+    background:#00b894;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+}
+
+.quiz-box{padding:30px;}
+.question{font-size:22px;margin-bottom:20px;}
+.options .option{
+    padding:15px;
+    border:2px solid #ccc;
+    margin:10px 0;
+    cursor:pointer;
+}
+.option.selected{background:#00b894;color:#fff;}
+
+.nav-buttons{text-align:center;margin-top:20px;}
+.nav-buttons button{
+    padding:12px 30px;
+    font-size:16px;
+    margin:5px;
+}
+
+.timer{font-weight:bold;margin-top:10px;}
+
+.result-box{padding:40px;text-align:center;}
+.review-item{border-left:5px solid #ccc;padding:10px;margin:10px 0;}
+.review-item.correct{border-color:green;}
+.review-item.wrong{border-color:red;}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<!-- NAME SCREEN -->
+<div class="name-screen active">
+    <div class="header">
+        <h1>Delhi Sultanate MCQ Quiz</h1>
+        <p>25 Questions | 30 Minutes</p>
+    </div>
+    <div class="name-box">
+        <h2>अपना नाम दर्ज करें</h2>
+        <input id="studentName" class="name-input" placeholder="पूरा नाम लिखें">
+        <br>
+        <button class="start-btn" onclick="startQuiz()">Quiz Start</button>
+    </div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div class="quiz-screen">
+    <div class="header">
+        <h2 id="quizTitle"></h2>
+        <div class="timer" id="timer">30:00</div>
+        <div>प्रश्न <span id="currentQ">1</span>/25</div>
+    </div>
+
+    <div class="quiz-box">
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+
+        <div class="nav-buttons">
+            <button onclick="prevQuestion()">Prev</button>
+            <button onclick="nextQuestion()">Next</button>
+            <button onclick="submitQuiz()">Submit</button>
+        </div>
+    </div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div class="result-screen">
+    <div class="header"><h1>Result</h1></div>
+    <div class="result-box">
+        <h2 id="resultName"></h2>
+        <h1 id="finalScore"></h1>
+        <div id="review"></div>
+        <button onclick="location.reload()">Restart</button>
+    </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+{q:"अरबों ने भारत पर कब आक्रमण किया?",o:["712 ई.","1025 ई.","1192 ई.","1206 ई."],c:0},
+{q:"सिंध का शासक कौन था?",o:["दाहिर","जयचंद","पृथ्वीराज","नागभट्ट"],c:0},
+{q:"पहला सफल अरब आक्रमण?",o:["महमूद","मुहम्मद बिन कासिम","तैमूर","चंगेज"],c:1},
+{q:"गजनी साम्राज्य का संस्थापक?",o:["महमूद","अलप्तगीन","सुबुक्तगीन","गौरी"],c:1},
+{q:"अलप्तगीन का गुलाम?",o:["महमूद","सुबुक्तगीन","ऐबक","इल्तुतमिश"],c:1},
+
+{q:"महमूद किसका पुत्र?",o:["अलप्तगीन","सुबुक्तगीन","गौरी","ऐबक"],c:1},
+{q:"महमूद गद्दी पर कब?",o:["998","1001","1025","1030"],c:0},
+{q:"सोमनाथ आक्रमण?",o:["1001","1015","1025","1030"],c:2},
+{q:"महमूद के आक्रमण?",o:["10","12","15","17"],c:3},
+{q:"तराइन प्रथम युद्ध?",o:["1178","1182","1191","1192"],c:2},
+
+{q:"तराइन द्वितीय युद्ध?",o:["1191","1192","1206","1211"],c:1},
+{q:"चंदावर युद्ध?",o:["गौरी-जयचंद","गौरी-पृथ्वी","ऐबक-बलबन","दाहिर-महमूद"],c:0},
+{q:"गुलाम वंश संस्थापक?",o:["बलबन","इल्तुतमिश","ऐबक","रजिया"],c:2},
+{q:"ऐबक गद्दी पर?",o:["1192","1194","1206","1210"],c:2},
+{q:"ऐबक राजधानी?",o:["दिल्ली","आगरा","लाहौर","अजमेर"],c:2},
+
+{q:"कुतुब मीनार नींव?",o:["इल्तुतमिश","बलबन","ऐबक","फिरोज"],c:2},
+{q:"लाख बख्श?",o:["इल्तुतमिश","ऐबक","बलबन","रजिया"],c:1},
+{q:"ऐबक उत्तराधिकारी?",o:["इल्तुतमिश","आरामशाह","बलबन","नसीर"],c:0},
+{q:"इल्तुतमिश गद्दी?",o:["1206","1210","1211","1220"],c:2},
+{q:"राजधानी दिल्ली किसने?",o:["ऐबक","इल्तुतमिश","बलबन","रजिया"],c:1},
+
+{q:"किस गुलामों का गुलाम?",o:["ऐबक","इल्तुतमिश","बलबन","रजिया"],c:1},
+{q:"इल्तुतमिश गवर्नर?",o:["दिल्ली","बदायूं","लाहौर","बंगाल"],c:1},
+{q:"रजिया सुल्ताना?",o:["पहली महिला","दूसरी","गुलाम","तुगलक"],c:0},
+{q:"बलबन नीति?",o:["खून","लौह","शांति","सुलह"],c:1},
+{q:"दिल्ली सल्तनत प्रारंभ?",o:["1192","1206","1211","1220"],c:1}
+];
+
+let index=0,answers=[],score=0,time=1800,timer;
+let name="";
+
+function startQuiz(){
+name=document.getElementById("studentName").value.trim();
+if(!name){alert("नाम लिखें");return;}
+document.querySelector(".name-screen").classList.remove("active");
+document.querySelector(".quiz-screen").classList.add("active");
+document.getElementById("quizTitle").innerText=name;
+loadQ();startTimer();
+}
+
+function startTimer(){
+timer=setInterval(()=>{
+time--;
+let m=Math.floor(time/60),s=time%60;
+document.getElementById("timer").innerText=`${m}:${s.toString().padStart(2,"0")}`;
+if(time<=0)submitQuiz();
+},1000);
+}
+
+function loadQ(){
+document.getElementById("currentQ").innerText=index+1;
+document.getElementById("question").innerText=(index+1)+". "+questions[index].q;
+let o=document.getElementById("options");o.innerHTML="";
+questions[index].o.forEach((op,i)=>{
+let d=document.createElement("div");
+d.className="option";
+d.innerText=op;
+if(answers[index]==i)d.classList.add("selected");
+d.onclick=()=>{answers[index]=i;loadQ();}
+o.appendChild(d);
+});
+}
+
+function nextQuestion(){if(index<24){index++;loadQ();}}
+function prevQuestion(){if(index>0){index--;loadQ();}}
+
+function submitQuiz(){
+clearInterval(timer);
+document.querySelector(".quiz-screen").classList.remove("active");
+document.querySelector(".result-screen").classList.add("active");
+answers.forEach((a,i)=>{if(a==questions[i].c)score++;});
+document.getElementById("resultName").innerText=name;
+document.getElementById("finalScore").innerText=`Score: ${score}/25`;
+let r=document.getElementById("review");
+questions.forEach((q,i)=>{
+let d=document.createElement("div");
+d.className="review-item "+(answers[i]==q.c?"correct":"wrong");
+d.innerHTML=`<b>${q.q}</b><br>Correct: ${q.o[q.c]}`;
+r.appendChild(d);
+});
+}
+</script>
+
+</body>
+</html>
