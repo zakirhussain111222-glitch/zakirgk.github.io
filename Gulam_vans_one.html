@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ गुलाम वंश MCQ Quiz | एक-एक व्याख्या</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:15px;color:#333;}
+        .container{max-width:950px;margin:0 auto;background:rgba(255,255,255,0.95);border-radius:20px;padding:30px;box-shadow:0 20px 40px rgba(0,0,0,0.1);}
+        .screen{display:none;text-align:center;}
+        .screen.active{display:block;}
+        h1{font-size:2.2em;margin-bottom:20px;background:linear-gradient(45deg,#ff6b6b,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        input[type="text"]{padding:15px;font-size:1.2em;border:2px solid #ddd;border-radius:10px;width:70%;max-width:400px;margin:20px 0;}
+        button{padding:15px 30px;font-size:1.1em;background:#4CAF50;color:white;border:none;border-radius:10px;cursor:pointer;transition:all 0.3s;margin:10px;}
+        button:hover{background:#45a049;transform:translateY(-2px);}
+        button:disabled{background:#ccc;cursor:not-allowed;transform:none;}
+        .question{font-size:1.4em;font-weight:bold;margin-bottom:20px;padding:25px;background:#f8f9ff;border-left:5px solid #4CAF50;border-radius:15px;}
+        .options{display:grid;gap:15px;margin-bottom:25px;}
+        .option{padding:20px;background:#fff;border:2px solid #e0e0e0;border-radius:12px;transition:all 0.4s;font-size:1.1em;cursor:pointer;}
+        .option:hover{background:#e8f5e8;}
+        .option.correct{background:#d4edda !important;border-color:#28a745 !important;}
+        .option.wrong{background:#f8d7da !important;border-color:#dc3545 !important;}
+        .progress-bar{background:#e0e0e0;height:12px;border-radius:6px;overflow:hidden;margin:20px 0;}
+        .progress{width:0%;height:100%;background:linear-gradient(90deg,#4CAF50,#45a049);transition:width 0.4s;border-radius:6px;}
+        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;margin:30px 0;}
+        .stat{background:#fff;padding:20px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,0.1);}
+        .result-name{font-size:2em;color:#4CAF50;font-weight:bold;}
+        .explanation{background:linear-gradient(135deg,#e8f8e8,#d4f4d4);padding:20px;border-radius:12px;margin:20px 0;border-left:5px solid #28a745;font-size:1.1em;line-height:1.7;box-shadow:0 5px 15px rgba(40,167,69,0.2);}
+        .explanation.wrong{background:linear-gradient(135deg,#f8e8e8,#f4d4d4);border-left-color:#dc3545;box-shadow:0 5px 15px rgba(220,53,69,0.2);}
+        @media print{.screen:not(.active){display:none !important;}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- नाम स्क्रीन -->
+        <div id="name-screen" class="screen active">
+            <h1>🏛️ गुलाम वंश एवं दिल्ली सल्तनत</h1>
+            <p style="font-size:1.3em;margin-bottom:30px;">अपना नाम दर्ज करें</p>
+            <input type="text" id="studentName" placeholder="आपका नाम यहाँ टाइप करें..." autofocus>
+            <br><button onclick="startQuiz()">क्विज शुरू करें 🚀</button>
+        </div>
+
+        <!-- क्विज स्क्रीन -->
+        <div id="quiz-screen" class="screen">
+            <h1 id="quizTitle">MCQ Quiz</h1>
+            <div class="progress-bar"><div id="progress" class="progress"></div></div>
+            <div id="timer" style="font-size:1.5em;color:#e74c3c;margin:10px 0;">समय: 30:00</div>
+            <div class="question-container">
+                <div id="question" class="question"></div>
+                <div id="options" class="options"></div>
+            </div>
+            <button id="prevBtn" onclick="prevQuestion()" style="background:#6c757d;display:none;">⬅️ पिछला</button>
+            <button id="nextBtn" onclick="nextQuestion()">अगला ➡️</button>
+            <button id="submitBtn" onclick="submitQuiz()" style="background:#ff9800;">सबमिट करें 📤</button>
+        </div>
+
+        <!-- रिजल्ट स्क्रीन -->
+        <div id="result-screen" class="screen">
+            <h1>परिणाम ✨</h1>
+            <div class="result-name" id="resultName"></div>
+            <div class="stats">
+                <div class="stat"><h3 id="score">0</h3><p>स्कोर</p></div>
+                <div class="stat"><h3 id="percentage">0%</h3><p>प्रतिशत</p></div>
+                <div class="stat"><h3 id="grade"></h3><p>ग्रेड</p></div>
+            </div>
+            <div style="margin:20px 0;">
+                <button onclick="printQuiz()">प्रिंट करें 🖨️</button>
+                <button onclick="downloadResult()">डाउनलोड 📥</button>
+                <button onclick="showSolutions()">📚 पहला समाधान देखें</button>
+            </div>
+        </div>
+
+        <!-- Solution स्क्रीन -->
+        <div id="solution-screen" class="screen">
+            <h1 id="solutionTitle">समाधान</h1>
+            <div class="progress-bar"><div id="solutionProgress" class="progress"></div></div>
+            <div class="question-container">
+                <div id="solutionQuestion" class="question"></div>
+                <div id="solutionOptions" class="options"></div>
+                <div id="solutionExplanation" class="explanation"></div>
+            </div>
+            <button id="solutionPrev" onclick="prevSolution()" style="background:#6c757d;display:none;">⬅️ पिछला</button>
+            <button id="solutionNext" onclick="nextSolution()">अगला ➡️</button>
+            <button onclick="backToResults()" style="background:#9c27b0;">← रिजल्ट पर वापस</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {q:"कुतुब मीनार की ऊँचाई कितनी है?",opts:["68 मीटर","70 मीटर","72.5 मीटर","75 मीटर"],correct:2,explanation:"✅ सही उत्तर: C (72.5 मीटर)
+
+कुतुब मीनार दिल्ली में स्थित विश्व की सबसे ऊँची ईंटों की मीनार है। इसकी वास्तविक ऊँचाई 72.5 मीटर है।"},
+            {q:"प्राचीन नालंदा विश्वविद्यालय को ध्वस्त करने वाला कौन था?",opts:["चंगेज खान","तैमूर","बख्तियार खिलजी","महमूद गजनवी"],correct:2,explanation:"✅ सही उत्तर: C (बख्तियार खिलजी)
+
+1193 ई. में बख्तियार खिलजी ने नालंदा को नष्ट किया। लाखों पुस्तकें जलाकर राख कर दीं।"},
+            {q:"इल्तुतमिश किसकी हत्या करके 1211 ई. में दिल्ली की गद्दी पर बैठा?",opts:["कुतुबुद्दीन ऐबक","आरामशाह","इल्तुतमिश","नासिरुद्दीन"],correct:1,explanation:"✅ सही उत्तर: B (आरामशाह)
+
+आरामशाह कुतुबुद्दीन ऐबक का पुत्र था। इल्तुतमिश ने उसकी हत्या कर गद्दी हासिल की।"},
+            {q:"इल्तुतमिश ने लाहौर से राजधानी स्थानांतरित करके कहाँ लाई?",opts:["आगरा","देहली","अजमेर","बदायूं"],correct:1,explanation:"✅ सही उत्तर: B (देहली)
+
+1211 ई. में इल्तुतमिश ने लाहौर से दिल्ली को राजधानी बनाया।"},
+            {q:"गुलाम वंश का अंतिम शासक कौन था?",opts:["बलबन","कायकुबाद","नासिरुद्दीन","बहरामशाह"],correct:1,explanation:"✅ सही उत्तर: B (कायकुबाद)
+
+1290 ई. में जलालुद्दीन खिलजी ने गुलाम वंश समाप्त किया।"}
+            // सभी 25 प्रश्न यहाँ add करें
+        ];
+
+        let currentQuestion = 0;
+        let currentSolution = 0;
+        let answers = Array(questions.length).fill(-1);
+        let studentName = '';
+        let timer = 1800;
+        let timerInterval;
+
+        function startQuiz() {
+            studentName = document.getElementById('studentName').value.trim() || 'छात्र';
+            if(!studentName) {
+                alert('कृपया नाम दर्ज करें!');
+                return;
+            }
+            
+            document.getElementById('name-screen').classList.remove('active');
+            document.getElementById('quiz-screen').classList.add('active');
+            document.getElementById('quizTitle').textContent = `${studentName}, गुलाम वंश क्विज`;
+            
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question').textContent = `${currentQuestion + 1}. ${q.q}`;
+            
+            const options = document.getElementById('options');
+            options.innerHTML = '';
+            q.opts.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.innerHTML = `<input type="radio" name="q${currentQuestion}" value="${i}" id="q${currentQuestion}_${i}" ${answers[currentQuestion] === i ? 'checked' : ''}>
+                                <label for="q${currentQuestion}_${i}">(${String.fromCharCode(65+i)}). ${opt}</label>`;
+                div.addEventListener('click', () => selectOption(i));
+                options.appendChild(div);
+            });
+            
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function selectOption(index) {
+            answers[currentQuestion] = index;
+            loadQuestion();
+        }
+
+        function nextQuestion() {
+            if(currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if(currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').style.display = currentQuestion === 0 ? 'none' : 'inline-block';
+            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'अंतिम प्रश्न ➡️' : 'अगला ➡️';
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                document.getElementById('timer').textContent = `समय: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                if(timer <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                }
+                timer--;
+            }, 1000);
+        }
+
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('quiz-screen').classList.remove('active');
+            document.getElementById('result-screen').classList.add('active');
+            
+            let score = 0;
+            questions.forEach((q, i) => {
+                if(answers[i] === q.correct) score++;
+            });
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('resultName').textContent = `शुभकामनाएं ${studentName}!`;
+            document.getElementById('score').textContent = `${score}/${questions.length}`;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            document.getElementById('grade').textContent = percentage >= 80 ? '🥇 उत्कृष्ट' : percentage >= 60 ? '🥈 अच्छा' : '🥉 प्रयास करें';
+        }
+
+        function showSolutions() {
+            currentSolution = 0;
+            document.getElementById('result-screen').classList.remove('active');
+            document.getElementById('solution-screen').classList.add('active');
+            loadSolution();
+        }
+
+        function loadSolution() {
+            const q = questions[currentSolution];
+            const userAnswer = answers[currentSolution];
+            const isCorrect = userAnswer === q.correct;
+            
+            document.getElementById('solutionTitle').textContent = `समाधान ${currentSolution+1}/${questions.length}`;
+            document.getElementById('solutionQuestion').innerHTML = `<strong>प्रश्न ${currentSolution+1}:</strong> ${q.q}`;
+            
+            const optionsDiv = document.getElementById('solutionOptions');
+            optionsDiv.innerHTML = '';
+            q.opts.forEach((opt, i) => {
+                const div = document.createElement('div');
+                let className = '';
+                if(i === q.correct) className = 'correct';
+                else if(i === userAnswer && userAnswer !== q.correct) className = 'wrong';
+                div.className = `option ${className}`;
+                div.innerHTML = `<label>(${String.fromCharCode(65+i)}). ${opt}</label>`;
+                optionsDiv.appendChild(div);
+            });
+            
+            document.getElementById('solutionExplanation').innerHTML = q.explanation;
+            document.getElementById('solutionExplanation').className = `explanation ${!isCorrect ? 'wrong' : ''}`;
+            
+            updateSolutionProgress();
+            updateSolutionNav();
+        }
+
+        function nextSolution() {
+            if(currentSolution < questions.length - 1) {
+                currentSolution++;
+                loadSolution();
+            }
+        }
+
+        function prevSolution() {
+            if(currentSolution > 0) {
+                currentSolution--;
+                loadSolution();
+            }
+        }
+
+        function updateSolutionProgress() {
+            const progress = ((currentSolution + 1) / questions.length) * 100;
+            document.getElementById('solutionProgress').style.width = progress + '%';
+        }
+
+        function updateSolutionNav() {
+            document.getElementById('solutionPrev').style.display = currentSolution === 0 ? 'none' : 'inline-block';
+            document.getElementById('solutionNext').textContent = currentSolution === questions.length - 1 ? 'समाप्त ➡️' : 'अगला ➡️';
+        }
+
+        function backToResults() {
+            document.getElementById('solution-screen').classList.remove('active');
+            document.getElementById('result-screen').classList.add('active');
+        }
+
+        function printQuiz() { window.print(); }
+
+        function downloadResult() {
+            const score = document.getElementById('score').textContent;
+            const result = `गुलाम वंश क्विज
+नाम: ${studentName}
+स्कोर: ${score}
+तारीख: ${new Date().toLocaleDateString('hi-IN')}`;
+            const blob = new Blob([result], {type: 'text/plain;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `quiz_result_${studentName}.txt`;
+            a.click();
+        }
+
+        // Enter key support
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter' && document.getElementById('name-screen').classList.contains('active')) {
+                startQuiz();
+            }
+        });
+    </script>
+</body>
+  </html>
