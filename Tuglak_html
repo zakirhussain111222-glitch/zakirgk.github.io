@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Tughlaq Dynasty Quiz – 30 MCQs</title>
+<style>
+body{font-family:Arial;background:#f2f2f2;padding:10px;}
+.container{background:#fff;padding:15px;border-radius:8px;}
+.question{border:1px solid #ddd;padding:10px;margin-bottom:10px;border-radius:6px;}
+.correct{background:#c8f7c5;}
+.wrong{background:#f7c5c5;}
+#timer{font-weight:bold;text-align:center;margin-bottom:10px;}
+button{padding:10px 20px;font-size:16px;}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2 style="text-align:center;">तुगलक वंश : 30 MCQs Quiz</h2>
+<div id="timer">Time: 20:00</div>
+
+<form id="quizForm">
+
+<script>
+const questions = [
+["तुगलक वंश का संस्थापक कौन था?","A. अलाउद्दीन खिलजी","B. गयासुद्दीन तुगलक","C. मुहम्मद बिन तुगलक","D. फिरोजशाह तुगलक","B"],
+["तुगलक वंश की स्थापना कब हुई?","A.1290","B.1316","C.1320","D.1336","C"],
+["नहरों का निर्माण करने वाला प्रथम शासक?","A. मुहम्मद","B. फिरोजशाह","C. गयासुद्दीन","D. बलबन","B"],
+["गयासुद्दीन तुगलक की मृत्यु कब हुई?","A.1320","B.1323","C.1325","D.1330","C"],
+["गयासुद्दीन के बाद शासक?","A. फिरोज","B. नसीरुद्दीन","C. मुहम्मद","D. गयासुद्दीन","C"],
+["मुहम्मद बिन तुगलक गद्दी पर कब बैठा?","A.1320","B.1323","C.1325","D.1336","C"],
+["अमीर-ए-कोह की स्थापना किसने की?","A. गयासुद्दीन","B. मुहम्मद","C. फिरोज","D. खिलजी","B"],
+["राजधानी देवगिरी किसने ले जाई?","A. गयासुद्दीन","B. फिरोज","C. मुहम्मद","D. बलबन","C"],
+["एडवर्ड थॉमसन ने मुहम्मद को क्या कहा?","A. सुधारक","B. मूर्ख","C. विरोधाभासों का मिश्रण","D. क्रूर","C"],
+["इब्न बतूता भारत कब आया?","A.1325","B.1333","C.1342","D.1351","B"],
+["रिहला के लेखक?","A. अलबरूनी","B. इब्न बतूता","C. बरनी","D. खुसरो","B"],
+["मुहम्मद बिन तुगलक की मृत्यु?","A.1345","B.1347","C.1351","D.1360","C"],
+["विजयनगर की स्थापना किसने की?","A. हरिहर-बुक्का","B. कृष्णदेव","C. देवराय","D. रामराय","A"],
+["विजयनगर स्थापना वर्ष?","A.1325","B.1336","C.1347","D.1351","B"],
+["बहमनी साम्राज्य संस्थापक?","A. हसन गंगू","B. मुहम्मद","C. फिरोज","D. अलाउद्दीन बहमन शाह","D"],
+["बहमनी स्थापना कब?","A.1320","B.1336","C.1347","D.1351","C"],
+["मुहम्मद की मृत्यु पर कथन किसका?","A. इब्न बतूता","B. बरनी","C. मिन्हाज","D. अलबरूनी","B"],
+["मुहम्मद का उत्तराधिकारी?","A. फिरोज","B. गयासुद्दीन","C. नसीरुद्दीन","D. सिकंदर","A"],
+["ब्राह्मणों पर जजिया किसने लगाया?","A. अलाउद्दीन","B. मुहम्मद","C. फिरोज","D. बलबन","C"],
+["दीवान-ए-खैरात किसने बनाया?","A. मुहम्मद","B. फिरोज","C. गयासुद्दीन","D. खिलजी","B"],
+["फुतूहात-ए-फिरोजशाही किसकी आत्मकथा?","A. मुहम्मद","B. गयासुद्दीन","C. फिरोज","D. बरनी","C"],
+["खान-ए-जहां तेलंगानी की तुलना?","A. कुतुब मीनार","B. ताजमहल","C. गोल गुंबद","D. उमर की मस्जिद","D"],
+["तुगलक वंश का अंतिम शासक?","A. फिरोज","B. मुहम्मद","C. नसीरुद्दीन","D. गयासुद्दीन","C"],
+["तैमूर ने आक्रमण किसके समय किया?","A. फिरोज","B. नसीरुद्दीन","C. मुहम्मद","D. लोदी","B"],
+["टोकन मुद्रा किसने चलाई?","A. अलाउद्दीन","B. फिरोज","C. मुहम्मद","D. बलबन","C"],
+["फिरोज का उत्तराधिकारी?","A. नसीरुद्दीन","B. गयासुद्दीन","C. मुहम्मद","D. सिकंदर","A"],
+["दीवान-ए-कोह संबंधित था?","A. सेना","B. कृषि","C. शिक्षा","D. न्याय","B"],
+["तैमूर का आक्रमण वर्ष?","A.1388","B.1390","C.1398","D.1401","C"],
+["तुगलक शासनकाल?","A.1206–1290","B.1290–1320","C.1320–1414","D.1414–1451","C"],
+["तुगलक के बाद वंश?","A. लोदी","B. खिलजी","C. सैय्यद","D. मुगल","C"]
+];
+
+let html="";
+questions.forEach((q,i)=>{
+html+=`<div class="question"><b>${i+1}. ${q[0]}</b><br>
+<input type="radio" name="q${i}" value="A"> ${q[1]}<br>
+<input type="radio" name="q${i}" value="B"> ${q[2]}<br>
+<input type="radio" name="q${i}" value="C"> ${q[3]}<br>
+<input type="radio" name="q${i}" value="D"> ${q[4]}
+</div>`;
+});
+document.write(html);
+</script>
+
+<button type="button" onclick="submitQuiz()">Submit</button>
+</form>
+
+<h3 id="result"></h3>
+</div>
+
+<script>
+let time=20*60;
+let timer=setInterval(()=>{
+let m=Math.floor(time/60),s=time%60;
+document.getElementById("timer").innerHTML=`Time: ${m}:${s<10?"0"+s:s}`;
+time--; if(time<0){clearInterval(timer);submitQuiz();}
+},1000);
+
+function submitQuiz(){
+clearInterval(timer);
+let score=0;
+questions.forEach((q,i)=>{
+let opts=document.getElementsByName("q"+i);
+opts.forEach(o=>{
+if(o.checked){
+if(o.value===q[5]){o.parentElement.classList.add("correct");score++;}
+else{o.parentElement.classList.add("wrong");}
+}
+});
+});
+document.getElementById("result").innerHTML=`Final Score: ${score} / 30`;
+}
+</script>
+
+</body>
+</html>
