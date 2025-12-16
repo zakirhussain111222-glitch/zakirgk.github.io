@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Tughlaq Dynasty Quiz</title>
+<style>
+body{font-family:Arial;background:#f2f2f2;padding:10px;}
+.container{background:#fff;padding:15px;border-radius:8px;}
+.question{border:1px solid #ddd;padding:10px;margin-bottom:10px;border-radius:6px;}
+.correct{background:#c8f7c5;}
+.wrong{background:#f7c5c5;}
+#timer{font-weight:bold;text-align:center;margin-bottom:10px;}
+button{padding:10px 20px;font-size:16px;}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2 style="text-align:center;">तुगलक वंश : 30 MCQs Quiz</h2>
+<div id="timer">Time: 20:00</div>
+
+<form id="quizForm"></form>
+
+<button onclick="submitQuiz()">Submit</button>
+<h3 id="result"></h3>
+</div>
+
+<script>
+const questions = [
+["तुगलक वंश का संस्थापक कौन था?","अलाउद्दीन खिलजी","गयासुद्दीन तुगलक","मुहम्मद बिन तुगलक","फिरोजशाह तुगलक","B"],
+["तुगलक वंश की स्थापना कब हुई?","1290","1316","1320","1336","C"],
+["नहरों का निर्माण करने वाला प्रथम शासक?","मुहम्मद","फिरोजशाह","गयासुद्दीन","बलबन","B"],
+["गयासुद्दीन तुगलक की मृत्यु?","1320","1323","1325","1330","C"],
+["गयासुद्दीन के बाद शासक?","फिरोज","नसीरुद्दीन","मुहम्मद","गयासुद्दीन","C"],
+["मुहम्मद बिन तुगलक गद्दी पर कब बैठा?","1320","1323","1325","1336","C"],
+["अमीर-ए-कोह की स्थापना किसने की?","गयासुद्दीन","मुहम्मद","फिरोज","खिलजी","B"],
+["राजधानी देवगिरी किसने ले जाई?","गयासुद्दीन","फिरोज","मुहम्मद","बलबन","C"],
+["एडवर्ड थॉमसन ने मुहम्मद को क्या कहा?","सुधारक","मूर्ख","विरोधाभासों का मिश्रण","क्रूर","C"],
+["इब्न बतूता भारत कब आया?","1325","1333","1342","1351","B"],
+["रिहला के लेखक?","अलबरूनी","इब्न बतूता","बरनी","खुसरो","B"],
+["मुहम्मद बिन तुगलक की मृत्यु?","1345","1347","1351","1360","C"],
+["विजयनगर की स्थापना किसने की?","हरिहर-बुक्का","कृष्णदेव","देवराय","रामराय","A"],
+["विजयनगर स्थापना वर्ष?","1325","1336","1347","1351","B"],
+["बहमनी साम्राज्य संस्थापक?","हसन गंगू","मुहम्मद","फिरोज","अलाउद्दीन बहमन शाह","D"],
+["बहमनी स्थापना कब?","1320","1336","1347","1351","C"],
+["मुहम्मद की मृत्यु पर कथन किसका?","इब्न बतूता","बरनी","मिन्हाज","अलबरूनी","B"],
+["मुहम्मद का उत्तराधिकारी?","फिरोज","गयासुद्दीन","नसीरुद्दीन","सिकंदर","A"],
+["ब्राह्मणों पर जजिया किसने लगाया?","अलाउद्दीन","मुहम्मद","फिरोज","बलबन","C"],
+["दीवान-ए-खैरात किसने बनाया?","मुहम्मद","फिरोज","गयासुद्दीन","खिलजी","B"],
+["फुतूहात-ए-फिरोजशाही किसकी आत्मकथा?","मुहम्मद","गयासुद्दीन","फिरोज","बरनी","C"],
+["खान-ए-जहां तेलंगानी की तुलना?","कुतुब मीनार","ताजमहल","गोल गुंबद","उमर की मस्जिद","D"],
+["तुगलक वंश का अंतिम शासक?","फिरोज","मुहम्मद","नसीरुद्दीन","गयासुद्दीन","C"],
+["तैमूर का आक्रमण किसके समय?","फिरोज","नसीरुद्दीन","मुहम्मद","लोदी","B"],
+["टोकन मुद्रा किसने चलाई?","अलाउद्दीन","फिरोज","मुहम्मद","बलबन","C"],
+["फिरोज का उत्तराधिकारी?","नसीरुद्दीन","गयासुद्दीन","मुहम्मद","सिकंदर","A"],
+["दीवान-ए-कोह संबंधित था?","सेना","कृषि","शिक्षा","न्याय","B"],
+["तैमूर का आक्रमण वर्ष?","1388","1390","1398","1401","C"],
+["तुगलक शासनकाल?","1206–1290","1290–1320","1320–1414","1414–1451","C"],
+["तुगलक के बाद वंश?","लोदी","खिलजी","सैय्यद","मुगल","C"]
+];
+
+const form=document.getElementById("quizForm");
+
+questions.forEach((q,i)=>{
+let div=document.createElement("div");
+div.className="question";
+div.innerHTML=`<b>${i+1}. ${q[0]}</b><br>
+<label><input type="radio" name="q${i}" value="A"> ${q[1]}</label><br>
+<label><input type="radio" name="q${i}" value="B"> ${q[2]}</label><br>
+<label><input type="radio" name="q${i}" value="C"> ${q[3]}</label><br>
+<label><input type="radio" name="q${i}" value="D"> ${q[4]}</label>`;
+form.appendChild(div);
+});
+
+let time=20*60;
+let timer=setInterval(()=>{
+let m=Math.floor(time/60),s=time%60;
+document.getElementById("timer").innerText=`Time: ${m}:${s<10?"0"+s:s}`;
+time--; if(time<0){clearInterval(timer);submitQuiz();}
+},1000);
+
+function submitQuiz(){
+clearInterval(timer);
+let score=0;
+questions.forEach((q,i)=>{
+document.getElementsByName("q"+i).forEach(o=>{
+if(o.checked){
+if(o.value===q[5]){o.parentElement.parentElement.classList.add("correct");score++;}
+else{o.parentElement.parentElement.classList.add("wrong");}
+}
+});
+});
+document.getElementById("result").innerText=`Final Score: ${score} / 30`;
+}
+</script>
+
+</body>
+</html>
