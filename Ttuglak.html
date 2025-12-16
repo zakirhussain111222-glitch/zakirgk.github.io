@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>तुगलक वंश : 30 MCQs Quiz (One Question Per Page)</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:20px;min-height:100vh;margin:0;}
+.box{background:#fff;padding:30px;border-radius:15px;max-width:800px;margin:auto;box-shadow:0 15px 40px rgba(0,0,0,0.2);}
+.hidden{display:none;}
+.question{padding:25px;border:2px solid #e0e0e0;border-radius:12px;background:#f8f9fa;}
+.correct{background:#d4edda !important;border-color:#28a745;}
+.wrong{background:#f8d7da !important;border-color:#dc3545;}
+button{padding:12px 25px;font-size:16px;margin:8px;font-weight:500;border:none;border-radius:8px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+button:hover{transform:translateY(-2px);}
+button:disabled{background:#ccc;color:#666;cursor:not-allowed;transform:none;}
+#prevBtn{background:#6c757d;color:white;}
+#nextBtn{background:#007bff;color:white;}
+#submitBtn{background:#28a745;color:white;}
+#restartBtn{background:#dc3545;color:white;}
+#timer{text-align:center;font-weight:bold;font-size:20px;color:#495057;margin-bottom:20px;background:#fff3cd;padding:15px;border-radius:10px;border:2px solid #ffeaa7;}
+#progressContainer{text-align:center;margin:20px 0;}
+#progress{background:#e9ecef;height:12px;border-radius:6px;display:inline-block;width:60%;overflow:hidden;}
+#progressBar{height:100%;background:linear-gradient(90deg,#28a745,#20c997);width:0%;transition:width 0.5s ease;border-radius:6px;}
+.page-info{text-align:center;font-size:18px;color:#666;margin:20px 0;font-weight:500;}
+label{display:block;margin:12px 0;font-size:16px;cursor:pointer;padding:10px;border-radius:6px;transition:background 0.2s;}
+label:hover{background:#e9ecef;}
+input[type="radio"]{margin-right:12px;transform:scale(1.3);}
+h2{text-align:center;color:#333;margin-bottom:25px;font-size:26px;}
+.navigation{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;}
+#resultScreen h3{color:#28a745;font-size:30px;}
+.result-stats{margin:25px 0;padding:25px;background:linear-gradient(135deg,#d4edda,#c3e6cb);border-radius:12px;border-left:5px solid #28a745;}
+@media(max-width:768px){
+    .box{padding:20px;}
+    .navigation{flex-direction:column;}
+    #progress{width:90%;}
+    h2{font-size:22px;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- QUIZ SCREEN -->
+<div class="box" id="quizScreen">
+<h2>तुगलक वंश : 30 MCQs Quiz</h2>
+<div id="timer">Time: 20:00</div>
+<div id="progressContainer">
+    <div class="page-info" id="pageInfo">प्रश्न 1 / 30</div>
+    <div id="progress"><div id="progressBar"></div></div>
+</div>
+<div id="currentQuestion" class="question"></div>
+<div class="navigation">
+    <button id="prevBtn" onclick="changeQuestion(-1)">❮ पिछला</button>
+    <button id="nextBtn" onclick="changeQuestion(1)">अगला ❯</button>
+    <button id="submitBtn" onclick="submitQuiz()" style="display:none;">Submit Quiz</button>
+</div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div class="box hidden" id="resultScreen">
+<h2>🎉 परिणाम</h2>
+<div id="finalResult"></div>
+<button id="restartBtn" onclick="location.reload()">नया क्विज शुरू करें</button>
+</div>
+
+<script>
+const questions = [
+["तुगलक वंश का संस्थापक कौन था?","अलाउद्दीन खिलजी","गयासुद्दीन तुगलक","मुहम्मद बिन तुगलक","फिरोजशाह तुगलक","B"],
+["तुगलक वंश की स्थापना कब हुई?","1290","1316","1320","1336","C"],
+["नहरों का निर्माण करने वाला प्रथम शासक?","मुहम्मद बिन तुगलक","फिरोजशाह तुगलक","गयासुद्दीन तुगलक","बलबन","B"],
+["गयासुद्दीन तुगलक की मृत्यु कब हुई?","1320","1323","1325","1330","C"],
+["गयासुद्दीन के बाद शासक कौन हुआ?","फिरोजशाह","नसीरुद्दीन","मुहम्मद बिन तुगलक","गयासुद्दीन","C"],
+["मुहम्मद बिन तुगलक गद्दी पर कब बैठा?","1320","1323","1325","1336","C"],
+["अमीर-ए-कोह की स्थापना किसने की?","गयासुद्दीन","मुहम्मद बिन तुगलक","फिरोजशाह","अलाउद्दीन","B"],
+["राजधानी दिल्ली से देवगिरी किसने ले जाई?","गयासुद्दीन","फिरोजशाह","मुहम्मद बिन तुगलक","बलबन","C"],
+["एडवर्ड थॉमसन ने मुहम्मद को क्या कहा?","महान सुधारक","मूर्ख शासक","विरोधाभासों का मिश्रण","क्रूर","C"],
+["इब्न बतूता भारत कब आया?","1325","1333","1342","1351","B"],
+["रिहला पुस्तक के लेखक कौन हैं?","अलबरूनी","इब्न बतूता","बरनी","अमीर खुसरो","B"],
+["मुहम्मद बिन तुगलक की मृत्यु कब हुई?","1345","1347","1351","1360","C"],
+["विजयनगर साम्राज्य की स्थापना किसने की?","हरिहर-बुक्का","कृष्णदेव राय","देवराय","रामराय","A"],
+["विजयनगर साम्राज्य की स्थापना कब हुई?","1325","1336","1347","1351","B"],
+["बहमनी साम्राज्य की स्थापना किसने की?","हसन गंगू","मुहम्मद बिन तुगलक","फिरोजशाह","अलाउद्दीन बहमन शाह","D"],
+["बहमनी साम्राज्य की स्थापना कब हुई?","1320","1336","1347","1351","C"],
+["मुहम्मद की मृत्यु पर कथन किसका है?","इब्न बतूता","जियाउद्दीन बरनी","मिन्हाज","अलबरूनी","B"],
+["मुहम्मद बिन तुगलक का उत्तराधिकारी कौन हुआ?","फिरोजशाह तुगलक","गयासुद्दीन","नसीरुद्दीन","सिकंदर","A"],
+["ब्राह्मणों पर जजिया किसने लगाया?","अलाउद्दीन","मुहम्मद","फिरोजशाह","बलबन","C"],
+["दीवान-ए-खैरात की स्थापना किसने की?","मुहम्मद","फिरोजशाह","गयासुद्दीन","अलाउद्दीन","B"],
+["फुतूहात-ए-फिरोजशाही किसकी आत्मकथा है?","मुहम्मद","गयासुद्दीन","फिरोजशाह","बरनी","C"],
+["खान-ए-जहां तेलंगानी की तुलना किससे?","कुतुब मीनार","ताजमहल","गोल गुंबद","उमर की मस्जिद","D"],
+["तुगलक वंश का अंतिम शासक कौन था?","फिरोजशाह","मुहम्मद","नसीरुद्दीन महमूद","गयासुद्दीन","C"],
+["तैमूर ने भारत पर आक्रमण किसके समय किया?","फिरोजशाह","नसीरुद्दीन","मुहम्मद","लोदी","B"],
+["टोकन मुद्रा किसने चलाई?","अलाउद्दीन","फिरोजशाह","मुहम्मद बिन तुगलक","बलबन","C"],
+["फिरोजशाह तुगलक का उत्तराधिकारी कौन था?","नसीरुद्दीन","गयासुद्दीन","मुहम्मद","सिकंदर","A"],
+["दीवान-ए-कोह किससे संबंधित था?","सेना","कृषि","शिक्षा","न्याय","B"],
+["तैमूर का आक्रमण भारत पर कब हुआ?","1388","1390","1398","1401","C"],
+["तुगलक वंश का शासनकाल?","1206–1290","1290–1320","1320–1414","1414–1451","C"],
+["तुगलक वंश के बाद कौन सा वंश आया?","लोदी","खिलजी","सैय्यद","मुगल","C"]
+];
+
+let currentQuestionIndex = 0;
+let time = 20 * 60;
+let timer;
+let answers = new Array(questions.length).fill(null);
+let totalScore = 0;
+
+// Initialize quiz
+function initQuiz() {
+    showQuestion(currentQuestionIndex);
+    startTimer();
+    updateNavigation();
+}
+
+// Show current question
+function showQuestion(index) {
+    const q = questions[index];
+    document.getElementById("currentQuestion").innerHTML = `
+        <b>${index + 1}. ${q[0]}</b><br><br>
+        <label><input type='radio' name='answer' value='A'> ${q[1]}</label>
+        <label><input type='radio' name='answer' value='B'> ${q[2]}</label>
+        <label><input type='radio' name='answer' value='C'> ${q[3]}</label>
+        <label><input type='radio' name='answer' value='D'> ${q[4]}</label>
+    `;
+    
+    // Check if already answered and pre-select
+    if (answers[index]) {
+        document.querySelector(`input[value="${answers[index]}"]`).checked = true;
+        document.getElementById("currentQuestion").classList.add(answers[index] === q[5] ? 'correct' : 'wrong');
+    }
+    
+    document.getElementById("pageInfo").textContent = `प्रश्न ${index + 1} / ${questions.length}`;
+    document.getElementById("progressBar").style.width = `${((index + 1) / questions.length) * 100}%`;
+}
+
+// Navigation
+function changeQuestion(direction) {
+    const newIndex = currentQuestionIndex + direction;
+    if (newIndex >= 0 && newIndex < questions.length) {
+        saveAnswer();
+        currentQuestionIndex = newIndex;
+        showQuestion(currentQuestionIndex);
+        updateNavigation();
+    }
+}
+
+// Save current answer
+function saveAnswer() {
+    const selected = document.querySelector('input[name="answer"]:checked');
+    if (selected) {
+        answers[currentQuestionIndex] = selected.value;
+    }
+}
+
+// Update navigation buttons
+function updateNavigation() {
+    document.getElementById("prevBtn").disabled = currentQuestionIndex === 0;
+    document.getElementById("nextBtn").style.display = currentQuestionIndex === questions.length - 1 ? 'none' : 'inline-block';
+    document.getElementById("submitBtn").style.display = currentQuestionIndex === questions.length - 1 ? 'inline-block' : 'none';
+}
+
+// Timer
+function startTimer() {
+    timer = setInterval(function() {
+        let m = Math.floor(time / 60);
+        let s = time % 60;
+        document.getElementById("timer").innerText = `Time: ${m}:${s < 10 ? "0" + s : s}`;
+        time--;
+        if (time < 0) {
+            submitQuiz();
+        }
+    }, 1000);
+}
+
+// Submit Quiz
+function submitQuiz() {
+    saveAnswer();
+    clearInterval(timer);
+    
+    // Calculate score
+    totalScore = 0;
+    let correctQuestions = [];
+    
+    for (let i = 0; i < questions.length; i++) {
+        if (answers[i] === questions[i][5]) {
+            totalScore++;
+            correctQuestions.push(i + 1);
+        }
+    }
+    
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    
+    let percentage = Math.round((totalScore / questions.length) * 100);
+    let grade = percentage >= 80 ? "उत्कृष्ट ⭐⭐⭐" : 
+                percentage >= 60 ? "अच्छा ⭐⭐" : 
+                percentage >= 40 ? "संतोषजनक ⭐" : "सुधार की आवश्यकता";
+    
+    document.getElementById("finalResult").innerHTML = `
+        <div class="result-stats">
+            <h3>स्कोर: ${totalScore}/${questions.length} (${percentage}%)</h3>
+            <p><strong>ग्रेड:</strong> ${grade}</p>
+            <p><strong>सही उत्तर:</strong> ${correctQuestions.join(", ")}</p>
+            <hr>
+            <p><em>UPSC/PCS के लिए शानदार अभ्यास! इतिहास मजबूत करें।</em></p>
+        </div>
+    `;
+}
+
+// Start quiz
+initQuiz();
+</script>
+
+</body>
+</html>
