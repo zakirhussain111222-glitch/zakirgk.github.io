@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>तुगलक वंश : 30 MCQs Quiz (Detailed Solutions)</title>
+<title>तुगलक वंश : 30 MCQs Quiz (Fixed - Detailed Solutions)</title>
 <style>
 body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:20px;min-height:100vh;margin:0;}
 .box{background:#fff;padding:30px;border-radius:15px;max-width:850px;margin:auto;box-shadow:0 15px 40px rgba(0,0,0,0.2);}
@@ -13,7 +13,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#
 .wrong{background:#f8d7da !important;border-color:#dc3545 !important;}
 .solution-box{padding:15px;margin-top:15px;background:#e3f2fd;border-left:5px solid #2196f3;border-radius:8px;}
 .correct-answer{color:#28a745;font-weight:bold;font-size:18px;}
-.wrong-answer{color:#dc3545;text-decoration:line-through;}
+.wrong-answer{color:#dc3545;text-decoration:line-through;font-size:16px;}
 button{padding:12px 25px;font-size:16px;margin:8px;font-weight:500;border:none;border-radius:8px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
 button:hover{transform:translateY(-2px);}
 button:disabled{background:#ccc;color:#666;cursor:not-allowed;transform:none;}
@@ -21,6 +21,8 @@ button:disabled{background:#ccc;color:#666;cursor:not-allowed;transform:none;}
 #nextBtn{background:#007bff;color:white;}
 #submitBtn{background:#28a745;color:white;}
 #restartBtn{background:#dc3545;color:white;}
+#solPrevBtn{background:#6c757d;color:white;}
+#solNextBtn{background:#007bff;color:white;}
 #timer{text-align:center;font-weight:bold;font-size:20px;color:#495057;margin-bottom:20px;background:#fff3cd;padding:15px;border-radius:10px;border:2px solid #ffeaa7;}
 #progressContainer{text-align:center;margin:20px 0;}
 #progress{background:#e9ecef;height:12px;border-radius:6px;display:inline-block;width:60%;overflow:hidden;}
@@ -31,10 +33,9 @@ label:hover{background:#e3f2fd;}
 input[type="radio"]{margin-right:12px;transform:scale(1.3);}
 h2{text-align:center;color:#333;margin-bottom:25px;font-size:26px;}
 .navigation{display:flex;justify-content:center;align-items:center;gap:15px;flex-wrap:wrap;}
-#resultScreen h3{color:#28a745;font-size:30px;}
-.result-stats{margin:25px 0;padding:25px;background:linear-gradient(135deg,#d4edda,#c3e6cb);border-radius:12px;border-left:5px solid #28a745;}
 .solutions-header{text-align:center;background:linear-gradient(135deg,#28a745,#20c997);color:white;padding:20px;border-radius:12px;margin-bottom:25px;}
-.score-display{font-size:24px;font-weight:bold;color:#28a745;}
+.score-display{font-size:24px;font-weight:bold;color:#28a745;margin-bottom:10px;}
+#finalScoreDisplay{font-size:28px;font-weight:bold;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,0.3);}
 @media(max-width:768px){
     .box{padding:20px;}
     .navigation{flex-direction:column;}
@@ -66,9 +67,9 @@ h2{text-align:center;color:#333;margin-bottom:25px;font-size:26px;}
 <div class="box hidden" id="solutionsScreen">
 <div class="solutions-header">
     <h2>📚 विस्तृत समाधान</h2>
-    <div class="score-display" id="finalScoreDisplay"></div>
+    <div id="finalScoreDisplay"></div>
 </div>
-<div id="currentSolution" class="question"></div>
+<div id="currentSolution"></div>
 <div class="navigation">
     <button id="solPrevBtn" onclick="showSolution(-1)">❮ पिछला</button>
     <button id="solNextBtn" onclick="showSolution(1)">अगला ❯</button>
@@ -116,7 +117,6 @@ let time = 20 * 60;
 let timer;
 let answers = new Array(questions.length).fill(null);
 let totalScore = 0;
-let quizSubmitted = false;
 
 // Initialize quiz
 function initQuiz() {
@@ -136,12 +136,22 @@ function showQuestion(index) {
         <label><input type='radio' name='answer' value='D'> ${q[4]}</label>
     `;
     
+    // Restore saved answer
     if (answers[index]) {
-        document.querySelector(`input[value="${answers[index]}"]`).checked = true;
+        const radio = document.querySelector(`input[name="answer"][value="${answers[index]}"]`);
+        if (radio) radio.checked = true;
     }
     
     document.getElementById("pageInfo").textContent = `प्रश्न ${index + 1} / ${questions.length}`;
     document.getElementById("progressBar").style.width = `${((index + 1) / questions.length) * 100}%`;
+}
+
+// Save current answer
+function saveAnswer() {
+    const selected = document.querySelector('input[name="answer"]:checked');
+    if (selected) {
+        answers[currentQuestionIndex] = selected.value;
+    }
 }
 
 // Navigation for quiz
@@ -155,15 +165,7 @@ function changeQuestion(direction) {
     }
 }
 
-// Save answer
-function saveAnswer() {
-    const selected = document.querySelector('input[name="answer"]:checked');
-    if (selected) {
-        answers[currentQuestionIndex] = selected.value;
-    }
-}
-
-// Update navigation
+// Update navigation buttons
 function updateNavigation() {
     document.getElementById("prevBtn").disabled = currentQuestionIndex === 0;
     document.getElementById("nextBtn").style.display = currentQuestionIndex === questions.length - 1 ? 'none' : 'inline-block';
@@ -183,12 +185,12 @@ function startTimer() {
     }, 1000);
 }
 
-// Submit Quiz & Calculate Score
+// Submit Quiz - FIXED VERSION
 function submitQuiz() {
     saveAnswer();
     clearInterval(timer);
-    quizSubmitted = true;
     
+    // Calculate final score
     totalScore = 0;
     for (let i = 0; i < questions.length; i++) {
         if (answers[i] === questions[i][5]) {
@@ -196,17 +198,24 @@ function submitQuiz() {
         }
     }
     
+    // Hide quiz, show solutions
     document.getElementById("quizScreen").classList.add("hidden");
     document.getElementById("solutionsScreen").classList.remove("hidden");
+    
+    // Show final score prominently
+    const percentage = Math.round((totalScore / questions.length) * 100);
+    document.getElementById("finalScoreDisplay").innerHTML = `
+        🎉 स्कोर: <strong>${totalScore}/${questions.length}</strong> (${percentage}%)<br>
+        <span style="font-size:20px;">${percentage >= 80 ? 'उत्कृष्ट ⭐⭐⭐' : percentage >= 60 ? 'अच्छा ⭐⭐' : 'सुधार करें ⭐'}</span>
+    `;
+    
+    // Show first solution
+    solutionsIndex = 0;
     showSolution(0);
     updateSolutionNavigation();
-    
-    let percentage = Math.round((totalScore / questions.length) * 100);
-    document.getElementById("finalScoreDisplay").innerHTML = 
-        `स्कोर: ${totalScore}/${questions.length} (${percentage}%)`;
 }
 
-// Show detailed solution for each question
+// Show detailed solution - FIXED VERSION
 function showSolution(index) {
     solutionsIndex = index;
     const q = questions[index];
@@ -221,46 +230,57 @@ function showSolution(index) {
         const isUserSelected = userAnswer === optionKey;
         const isCorrectOption = correctAnswer === optionKey;
         
-        let className = '';
         let prefix = '';
+        let className = '';
         
         if (isUserSelected && isCorrectOption) {
-            className = 'correct-answer';
             prefix = '✅ ';
-        } else if (isUserSelected && !isCorrectOption) {
-            className = 'wrong-answer';
-            prefix = '❌ ';
-        } else if (isCorrectOption) {
             className = 'correct-answer';
-            prefix = '✅ सही उत्तर: ';
+        } else if (isUserSelected && !isCorrectOption) {
+            prefix = '❌ ';
+            className = 'wrong-answer';
+        } else if (!isUserSelected && isCorrectOption) {
+            prefix = '✅ ';
+            className = 'correct-answer';
         }
         
-        optionsHTML += `<div class="${className}">${prefix}${optionKey}. ${option}</div>`;
+        optionsHTML += `<div class="${className}" style="margin:8px 0;padding:10px;background:#f9f9f9;border-radius:6px;">${prefix}${optionKey}. ${option}</div>`;
+    }
+    
+    let explanation = '';
+    const explanations = {
+        0: "तुगलक वंश का प्रथम शासक गयासुद्दीन तुगलक था।",
+        1: "1320 ई. में गयासुद्दीन तुगलक ने वंश की स्थापना की।",
+        7: "मुहम्मद बिन तुगलक ने राजधानी को देवगिरी स्थानांतरित किया।",
+        24: "मुहम्मद बिन तुगलक ने टोकन मुद्रा (ताँबे के सिक्के) चलाए।",
+        28: "तुगलक वंश 1320-1414 ई. तक चला।"
+    };
+    
+    if (explanations[index]) {
+        explanation = explanations[index];
+    } else {
+        explanation = "तुगलक वंश के महत्वपूर्ण तथ्य।";
     }
     
     document.getElementById("currentSolution").innerHTML = `
         <div class="question ${isCorrect ? 'correct' : 'wrong'}">
-            <b>${index + 1}. ${q[0]}</b>
-            <div style="margin:20px 0;font-size:18px;">
+            <h3 style="margin-top:0;">${index + 1}. ${q[0]}</h3>
+            <div style="margin:20px 0;">
                 ${optionsHTML}
             </div>
             <div class="solution-box">
                 <strong>💡 समाधान:</strong><br>
-                <span class="correct-answer">सही उत्तर: ${correctAnswer}. ${q[correctAnswer.charCodeAt(0) - 64 + 1]}</span><br><br>
-                ${index + 1 === 1 ? 'तुगलक वंश का प्रथम शासक गयासुद्दीन तुगलक था।' :
-                  index + 1 === 2 ? '1320 ई. में गयासुद्दीन तुगलक ने वंश की स्थापना की।' :
-                  index + 1 === 8 ? 'मुहम्मद बिन तुगलक ने राजधानी को देवगिरी (दौलताबाद) स्थानांतरित किया।' :
-                  index + 1 === 25 ? 'मुहम्मद बिन तुगलक ने टोकन मुद्रा (ताँबे के सिक्के) चलाए।' :
-                  'तुगलक वंश के महत्वपूर्ण तथ्य।'}
+                <span class="correct-answer">सही उत्तर: <strong>${correctAnswer}</strong> - ${q[correctAnswer.charCodeAt(0) - 64 + 1]}</span><br><br>
+                <strong>विवरण:</strong> ${explanation}
             </div>
         </div>
+        <div class="page-info" style="text-align:center;margin-top:20px;">
+            प्रश्न ${index + 1} / ${questions.length}
+        </div>
     `;
-    
-    document.getElementById("finalScoreDisplay").innerHTML = 
-        `स्कोर: ${totalScore}/${questions.length} | प्रश्न ${index + 1} / ${questions.length}`;
 }
 
-// Navigation for solutions
+// Solution navigation
 function showSolution(direction) {
     const newIndex = solutionsIndex + direction;
     if (newIndex >= 0 && newIndex < questions.length) {
