@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>तुगलक वंश : 30 MCQs Quiz (Final Score + Solutions)</title>
+<title>तुगलक वंश : 30 MCQs Quiz</title>
 <style>
 body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:20px;min-height:100vh;margin:0;}
 .box{background:#fff;padding:30px;border-radius:15px;max-width:850px;margin:auto;box-shadow:0 15px 40px rgba(0,0,0,0.2);}
@@ -39,59 +39,58 @@ h2{text-align:center;color:#333;margin-bottom:25px;font-size:26px;}
 .grade-badge{padding:10px 20px;background:#fff;color:#28a745;border-radius:25px;font-weight:bold;display:inline-block;margin:10px 0;}
 .solutions-header{text-align:center;background:linear-gradient(135deg,#17a2b8,#138496);color:white;padding:20px;border-radius:12px;margin-bottom:25px;}
 @media(max-width:768px){
-    .box{padding:20px;}
-    .navigation{flex-direction:column;}
-    #progress{width:90%;}
-    h2{font-size:22px;}
-    .score-display{font-size:26px;}
+ .box{padding:20px;}
+ .navigation{flex-direction:column;}
+ #progress{width:90%;}
+ h2{font-size:22px;}
+ .score-display{font-size:26px;}
 }
 </style>
 </head>
-
 <body>
 
 <!-- QUIZ SCREEN -->
 <div class="box" id="quizScreen">
-<h2>तुगलक वंश : 30 MCQs Quiz</h2>
-<div id="timer">Time: 20:00</div>
-<div id="progressContainer">
+  <h2>तुगलक वंश : 30 MCQs Quiz</h2>
+  <div id="timer">Time: 20:00</div>
+  <div id="progressContainer">
     <div class="page-info" id="pageInfo">प्रश्न 1 / 30</div>
     <div id="progress"><div id="progressBar"></div></div>
-</div>
-<div id="currentQuestion" class="question"></div>
-<div class="navigation">
+  </div>
+  <div id="currentQuestion" class="question"></div>
+  <div class="navigation">
     <button id="prevBtn" onclick="changeQuestion(-1)">❮ पिछला</button>
     <button id="nextBtn" onclick="changeQuestion(1)">अगला ❯</button>
     <button id="submitBtn" onclick="submitQuiz()" style="display:none;">Submit Quiz</button>
-</div>
+  </div>
 </div>
 
 <!-- FINAL SCORE SCREEN -->
 <div class="box hidden" id="scoreScreen">
-<div class="score-header">
+  <div class="score-header">
     <h2>🎉 अंतिम परिणाम</h2>
     <div id="finalScoreDisplay" class="score-display"></div>
     <div id="gradeDisplay" class="grade-badge"></div>
-</div>
-<div style="text-align:center;">
-    <button id="showSolutionsBtn" onclick="showSolutionsScreen()">📚 विस्तृत समाधान देखें</button>
+  </div>
+  <div style="text-align:center;">
+    <button id="showSolutionsBtn" onclick="openSolutions()">📚 विस्तृत समाधान देखें</button>
     <br><br>
     <button id="restartBtn" onclick="location.reload()">🔄 नया क्विज शुरू करें</button>
-</div>
+  </div>
 </div>
 
 <!-- SOLUTIONS SCREEN -->
 <div class="box hidden" id="solutionsScreen">
-<div class="solutions-header">
+  <div class="solutions-header">
     <h2>📚 विस्तृत समाधान</h2>
     <div id="solutionsScoreDisplay" class="score-display"></div>
-</div>
-<div id="currentSolution"></div>
-<div class="navigation">
-    <button id="solPrevBtn" onclick="showSolution(-1)">❮ पिछला</button>
-    <button id="solNextBtn" onclick="showSolution(1)">अगला ❯</button>
-    <button id="backToScoreBtn" onclick="showScoreScreen()" style="background:#6c757d;color:white;">← स्कोर स्क्रीन</button>
-</div>
+  </div>
+  <div id="currentSolution"></div>
+  <div class="navigation">
+    <button id="solPrevBtn" onclick="changeSolution(-1)">❮ पिछला</button>
+    <button id="solNextBtn" onclick="changeSolution(1)">अगला ❯</button>
+    <button id="backToScoreBtn" onclick="backToScore()" style="background:#6c757d;color:white;">← स्कोर स्क्रीन</button>
+  </div>
 </div>
 
 <script>
@@ -135,197 +134,161 @@ let timer;
 let answers = new Array(questions.length).fill(null);
 let totalScore = 0;
 
-// Initialize quiz
-function initQuiz() {
+/* ------------ QUIZ PART ------------ */
+
+function initQuiz(){
+  showQuestion(currentQuestionIndex);
+  startTimer();
+  updateNavigation();
+}
+
+function showQuestion(index){
+  const q = questions[index];
+  document.getElementById("currentQuestion").innerHTML = `
+    <b>${index+1}. ${q[0]}</b><br><br>
+    <label><input type="radio" name="answer" value="A"> ${q[1]}</label>
+    <label><input type="radio" name="answer" value="B"> ${q[2]}</label>
+    <label><input type="radio" name="answer" value="C"> ${q[3]}</label>
+    <label><input type="radio" name="answer" value="D"> ${q[4]}</label>
+  `;
+  if(answers[index]){
+    const r=document.querySelector(`input[name="answer"][value="${answers[index]}"]`);
+    if(r) r.checked=true;
+  }
+  document.getElementById("pageInfo").textContent=`प्रश्न ${index+1} / ${questions.length}`;
+  document.getElementById("progressBar").style.width=`${((index+1)/questions.length)*100}%`;
+}
+
+function saveAnswer(){
+  const sel=document.querySelector('input[name="answer"]:checked');
+  if(sel) answers[currentQuestionIndex]=sel.value;
+}
+
+function changeQuestion(dir){
+  saveAnswer();
+  const ni=currentQuestionIndex+dir;
+  if(ni>=0 && ni<questions.length){
+    currentQuestionIndex=ni;
     showQuestion(currentQuestionIndex);
-    startTimer();
     updateNavigation();
+  }
 }
 
-// Show quiz question (unchanged)
-function showQuestion(index) {
-    const q = questions[index];
-    document.getElementById("currentQuestion").innerHTML = `
-        <b>${index + 1}. ${q[0]}</b><br><br>
-        <label><input type='radio' name='answer' value='A'> ${q[1]}</label>
-        <label><input type='radio' name='answer' value='B'> ${q[2]}</label>
-        <label><input type='radio' name='answer' value='C'> ${q[3]}</label>
-        <label><input type='radio' name='answer' value='D'> ${q[4]}</label>
-    `;
-    
-    if (answers[index]) {
-        const radio = document.querySelector(`input[name="answer"][value="${answers[index]}"]`);
-        if (radio) radio.checked = true;
+function updateNavigation(){
+  document.getElementById("prevBtn").disabled=currentQuestionIndex===0;
+  document.getElementById("nextBtn").style.display=currentQuestionIndex===questions.length-1?'none':'inline-block';
+  document.getElementById("submitBtn").style.display=currentQuestionIndex===questions.length-1?'inline-block':'none';
+}
+
+function startTimer(){
+  timer=setInterval(()=>{
+    let m=Math.floor(time/60),s=time%60;
+    document.getElementById("timer").innerText=`Time: ${m}:${s<10?"0"+s:s}`;
+    time--;
+    if(time<0){submitQuiz();}
+  },1000);
+}
+
+function submitQuiz(){
+  saveAnswer();
+  clearInterval(timer);
+  totalScore=0;
+  for(let i=0;i<questions.length;i++){
+    if(answers[i]===questions[i][5]) totalScore++;
+  }
+  document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("scoreScreen").classList.remove("hidden");
+  const pct=Math.round((totalScore/questions.length)*100);
+  let grade=pct>=80?'उत्कृष्ट ⭐⭐⭐':pct>=60?'बहुत अच्छा ⭐⭐':pct>=40?'अच्छा ⭐':'सुधार की जरूरत';
+  document.getElementById("finalScoreDisplay").innerHTML=`${totalScore}/${questions.length} (${pct}%)`;
+  document.getElementById("gradeDisplay").innerText=grade;
+}
+
+/* ------------ SOLUTIONS PART ------------ */
+
+function openSolutions(){
+  document.getElementById("scoreScreen").classList.add("hidden");
+  document.getElementById("solutionsScreen").classList.remove("hidden");
+  const pct=Math.round((totalScore/questions.length)*100);
+  document.getElementById("solutionsScoreDisplay").innerHTML=`स्कोर: ${totalScore}/${questions.length} (${pct}%)`;
+  solutionsIndex=0;
+  renderSolution(solutionsIndex);
+  updateSolutionNav();
+}
+
+function backToScore(){
+  document.getElementById("solutionsScreen").classList.add("hidden");
+  document.getElementById("scoreScreen").classList.remove("hidden");
+}
+
+function renderSolution(index){
+  const q=questions[index];
+  const userAns=answers[index];
+  const correctAns=q[5];
+
+  let optionsHTML='';
+  for(let i=1;i<=4;i++){
+    const opt=q[i];
+    const key=String.fromCharCode(64+i);
+    const isUser=userAns===key;
+    const isCorrect=correctAns===key;
+    let cls='',prefix='',border='#ddd';
+
+    if(isCorrect){
+      cls='correct-answer';
+      prefix='✅ ';
+      border='#28a745';
     }
-    
-    document.getElementById("pageInfo").textContent = `प्रश्न ${index + 1} / ${questions.length}`;
-    document.getElementById("progressBar").style.width = `${((index + 1) / questions.length) * 100}%`;
-}
-
-// Save answer
-function saveAnswer() {
-    const selected = document.querySelector('input[name="answer"]:checked');
-    if (selected) {
-        answers[currentQuestionIndex] = selected.value;
+    if(isUser && !isCorrect){
+      cls='wrong-answer';
+      prefix='❌ ';
+      border='#dc3545';
     }
+
+    optionsHTML+=`<div class="${cls}" style="margin:8px 0;padding:12px;background:#f9f9f9;border-radius:8px;border-left:4px solid ${border};">
+      ${prefix}<strong>${key}.</strong> ${opt}
+    </div>`;
+  }
+
+  const explanations={
+    0:"गयासुद्दीन तुगलक ने 1320 ई. में तुगलक वंश की स्थापना की।",
+    1:"1320 ई. में तुगलक वंश की शुरुआत हुई।",
+    7:"मुहम्मद बिन तुगलक ने राजधानी दिल्ली से देवगिरी (दौलताबाद) स्थानांतरित की।",
+    24:"मुहम्मद बिन तुगलक ने टोकन मुद्रा (ताँबे के सिक्के) लागू की।",
+    28:"तुगलक वंश 1320–1414 ई. तक चला।"
+  };
+  const exp=explanations[index] || "यह प्रश्न तुगलक वंश से संबंधित महत्वपूर्ण तथ्य पर आधारित है।";
+
+  document.getElementById("currentSolution").innerHTML=`
+    <div class="question ${userAns===correctAns?'correct':'wrong'}">
+      <h3 style="margin-top:0;">${index+1}. ${q[0]}</h3>
+      <div style="margin:20px 0;">${optionsHTML}</div>
+      <div class="solution-box">
+        <strong>💡 सही उत्तर:</strong>
+        <span class="correct-answer">${correctAns}. ${q[correctAns.charCodeAt(0)-64+1]}</span><br><br>
+        <strong>विवरण:</strong> ${exp}
+      </div>
+    </div>
+    <div class="page-info">प्रश्न ${index+1} / ${questions.length}</div>
+  `;
 }
 
-// Navigation functions (unchanged)
-function changeQuestion(direction) {
-    saveAnswer();
-    const newIndex = currentQuestionIndex + direction;
-    if (newIndex >= 0 && newIndex < questions.length) {
-        currentQuestionIndex = newIndex;
-        showQuestion(currentQuestionIndex);
-        updateNavigation();
-    }
+function changeSolution(dir){
+  const ni=solutionsIndex+dir;
+  if(ni>=0 && ni<questions.length){
+    solutionsIndex=ni;
+    renderSolution(solutionsIndex);
+    updateSolutionNav();
+  }
 }
 
-function updateNavigation() {
-    document.getElementById("prevBtn").disabled = currentQuestionIndex === 0;
-    document.getElementById("nextBtn").style.display = currentQuestionIndex === questions.length - 1 ? 'none' : 'inline-block';
-    document.getElementById("submitBtn").style.display = currentQuestionIndex === questions.length - 1 ? 'inline-block' : 'none';
+function updateSolutionNav(){
+  document.getElementById("solPrevBtn").disabled=solutionsIndex===0;
+  document.getElementById("solNextBtn").disabled=solutionsIndex===questions.length-1;
 }
 
-// Timer (unchanged)
-function startTimer() {
-    timer = setInterval(function() {
-        let m = Math.floor(time / 60);
-        let s = time % 60;
-        document.getElementById("timer").innerText = `Time: ${m}:${s < 10 ? "0" + s : s}`;
-        time--;
-        if (time < 0) {
-            submitQuiz();
-        }
-    }, 1000);
-}
-
-// Submit Quiz - Show Final Score First
-function submitQuiz() {
-    saveAnswer();
-    clearInterval(timer);
-    
-    // Calculate score
-    totalScore = 0;
-    for (let i = 0; i < questions.length; i++) {
-        if (answers[i] === questions[i][5]) {
-            totalScore++;
-        }
-    }
-    
-    // Hide quiz, show score screen
-    document.getElementById("quizScreen").classList.add("hidden");
-    document.getElementById("scoreScreen").classList.remove("hidden");
-    
-    const percentage = Math.round((totalScore / questions.length) * 100);
-    let grade = '';
-    if (percentage >= 80) grade = 'उत्कृष्ट ⭐⭐⭐';
-    else if (percentage >= 60) grade = 'बहुत अच्छा ⭐⭐';
-    else if (percentage >= 40) grade = 'अच्छा ⭐';
-    else grade = 'सुधार की जरूरत';
-    
-    document.getElementById("finalScoreDisplay").innerHTML = `${totalScore}/${questions.length}`;
-    document.getElementById("gradeDisplay").innerHTML = `${percentage}% - ${grade}`;
-}
-
-// Show Solutions Screen
-function showSolutionsScreen() {
-    document.getElementById("scoreScreen").classList.add("hidden");
-    document.getElementById("solutionsScreen").classList.remove("hidden");
-    solutionsIndex = 0;
-    showSolution(0);
-    updateSolutionNavigation();
-    
-    const percentage = Math.round((totalScore / questions.length) * 100);
-    document.getElementById("solutionsScoreDisplay").innerHTML = `स्कोर: ${totalScore}/${questions.length} (${percentage}%)`;
-}
-
-// Show Score Screen from Solutions
-function showScoreScreen() {
-    document.getElementById("solutionsScreen").classList.add("hidden");
-    document.getElementById("scoreScreen").classList.remove("hidden");
-}
-
-// Show detailed solution - PERFECT GREEN/RED MARKING
-function showSolution(index) {
-    solutionsIndex = index;
-    const q = questions[index];
-    const userAnswer = answers[index];
-    const correctAnswer = q[5];
-    
-    let optionsHTML = '';
-    for(let i = 1; i <= 4; i++) {
-        const option = q[i];
-        const optionKey = String.fromCharCode(64 + i);
-        const isUserSelected = userAnswer === optionKey;
-        const isCorrectOption = correctAnswer === optionKey;
-        
-        let prefix = '', styleClass = '';
-        
-        if (isUserSelected && isCorrectOption) {
-            // User selected correct answer
-            prefix = '✅ ';
-            styleClass = 'correct-answer';
-        } else if (isUserSelected && !isCorrectOption) {
-            // User selected wrong answer
-            prefix = '❌ ';
-            styleClass = 'wrong-answer';
-        } else if (!isUserSelected && isCorrectOption) {
-            // Correct answer not selected
-            prefix = '✅ ';
-            styleClass = 'correct-answer';
-        } else {
-            // Other options
-            prefix = '';
-        }
-        
-        optionsHTML += `<div class="${styleClass}" style="margin:8px 0;padding:12px;background:#f9f9f9;border-radius:8px;border-left:4px solid ${styleClass.includes('correct') ? '#28a745' : styleClass.includes('wrong') ? '#dc3545' : '#ddd'};">${prefix}<strong>${optionKey}.</strong> ${option}</div>`;
-    }
-    
-    const explanations = {
-        0: "गयासुद्दीन तुगलक ने 1320 ई. में तुगलक वंश की स्थापना की।",
-        1: "1320 ई. में गयासुद्दीन तुगलक ने दिल्ली सल्तनत में तुगलक वंश स्थापित किया।",
-        7: "मुहम्मद बिन तुगलक ने राजधानी दिल्ली से देवगिरी (दौलताबाद) स्थानांतरित की।",
-        24: "मुहम्मद बिन तुगलक ने अर्थव्यवस्था सुधारने हेतु टोकन मुद्रा चलाई।",
-        28: "तुगलक वंश का शासनकाल 1320 से 1414 ई. तक रहा।"
-    };
-    
-    const explanation = explanations[index] || "तुगलक वंश के महत्वपूर्ण ऐतिहासिक तथ्य।";
-    
-    document.getElementById("currentSolution").innerHTML = `
-        <div class="question ${userAnswer === correctAnswer ? 'correct' : 'wrong'}">
-            <h3 style="margin-top:0;">${index + 1}. ${q[0]}</h3>
-            <div style="margin:20px 0;">
-                ${optionsHTML}
-            </div>
-            <div class="solution-box">
-                <strong>💡 सही उत्तर:</strong> <span class="correct-answer">${correctAnswer}. ${q[correctAnswer.charCodeAt(0) - 64 + 1]}</span><br><br>
-                <strong>विवरण:</strong> ${explanation}
-            </div>
-        </div>
-        <div class="page-info" style="text-align:center;margin-top:20px;">
-            प्रश्न ${index + 1} / ${questions.length}
-        </div>
-    `;
-}
-
-// Solution navigation
-function showSolution(direction) {
-    const newIndex = solutionsIndex + direction;
-    if (newIndex >= 0 && newIndex < questions.length) {
-        showSolution(newIndex);
-        updateSolutionNavigation();
-    }
-}
-
-function updateSolutionNavigation() {
-    document.getElementById("solPrevBtn").disabled = solutionsIndex === 0;
-    document.getElementById("solNextBtn").disabled = solutionsIndex === questions.length - 1;
-}
-
-// Start quiz
+/* START */
 initQuiz();
 </script>
-
 </body>
-</html>
+    </html>
