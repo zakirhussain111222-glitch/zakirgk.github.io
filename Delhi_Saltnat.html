@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏛️ दिल्ली सल्तनत : 25 MCQs Quiz (विस्तृत समाधान)</title>
+<title>🏛️ दिल्ली सल्तनत : 25 MCQs Quiz</title>
 <style>
 body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#ff6b6b 0%,#4ecdc4 100%);padding:20px;min-height:100vh;margin:0;}
 .box{background:#fff;padding:30px;border-radius:15px;max-width:900px;margin:auto;box-shadow:0 15px 40px rgba(0,0,0,0.2);}
@@ -11,7 +11,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#
 .question{padding:25px;border:3px solid #e0e0e0;border-radius:12px;background:#f8f9fa;margin-bottom:20px;}
 .correct{background:#d4edda !important;border-color:#28a745 !important;}
 .wrong{background:#f8d7da !important;border-color:#dc3545 !important;}
-.solution-box{padding:20px;margin-top:15px;background:#e3f2fd;border-left:6px solid #2196f3;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.solution-box{padding:20px;margin-top:15px;background:#e3f2fd;border-left:6px solid #2196f3;border-radius:12px;}
 .comprehensive-solution{padding:18px;margin:15px 0;background:#fff3e0;border-left:6px solid #ff9800;border-radius:12px;}
 .correct-answer{color:#28a745;font-weight:bold;font-size:20px;}
 .wrong-answer{color:#dc3545;text-decoration:line-through;font-size:18px;}
@@ -33,25 +33,17 @@ button:disabled{background:#ccc;color:#666;cursor:not-allowed;transform:none;}
 label{display:block;margin:12px 0;font-size:16px;cursor:pointer;padding:12px;border-radius:8px;transition:background 0.2s;border:1px solid #eee;}
 label:hover{background:#e3f2fd;}
 input[type="radio"]{margin-right:12px;transform:scale(1.3);}
-h2{text-align:center;color:#333;margin-bottom:25px;font-size:26px;}
-h3{color:#333;margin:15px 0 10px 0;}
+h2,h3{text-align:center;color:#333;margin:15px 0;}
 .navigation{display:flex;justify-content:center;align-items:center;gap:15px;flex-wrap:wrap;}
 .score-header{text-align:center;background:linear-gradient(135deg,#28a745,#20c997);color:white;padding:30px;border-radius:12px;margin-bottom:25px;}
 .score-display{font-size:32px;font-weight:bold;margin:10px 0;}
 .grade-badge{padding:10px 20px;background:#fff;color:#28a745;border-radius:25px;font-weight:bold;display:inline-block;margin:10px 0;}
 .solutions-header{text-align:center;background:linear-gradient(135deg,#17a2b8,#138496);color:white;padding:25px;border-radius:12px;margin-bottom:25px;}
-@media(max-width:768px){
- .box{padding:20px;}
- .navigation{flex-direction:column;}
- #progress{width:90%;}
- h2{font-size:22px;}
- .score-display{font-size:26px;}
-}
+@media(max-width:768px){.box{padding:20px;}.navigation{flex-direction:column;}#progress{width:90%;}h2{font-size:22px;}.score-display{font-size:26px;}}
 </style>
 </head>
 <body>
 
-<!-- QUIZ SCREEN -->
 <div class="box" id="quizScreen">
   <h2>🏛️ दिल्ली सल्तनत : 25 MCQs Quiz</h2>
   <div id="timer">Time: 20:00</div>
@@ -67,7 +59,6 @@ h3{color:#333;margin:15px 0 10px 0;}
   </div>
 </div>
 
-<!-- FINAL SCORE SCREEN -->
 <div class="box hidden" id="scoreScreen">
   <div class="score-header">
     <h2>🎉 अंतिम परिणाम</h2>
@@ -75,13 +66,11 @@ h3{color:#333;margin:15px 0 10px 0;}
     <div id="gradeDisplay" class="grade-badge"></div>
   </div>
   <div style="text-align:center;">
-    <button id="showSolutionsBtn" onclick="openSolutions()">📚 विस्तृत समाधान देखें</button>
-    <br><br>
+    <button id="showSolutionsBtn" onclick="openSolutions()">📚 विस्तृत समाधान देखें</button><br><br>
     <button id="restartBtn" onclick="location.reload()">🔄 नया क्विज शुरू करें</button>
   </div>
 </div>
 
-<!-- SOLUTIONS SCREEN -->
 <div class="box hidden" id="solutionsScreen">
   <div class="solutions-header">
     <h2>📚 विस्तृत समाधान</h2>
@@ -91,7 +80,7 @@ h3{color:#333;margin:15px 0 10px 0;}
   <div class="navigation">
     <button id="solPrevBtn" onclick="changeSolution(-1)">❮ पिछला</button>
     <button id="solNextBtn" onclick="changeSolution(1)">अगला ❯</button>
-    <button id="backToScoreBtn" onclick="backToScore()" style="background:#6c757d;color:white;">← स्कोर स्क्रीन</button>
+    <button id="backToScoreBtn" onclick="backToScore()" style="background:#6c757d;color:white;">← स्कोर</button>
   </div>
 </div>
 
@@ -125,28 +114,186 @@ const questions = [
 ];
 
 const detailedExplanations = {
-  0: "खिज्र खाँ ने तैमूर के 1398 ई. के आक्रमण के बाद दिल्ली पर कब्जा किया और 1414 ई. में सैयद वंश की स्थापना की। वह तैमूर का सेनापति था।",
-  1: "तैमूर के आक्रमण के बाद तुगलक वंश का पतन हो गया। 1414 ई. में खिज्र खाँ ने सैयद वंश स्थापित किया जो 1451 ई. तक चला।",
-  2: "खिज्र खाँ तैमूर का अफगान सेनापति था। तैमूर के भारत आक्रमण (1398) के समय वह दिल्ली पहुँचा और बाद में सैयद वंश का संस्थापक बना।",
-  3: "मुबारक शाह (मुबारक खाँ) खिज्र खाँ का पुत्र था और सैयद वंश का दूसरा सुल्तान बना।",
-  4: "अलाउद्दीन आलम शाह सैयद वंश का अंतिम शासक था। उसका शासन कमजोर था और बहलोल लोदी ने 1451 में उसे हटा दिया।",
-  5: "सैयद वंश तैमूर के आक्रमण के बाद 1414 से 1451 ई. तक चला। यह वंश नाममात्र का था।",
-  6: "बहलूल लोदी ने सैयद वंश के पतन के बाद 1451 ई. में लोदी वंश की स्थापना की।",
-  7: "बहलूल लोदी अफगान सरदार था जिसने सैयद वंश के कमजोर शासक आलम शाह को हटाकर 1451 में दिल्ली सल्तनत पर कब्जा किया।",
-  8: "सिकंदर लोदी बहलूल लोदी का पुत्र था और लोदी वंश का सबसे सफल शासक माना जाता है।",
-  9: "सिकंदर लोदी ने 1504 ई. में आगरा शहर बसाया जो बाद में मुगल साम्राज्य की राजधानी बना।",
-  10: "सिकंदर लोदी ने रणनीतिक कारणों से राजधानी दिल्ली से आगरा स्थानांतरित की।",
-  11: "इब्राहिम लोदी सिकंदर लोदी का पुत्र था। उसके शासनकाल में ही बाबर ने पानीपत का प्रथम युद्ध लड़ा।",
-  12: "पानीपत का प्रथम युद्ध 21 अप्रैल 1526 को लड़ा गया। इस युद्ध ने दिल्ली सल्तनत का अंत और मुगल साम्राज्य की शुरुआत की।",
-  13: "पानीपत का प्रथम युद्ध बाबर और इब्राहिम लोदी के बीच लड़ा गया। बाबर की तोपखाने की वजह से वह विजयी हुआ।",
-  14: "दौलत खाँ लोदी (पंजाब का गवर्नर) ने इब्राहिम लोदी के अत्याचारों से तंग आकर बाबर को भारत आने के लिए आमंत्रित किया।",
-  15: "सल्तनत काल में सुल्तान सर्वोच्च शासक था। वजीर और अन्य अधिकारी उसके अधीन कार्य करते थे।",
-  16: "मजलिस-ए-खास सुल्तान की निजी सलाहकार परिषद थी जिसमें वजीर, काजी, दीवान आदि शामिल होते थे।",
-  17: "मोहम्मद बिन तुगलक ने कृषि विभाग 'दीवान-ए-कोही' की स्थापना की।",
-  18: "इक्ता प्रथा में जागीरदारों को भूमि सैन्य सेवा के बदले दी जाती थी। यह प्रथा इल्तुतमिश ने शुरू की।",
-  19: "इल्तुतमिश ने इक्ता प्रथा शुरू की जिससे सैनिकों को नकद वेतन देने की बजाय भूमि दी जाती थी।",
-  20: "अलाउद्दीन खिलजी ने इक्ता प्रथा समाप्त कर नकद वेतन प्रणाली शुरू की ताकि भ्रष्टाचार रुके।",
-  21: "मुस्लिम कानून के चार मुख्य स्रोत: कुरान (ईश्वरीय ज्ञान), हदीस (पैगम्बर की बातें), इज्मा (विद्वानों का मत), कियास (तर्क)।",
-  22: "'दाग' (घोड़ों पर चिह्न) और 'हुलिया' (सैनिकों का वर्णन) प्रथा अलाउद्दीन खिलजी ने सैन्य सुधार के लिए शुरू की।",
-  23: "अमीर खुसरो अलाउद्दीन खिलजी के दरबारी कवि थे। उन्होंने हिंदी और फारसी में रचनाएँ कीं।",
-  24: "दिल्ली सल्तनत की शुरुआत 1206 ई. (कुतुबुद्दीन ऐबक) से हुई और समाप्ति 1526 ई. (पानीपत प्रथम
+  0:"खिज्र खाँ ने तैमूर के 1398 ई. के आक्रमण के बाद दिल्ली पर कब्जा किया और 1414 ई. में सैयद वंश की स्थापना की।",
+  1:"तैमूर के आक्रमण के बाद तुगलक वंश का पतन हो गया। 1414 ई. में खिज्र खाँ ने सैयद वंश स्थापित किया।",
+  2:"खिज्र खाँ तैमूर का अफगान सेनापति था। तैमूर के भारत आक्रमण (1398) के समय वह दिल्ली पहुँचा।",
+  3:"मुबारक शाह खिज्र खाँ का पुत्र था और सैयद वंश का दूसरा सुल्तान बना।",
+  4:"अलाउद्दीन आलम शाह सैयद वंश का अंतिम शासक था। बहलोल लोदी ने 1451 में उसे हटा दिया।",
+  5:"सैयद वंश 1414 से 1451 ई. तक चला। यह वंश नाममात्र का था।",
+  6:"बहलूल लोदी ने सैयद वंश के पतन के बाद 1451 ई. में लोदी वंश की स्थापना की।",
+  7:"बहलूल लोदी अफगान सरदार था जिसने 1451 में दिल्ली सल्तनत पर कब्जा किया।",
+  8:"सिकंदर लोदी बहलूल लोदी का पुत्र था और लोदी वंश का सबसे सफल शासक था।",
+  9:"सिकंदर लोदी ने 1504 ई. में आगरा शहर बसाया जो बाद में मुगल राजधानी बना।",
+  10:"सिकंदर लोदी ने रणनीतिक कारणों से राजधानी दिल्ली से आगरा स्थानांतरित की।",
+  11:"इब्राहिम लोदी सिकंदर लोदी का पुत्र था। उसके समय बाबर ने पानीपत युद्ध लड़ा।",
+  12:"पानीपत का प्रथम युद्ध 21 अप्रैल 1526 को लड़ा गया। इसने दिल्ली सल्तनत का अंत किया।",
+  13:"पानीपत का प्रथम युद्ध बाबर और इब्राहिम लोदी के बीच लड़ा गया। बाबर की तोपखाने से जीत।",
+  14:"दौलत खाँ लोदी ने इब्राहिम लोदी के अत्याचारों से तंग आकर बाबर को आमंत्रित किया।",
+  15:"सल्तनत काल में सुल्तान सर्वोच्च शासक था। सभी अधिकारी उसके अधीन थे।",
+  16:"मजलिस-ए-खास सुल्तान की निजी सलाहकार परिषद थी जिसमें वजीर, काजी आदि थे।",
+  17:"मोहम्मद बिन तुगलक ने कृषि विभाग 'दीवान-ए-कोही' की स्थापना की।",
+  18:"इक्ता प्रथा में सैन्य सेवा के बदले भूमि दी जाती थी। इल्तुतमिश ने शुरू की।",
+  19:"इल्तुतमिश ने इक्ता प्रथा शुरू की। सैनिकों को नकद के बजाय भूमि दी जाती थी।",
+  20:"अलाउद्दीन खिलजी ने इक्ता प्रथा समाप्त कर नकद वेतन प्रणाली शुरू की।",
+  21:"मुस्लिम कानून के चार स्रोत: कुरान, हदीस, इज्मा, कियास।",
+  22:"अलाउद्दीन खिलजी ने 'दाग' (घोड़ों पर चिह्न) और 'हुलिया' (सैनिक वर्णन) शुरू की।",
+  23:"अमीर खुसरो अलाउद्दीन खिलजी के दरबारी कवि थे। हिंदी-फारसी रचनाकार।",
+  24:"दिल्ली सल्तनत 1206 (कुतुबुद्दीन ऐबक) से 1526 (पानीपत युद्ध) तक चली।"
+};
+
+let currentQuestionIndex = 0;
+let solutionsIndex = 0;
+let time = 20 * 60;
+let timer;
+let answers = new Array(questions.length).fill(null);
+let totalScore = 0;
+
+function initQuiz(){
+  showQuestion(currentQuestionIndex);
+  startTimer();
+  updateNavigation();
+}
+
+function showQuestion(index){
+  const q = questions[index];
+  document.getElementById("currentQuestion").innerHTML = `
+    <b>${index+1}. ${q[0]}</b><br><br>
+    <label><input type="radio" name="answer" value="A"> ${q[1]}</label>
+    <label><input type="radio" name="answer" value="B"> ${q[2]}</label>
+    <label><input type="radio" name="answer" value="C"> ${q[3]}</label>
+    <label><input type="radio" name="answer" value="D"> ${q[4]}</label>
+  `;
+  if(answers[index]){
+    const r=document.querySelector(`input[name="answer"][value="${answers[index]}"]`);
+    if(r) r.checked=true;
+  }
+  document.getElementById("pageInfo").textContent=`प्रश्न ${index+1} / ${questions.length}`;
+  document.getElementById("progressBar").style.width=`${((index+1)/questions.length)*100}%`;
+}
+
+function saveAnswer(){
+  const sel=document.querySelector('input[name="answer"]:checked');
+  if(sel) answers[currentQuestionIndex]=sel.value;
+}
+
+function changeQuestion(dir){
+  saveAnswer();
+  const ni=currentQuestionIndex+dir;
+  if(ni>=0 && ni<questions.length){
+    currentQuestionIndex=ni;
+    showQuestion(currentQuestionIndex);
+    updateNavigation();
+  }
+}
+
+function updateNavigation(){
+  document.getElementById("prevBtn").disabled=currentQuestionIndex===0;
+  document.getElementById("nextBtn").style.display=currentQuestionIndex===questions.length-1?'none':'inline-block';
+  document.getElementById("submitBtn").style.display=currentQuestionIndex===questions.length-1?'inline-block':'none';
+}
+
+function startTimer(){
+  timer=setInterval(()=>{
+    let m=Math.floor(time/60),s=time%60;
+    document.getElementById("timer").innerText=`Time: ${m}:${s<10?"0"+s:s}`;
+    time--;
+    if(time<0) submitQuiz();
+  },1000);
+}
+
+function submitQuiz(){
+  saveAnswer();
+  clearInterval(timer);
+  totalScore=0;
+  for(let i=0;i<questions.length;i++){
+    if(answers[i]===questions[i][5]) totalScore++;
+  }
+  document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("scoreScreen").classList.remove("hidden");
+  const pct=Math.round((totalScore/questions.length)*100);
+  let grade=pct>=80?'उत्कृष्ट ⭐⭐⭐':pct>=60?'बहुत अच्छा ⭐⭐':pct>=40?'अच्छा ⭐':'सुधार की जरूरत';
+  document.getElementById("finalScoreDisplay").innerHTML=`${totalScore}/${questions.length} (${pct}%)`;
+  document.getElementById("gradeDisplay").innerText=grade;
+}
+
+function openSolutions(){
+  document.getElementById("scoreScreen").classList.add("hidden");
+  document.getElementById("solutionsScreen").classList.remove("hidden");
+  const pct=Math.round((totalScore/questions.length)*100);
+  document.getElementById("solutionsScoreDisplay").innerHTML=`स्कोर: ${totalScore}/${questions.length} (${pct}%)`;
+  solutionsIndex=0;
+  renderSolution(solutionsIndex);
+  updateSolutionNav();
+}
+
+function backToScore(){
+  document.getElementById("solutionsScreen").classList.add("hidden");
+  document.getElementById("scoreScreen").classList.remove("hidden");
+}
+
+function renderSolution(index){
+  const q=questions[index];
+  const userAns=answers[index];
+  const correctAns=q[5];
+  const isCorrect=userAns===correctAns;
+
+  let optionsHTML='';
+  for(let i=1;i<=4;i++){
+    const opt=q[i];
+    const key=String.fromCharCode(64+i);
+    const isUser=userAns===key;
+    const isCorrectOpt=correctAns===key;
+    let cls='',prefix='',border='#ddd';
+
+    if(isCorrectOpt){
+      cls='correct-answer';
+      prefix='✅ ';
+      border='#28a745';
+    }
+    if(isUser && !isCorrectOpt){
+      cls='wrong-answer';
+      prefix='❌ ';
+      border='#dc3545';
+    }
+
+    optionsHTML+=`<div class="${cls}" style="margin:8px 0;padding:15px;background:#f9f9f9;border-radius:10px;border-left:5px solid ${border};">
+      ${prefix}<strong>${key}.</strong> ${opt}
+    </div>`;
+  }
+
+  const explanation=detailedExplanations[index];
+
+  document.getElementById("currentSolution").innerHTML=`
+    <div class="question ${isCorrect?'correct':'wrong'}">
+      <h3>${index+1}. ${q[0]}</h3>
+      <div style="margin:25px 0;">${optionsHTML}</div>
+      <div class="solution-box">
+        <strong>💡 सही उत्तर:</strong><br>
+        <span class="correct-answer" style="font-size:22px;">${correctAns}. ${q[correctAns.charCodeAt(0)-64+1]}</span>
+      </div>
+      <div class="comprehensive-solution">
+        <strong>📖 विस्तृत व्याख्या:</strong><br>${explanation}
+      </div>
+    </div>
+    <div class="page-info">प्रश्न ${index+1} / ${questions.length}</div>
+  `;
+}
+
+function changeSolution(dir){
+  const ni=solutionsIndex+dir;
+  if(ni>=0 && ni<questions.length){
+    solutionsIndex=ni;
+    renderSolution(solutionsIndex);
+    updateSolutionNav();
+  }
+}
+
+function updateSolutionNav(){
+  document.getElementById("solPrevBtn").disabled=solutionsIndex===0;
+  document.getElementById("solNextBtn").disabled=solutionsIndex===questions.length-1;
+}
+
+initQuiz();
+</script>
+</body>
+</html>
