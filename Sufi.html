@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🕌 सूफी आंदोलन : 10 MCQs Quiz</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#ff6b6b 0%,#4ecdc4 100%);padding:20px;min-height:100vh;margin:0;}
+.box{background:#fff;padding:30px;border-radius:15px;max-width:900px;margin:auto;box-shadow:0 15px 40px rgba(0,0,0,0.2);}
+.hidden{display:none;}
+.question{padding:25px;border:3px solid #e0e0e0;border-radius:12px;background:#f8f9fa;margin-bottom:20px;}
+.correct{background:#d4edda !important;border-color:#28a745 !important;}
+.wrong{background:#f8d7da !important;border-color:#dc3545 !important;}
+.solution-box{padding:20px;margin-top:15px;background:#e3f2fd;border-left:6px solid #2196f3;border-radius:12px;}
+.comprehensive-solution{padding:18px;margin:15px 0;background:#fff3e0;border-left:6px solid #ff9800;border-radius:12px;}
+.correct-answer{color:#28a745;font-weight:bold;font-size:20px;}
+.wrong-answer{color:#dc3545;text-decoration:line-through;font-size:18px;}
+button{padding:12px 25px;font-size:16px;margin:8px;font-weight:500;border:none;border-radius:8px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+button:hover{transform:translateY(-2px);}
+button:disabled{background:#ccc;color:#666;cursor:not-allowed;transform:none;}
+#prevBtn{background:#6c757d;color:white;}
+#nextBtn{background:#007bff;color:white;}
+#submitBtn{background:#28a745;color:white;}
+#showSolutionsBtn{background:#17a2b8;color:white;font-size:18px;padding:15px 30px;}
+#restartBtn{background:#dc3545;color:white;}
+#solPrevBtn{background:#6c757d;color:white;}
+#solNextBtn{background:#007bff;color:white;}
+#timer{text-align:center;font-weight:bold;font-size:20px;color:#495057;margin-bottom:20px;background:#fff3cd;padding:15px;border-radius:10px;border:2px solid #ffeaa7;}
+#progressContainer{text-align:center;margin:20px 0;}
+#progress{background:#e9ecef;height:12px;border-radius:6px;display:inline-block;width:60%;overflow:hidden;}
+#progressBar{height:100%;background:linear-gradient(90deg,#28a745,#20c997);width:0%;transition:width 0.5s ease;border-radius:6px;}
+.page-info{text-align:center;font-size:18px;color:#666;margin:20px 0;font-weight:500;}
+label{display:block;margin:12px 0;font-size:16px;cursor:pointer;padding:12px;border-radius:8px;transition:background 0.2s;border:1px solid #eee;}
+label:hover{background:#e3f2fd;}
+input[type="radio"]{margin-right:12px;transform:scale(1.3);}
+h2,h3{color:#333;margin:15px 0;text-align:center;}
+.navigation{display:flex;justify-content:center;align-items:center;gap:15px;flex-wrap:wrap;}
+.score-header{text-align:center;background:linear-gradient(135deg,#28a745,#20c997);color:white;padding:30px;border-radius:12px;margin-bottom:25px;}
+.score-display{font-size:32px;font-weight:bold;margin:10px 0;}
+.grade-badge{padding:10px 20px;background:#fff;color:#28a745;border-radius:25px;font-weight:bold;display:inline-block;margin:10px 0;}
+.solutions-header{text-align:center;background:linear-gradient(135deg,#17a2b8,#138496);color:white;padding:25px;border-radius:12px;margin-bottom:25px;}
+@media(max-width:768px){
+ .box{padding:20px;}
+ .navigation{flex-direction:column;}
+ #progress{width:90%;}
+ h2{font-size:22px;}
+ .score-display{font-size:26px;}
+}
+</style>
+</head>
+<body>
+
+<!-- QUIZ SCREEN -->
+<div class="box" id="quizScreen">
+  <h2>🕌 सूफी आंदोलन : 10 MCQs Quiz</h2>
+  <div id="timer">Time: 10:00</div>
+  <div id="progressContainer">
+    <div class="page-info" id="pageInfo">प्रश्न 1 / 10</div>
+    <div id="progress"><div id="progressBar"></div></div>
+  </div>
+  <div id="currentQuestion" class="question"></div>
+  <div class="navigation">
+    <button id="prevBtn" onclick="changeQuestion(-1)">❮ पिछला</button>
+    <button id="nextBtn" onclick="changeQuestion(1)">अगला ❯</button>
+    <button id="submitBtn" onclick="submitQuiz()" style="display:none;">Submit Quiz</button>
+  </div>
+</div>
+
+<!-- SCORE SCREEN -->
+<div class="box hidden" id="scoreScreen">
+  <div class="score-header">
+    <h2>🎉 अंतिम परिणाम</h2>
+    <div id="finalScoreDisplay" class="score-display"></div>
+    <div id="gradeDisplay" class="grade-badge"></div>
+  </div>
+  <div style="text-align:center;">
+    <button id="showSolutionsBtn" onclick="openSolutions()">📚 विस्तृत समाधान देखें</button><br><br>
+    <button id="restartBtn" onclick="location.reload()">🔄 नया क्विज शुरू करें</button>
+  </div>
+</div>
+
+<!-- SOLUTIONS SCREEN -->
+<div class="box hidden" id="solutionsScreen">
+  <div class="solutions-header">
+    <h2>📚 विस्तृत समाधान</h2>
+    <div id="solutionsScoreDisplay" class="score-display"></div>
+  </div>
+  <div id="currentSolution"></div>
+  <div class="navigation">
+    <button id="solPrevBtn" onclick="changeSolution(-1)">❮ पिछला</button>
+    <button id="solNextBtn" onclick="changeSolution(1)">अगला ❯</button>
+    <button id="backToScoreBtn" onclick="backToScore()" style="background:#6c757d;color:white;">← स्कोर</button>
+  </div>
+</div>
+
+<script>
+// [प्रश्न, A, B, C, D, सही विकल्प का letter]
+const questions = [
+["आईने-अकबरी में अबुल फ़ज़ल ने कितने सूफी सिलसिलों का उल्लेख किया है?","10","12","14","16","C"],
+["भारत में किस सूफी सिलसिले की जड़ें सबसे अधिक गहरी थीं?","क़ादिरी","सुहरावर्दी","नक़्शबंदी","चिश्ती","D"],
+["दारा शिकोह ने किस सूफी सिलसिले को अपनाया था?","चिश्ती","सुहरावर्दी","क़ादिरी","नक़्शबंदी","C"],
+["चिश्ती सिलसिले की शुरुआत किसने की?","ख्वाजा मोइनुद्दीन चिश्ती","निज़ामुद्दीन औलिया","ख्वाजा अबू इशाक़ शामी","शेख़ सलीम चिश्ती","C"],
+["अमीर खुसरो का वास्तविक नाम क्या था?","हसन निज़ामी","शेख़ सलीम","अबुल हसन यामीनुद्दीन खुसरो","याह्या सिरहिंदी","C"],
+["“महबूब-ए-इलाही” के नाम से किसे जाना जाता है?","शेख़ सलीम चिश्ती","ख्वाजा मोइनुद्दीन चिश्ती","कुतुबुद्दीन बख्तियार काकी","निज़ामुद्दीन औलिया","D"],
+["निज़ामुद्दीन औलिया ने “दिल्ली अभी दूर है” यह किससे कहा था?","अलाउद्दीन खिलजी","ग़यासुद्दीन तुगलक","मुहम्मद बिन तुगलक","फ़िरोज़शाह तुगलक","B"],
+["सूफी संतों के अनुयायियों को क्या कहा जाता है?","पीर","फ़कीर","मुरीद","उलेमा","C"],
+["प्रसिद्ध सूफी संत शेख़ सलीम चिश्ती कहाँ रहते थे?","अजमेर","दिल्ली","लाहौर","फ़तेहपुर सीकरी","D"],
+["ख्वाजा मोइनुद्दीन चिश्ती की दरगाह कहाँ स्थित है?","दिल्ली","फ़तेहपुर सीकरी","अजमेर","लाहौर","C"]
+];
+
+const detailedExplanations = {
+  0:"अबुल फ़ज़ल ने ‘आईने‑अकबरी’ में कुल 14 सूफी सिलसिलों का उल्लेख किया है, जो उस समय प्रचलित आध्यात्मिक परंपराओं को दिखाते हैं।",
+  1:"भारत में चिश्ती सिलसिला सबसे लोकप्रिय रहा; इसकी खानकाहें अजमेर, दिल्ली और उत्तर भारत के कई इलाकों में फैलीं और जनसाधारण से निकट रहीं।",
+  2:"मुगल राजकुमार दारा शिकोह ने क़ादिरी सिलसिला अपनाया और हिंदू‑मुस्लिम समन्वय पर ‘मजमउल‑बहरीन’ जैसे ग्रंथ लिखे।",
+  3:"चिश्ती सिलसिले की शुरुआत मध्य एशिया में ख्वाजा अबू इशाक़ शामी ने की; बाद में ख्वाजा मोइनुद्दीन चिश्ती इसे भारत लाए।",
+  4:"अमीर खुसरो का वास्तविक नाम अबुल हसन यामीनुद्दीन खुसरो था; वे चिश्ती संत निज़ामुद्दीन औलिया के शिष्य और बहुभाषी कवि थे।",
+  5:"दिल्ली के सूफी संत निज़ामुद्दीन औलिया को उनके अनुयायी ‘महबूब‑ए‑इलाही’ यानी ईश्वर का प्रिय कहकर स्मरण करते थे।",
+  6:"कहानी के अनुसार ग़यासुद्दीन तुगलक के दिल्ली लौटने से पहले निज़ामुद्दीन औलिया ने कहा, ‘हन्ज़ दिल्ली दूर अस्त’ — अर्थात ‘अभी दिल्ली दूर है’।",
+  7:"सूफी परंपरा में पीर के शिष्य या अनुयायी को ‘मुरीद’ कहा जाता है, जो आध्यात्मिक मार्गदर्शन के लिए उससे बैअत लेते हैं।",
+  8:"शेख़ सलीम चिश्ती अकबर के समय फ़तेहपुर सीकरी में रहते थे; वहीं उनकी दरगाह है जहाँ अकबर संतान‑प्राप्ति की मुराद लेकर गया था।",
+  9:"ख्वाजा मोइनुद्दीन चिश्ती की विश्वप्रसिद्ध दरगाह राजस्थान के अजमेर में है, जो भारत का प्रमुख सूफी तीर्थ स्थल है।"
+};
+
+let currentQuestionIndex=0;
+let solutionsIndex=0;
+let time=10*60; // 10 मिनट
+let timer;
+let answers=new Array(questions.length).fill(null);
+let totalScore=0;
+
+function initQuiz(){
+  showQuestion(currentQuestionIndex);
+  startTimer();
+  updateNavigation();
+}
+
+function showQuestion(index){
+  const q=questions[index];
+  const html=`
+    <b>${index+1}. ${q[0]}</b><br><br>
+    <label><input type="radio" name="answer" value="A"> ${q[1]}</label>
+    <label><input type="radio" name="answer" value="B"> ${q[2]}</label>
+    <label><input type="radio" name="answer" value="C"> ${q[3]}</label>
+    <label><input type="radio" name="answer" value="D"> ${q[4]}</label>
+  `;
+  document.getElementById("currentQuestion").innerHTML=html;
+  if(answers[index]){
+    const r=document.querySelector(`input[name="answer"][value="${answers[index]}"]`);
+    if(r) r.checked=true;
+  }
+  document.getElementById("pageInfo").textContent=`प्रश्न ${index+1} / ${questions.length}`;
+  document.getElementById("progressBar").style.width=`${((index+1)/questions.length)*100}%`;
+}
+
+function saveAnswer(){
+  const sel=document.querySelector('input[name="answer"]:checked');
+  if(sel) answers[currentQuestionIndex]=sel.value;
+}
+
+function changeQuestion(dir){
+  saveAnswer();
+  const ni=currentQuestionIndex+dir;
+  if(ni>=0 && ni<questions.length){
+    currentQuestionIndex=ni;
+    showQuestion(currentQuestionIndex);
+    updateNavigation();
+  }
+}
+
+function updateNavigation(){
+  document.getElementById("prevBtn").disabled=currentQuestionIndex===0;
+  document.getElementById("nextBtn").style.display=currentQuestionIndex===questions.length-1?'none':'inline-block';
+  document.getElementById("submitBtn").style.display=currentQuestionIndex===questions.length-1?'inline-block':'none';
+}
+
+function startTimer(){
+  timer=setInterval(()=>{
+    let m=Math.floor(time/60),s=time%60;
+    document.getElementById("timer").innerText=`Time: ${m}:${s<10?"0"+s:s}`;
+    time--;
+    if(time<0) submitQuiz();
+  },1000);
+}
+
+function submitQuiz(){
+  saveAnswer();
+  clearInterval(timer);
+  totalScore=0;
+  for(let i=0;i<questions.length;i++){
+    if(answers[i]===questions[i][5]) totalScore++;
+  }
+  document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("scoreScreen").classList.remove("hidden");
+  const pct=Math.round((totalScore/questions.length)*100);
+  let grade=pct>=80?'उत्कृष्ट ⭐⭐⭐':pct>=60?'बहुत अच्छा ⭐⭐':pct>=40?'अच्छा ⭐':'सुधार की जरूरत';
+  document.getElementById("finalScoreDisplay").innerHTML=`${totalScore}/${questions.length} (${pct}%)`;
+  document.getElementById("gradeDisplay").innerText=grade;
+}
+
+function openSolutions(){
+  document.getElementById("scoreScreen").classList.add("hidden");
+  document.getElementById("solutionsScreen").classList.remove("hidden");
+  const pct=Math.round((totalScore/questions.length)*100);
+  document.getElementById("solutionsScoreDisplay").innerHTML=`स्कोर: ${totalScore}/${questions.length} (${pct}%)`;
+  solutionsIndex=0;
+  renderSolution(solutionsIndex);
+  updateSolutionNav();
+}
+
+function backToScore(){
+  document.getElementById("solutionsScreen").classList.add("hidden");
+  document.getElementById("scoreScreen").classList.remove("hidden");
+}
+
+function renderSolution(index){
+  const q=questions[index];
+  const userAns=answers[index];
+  const correctAns=q[5];
+  const isCorrect=userAns===correctAns;
+
+  let optionsHTML='';
+  for(let i=1;i<=4;i++){
+    const opt=q[i];
+    const key=String.fromCharCode(64+i);
+    const isUser=userAns===key;
+    const isCorrectOpt=correctAns===key;
+    let cls='',prefix='',border='#ddd';
+
+    if(isCorrectOpt){
+      cls='correct-answer';
+      prefix='✅ ';
+      border='#28a745';
+    }
+    if(isUser && !isCorrectOpt){
+      cls='wrong-answer';
+      prefix='❌ ';
+      border='#dc3545';
+    }
+
+    optionsHTML+=`<div class="${cls}" style="margin:8px 0;padding:15px;background:#f9f9f9;border-radius:10px;border-left:5px solid ${border};">
+      ${prefix}<strong>${key}.</strong> ${opt}
+    </div>`;
+  }
+
+  const explanation=detailedExplanations[index];
+
+  document.getElementById("currentSolution").innerHTML=`
+    <div class="question ${isCorrect?'correct':'wrong'}">
+      <h3>${index+1}. ${q[0]}</h3>
+      <div style="margin:25px 0;">${optionsHTML}</div>
+      <div class="solution-box">
+        <strong>💡 सही उत्तर:</strong><br>
+        <span class="correct-answer" style="font-size:22px;">
+          ${correctAns}
+        </span>
+      </div>
+      <div class="comprehensive-solution">
+        <strong>📖 विस्तृत व्याख्या:</strong><br>${explanation}
+      </div>
+    </div>
+    <div class="page-info">प्रश्न ${index+1} / ${questions.length}</div>
+  `;
+}
+
+function changeSolution(dir){
+  const ni=solutionsIndex+dir;
+  if(ni>=0 && ni<questions.length){
+    solutionsIndex=ni;
+    renderSolution(solutionsIndex);
+    updateSolutionNav();
+  }
+}
+
+function updateSolutionNav(){
+  document.getElementById("solPrevBtn").disabled=solutionsIndex===0;
+  document.getElementById("solNextBtn").disabled=solutionsIndex===questions.length-1;
+}
+
+initQuiz();
+</script>
+</body>
+</html>
