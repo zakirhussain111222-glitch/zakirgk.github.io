@@ -9,20 +9,27 @@
         .quiz-container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         h1 { text-align: center; color: #2c3e50; }
         .question { margin: 20px 0; padding: 15px; border-left: 4px solid #3498db; background: #ecf0f1; }
-        .question h3 { margin: 0 0 10px 0; color: #34495e; }
+        .question h3 { margin: 0 0 15px 0; color: #34495e; }
         .options { list-style: none; padding: 0; }
-        .options li { margin: 8px 0; }
-        .options input[type="radio"] { margin-right: 10px; }
-        .answer { display: none; background: #d5f4e6; padding: 10px; margin-top: 10px; border-radius: 5px; font-weight: bold; color: #27ae60; }
-        .show-answer { background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
-        button { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
-        .score { text-align: center; font-size: 18px; margin: 20px 0; font-weight: bold; }
+        .options li { margin: 10px 0; padding: 8px; border-radius: 5px; transition: all 0.3s; cursor: pointer; }
+        .options li:hover { background: #d5dbdb; }
+        .options input[type="radio"] { margin-right: 10px; transform: scale(1.2); }
+        .options li.correct { background: #d5f4e6 !important; color: #27ae60; font-weight: bold; }
+        .options li.wrong { background: #fadbd8 !important; color: #e74c3c; }
+        button { background: #27ae60; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 18px; font-weight: bold; }
+        button:hover { background: #219a52; }
+        .score { text-align: center; font-size: 24px; margin: 30px 0; font-weight: bold; padding: 20px; background: #ecf0f1; border-radius: 10px; }
+        .score.excellent { color: #27ae60; }
+        .score.good { color: #f39c12; }
+        .score.poor { color: #e74c3c; }
+        .submit-section { text-align: center; margin: 40px 0; }
+        .results-hidden { opacity: 0.5; pointer-events: none; }
     </style>
 </head>
 <body>
     <div class="quiz-container">
         <h1>🕌 शेरशाह सूरी - इतिहास MCQ</h1>
-        <p style="text-align: center;">15 प्रश्न | प्रतियोगी परीक्षा के लिए</p>
+        <p style="text-align: center; font-size: 18px;">15 प्रश्न | प्रतियोगी परीक्षा के लिए</p>
         
         <form id="quizForm">
             <div class="question">
@@ -33,8 +40,6 @@
                     <li><input type="radio" name="q1" value="C"> C. शेरशाह सूरी</li>
                     <li><input type="radio" name="q1" value="D"> D. हुमायूँ</li>
                 </ul>
-                <div class="answer">✅ सही उत्तर: <strong>C. शेरशाह सूरी</strong></div>
-                <button type="button" class="show-answer" onclick="toggleAnswer('q1')">उत्तर दिखाएँ</button>
             </div>
 
             <div class="question">
@@ -45,8 +50,6 @@
                     <li><input type="radio" name="q2" value="C"> C. कन्नौज (बिलग्राम) का युद्ध</li>
                     <li><input type="radio" name="q2" value="D"> D. पानीपत का युद्ध</li>
                 </ul>
-                <div class="answer">✅ सही उत्तर: <strong>C. कन्नौज (बिलग्राम) का युद्ध</strong></div>
-                <button type="button" class="show-answer" onclick="toggleAnswer('q2')">उत्तर दिखाएँ</button>
             </div>
 
             <div class="question">
@@ -57,11 +60,8 @@
                     <li><input type="radio" name="q3" value="C"> C. 1540 ई.</li>
                     <li><input type="radio" name="q3" value="D"> D. 1542 ई.</li>
                 </ul>
-                <div class="answer">✅ सही उत्तर: <strong>C. 1540 ई.</strong></div>
-                <button type="button" class="show-answer" onclick="toggleAnswer('q3')">उत्तर दिखाएँ</button>
             </div>
 
-            <!-- Question 4-15 similar structure -->
             <div class="question">
                 <h3>4. शेर खाँ (शेरशाह सूरी) की मृत्यु कब हुई?</h3>
                 <ul class="options">
@@ -70,43 +70,191 @@
                     <li><input type="radio" name="q4" value="C"> C. 1545 ई.</li>
                     <li><input type="radio" name="q4" value="D"> D. 1550 ई.</li>
                 </ul>
-                <div class="answer">✅ सही उत्तर: <strong>C. 1545 ई.</strong></div>
-                <button type="button" class="show-answer" onclick="toggleAnswer('q4')">उत्तर दिखाएँ</button>
             </div>
 
-            <!-- Add remaining 11 questions with same pattern -->
+            <div class="question">
+                <h3>5. शेर खाँ की मृत्यु किस युद्ध के दौरान हुई?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q5" value="A"> A. चौसा युद्ध</li>
+                    <li><input type="radio" name="q5" value="B"> B. कन्नौज युद्ध</li>
+                    <li><input type="radio" name="q5" value="C"> C. कालिंजर युद्ध</li>
+                    <li><input type="radio" name="q5" value="D"> D. चित्तौड़ युद्ध</li>
+                </ul>
+            </div>
 
-            <div style="text-align: center; margin: 30px 0;">
-                <button type="button" onclick="calculateScore()" style="background: #27ae60;">परिणाम देखें</button>
+            <div class="question">
+                <h3>6. कालिंजर का शासक कौन था?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q6" value="A"> A. राणा सांगा</li>
+                    <li><input type="radio" name="q6" value="B"> B. पूरनमल</li>
+                    <li><input type="radio" name="q6" value="C"> C. कीरत सिंह</li>
+                    <li><input type="radio" name="q6" value="D"> D. मेदिनीराय</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>7. शेरशाह सूरी का मकबरा कहाँ स्थित है?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q7" value="A"> A. दिल्ली</li>
+                    <li><input type="radio" name="q7" value="B"> B. आगरा</li>
+                    <li><input type="radio" name="q7" value="C"> C. सासाराम</li>
+                    <li><input type="radio" name="q7" value="D"> D. लाहौर</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>8. शेरशाह सूरी का उत्तराधिकारी कौन था?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q8" value="A"> A. आदिल शाह</li>
+                    <li><input type="radio" name="q8" value="B"> B. सिकंदर शाह</li>
+                    <li><input type="radio" name="q8" value="C"> C. इस्लाम शाह सूरी</li>
+                    <li><input type="radio" name="q8" value="D"> D. इब्राहिम शाह</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>9. कबूलियत और पटा प्रथा की शुरुआत किसने की?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q9" value="A"> A. अकबर</li>
+                    <li><input type="radio" name="q9" value="B"> B. शेरशाह सूरी</li>
+                    <li><input type="radio" name="q9" value="C"> C. अलाउद्दीन खिलजी</li>
+                    <li><input type="radio" name="q9" value="D"> D. मुहम्मद बिन तुगलक</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>10. डाक प्रथा (डाक व्यवस्था) की शुरुआत किसने की?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q10" value="A"> A. अकबर</li>
+                    <li><input type="radio" name="q10" value="B"> B. बलबन</li>
+                    <li><input type="radio" name="q10" value="C"> C. शेरशाह सूरी</li>
+                    <li><input type="radio" name="q10" value="D"> D. फिरोजशाह तुगलक</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>11. शेरशाह सूरी ने कौन-सी मुद्रा चलवाई थी?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q11" value="A"> A. टंका</li>
+                    <li><input type="radio" name="q11" value="B"> B. दीनार</li>
+                    <li><input type="radio" name="q11" value="C"> C. रुपया</li>
+                    <li><input type="radio" name="q11" value="D"> D. अशर्फी</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>12. ग्रैंड ट्रंक रोड का निर्माण किस शासक ने कराया?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q12" value="A"> A. अकबर</li>
+                    <li><input type="radio" name="q12" value="B"> B. बाबर</li>
+                    <li><input type="radio" name="q12" value="C"> C. शेरशाह सूरी</li>
+                    <li><input type="radio" name="q12" value="D"> D. जहाँगीर</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>13. शेरशाह सूरी ने किस मुगल शासक को पराजित किया था?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q13" value="A"> A. बाबर</li>
+                    <li><input type="radio" name="q13" value="B"> B. हुमायूँ</li>
+                    <li><input type="radio" name="q13" value="C"> C. अकबर</li>
+                    <li><input type="radio" name="q13" value="D"> D. जहाँगीर</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>14. शेरशाह सूरी का शासनकाल क्या था?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q14" value="A"> A. 1530–1535 ई.</li>
+                    <li><input type="radio" name="q14" value="B"> B. 1535–1540 ई.</li>
+                    <li><input type="radio" name="q14" value="C"> C. 1540–1545 ई.</li>
+                    <li><input type="radio" name="q14" value="D"> D. 1545–1550 ई.</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>15. शेरशाह सूरी की मृत्यु किस कारण हुई?</h3>
+                <ul class="options">
+                    <li><input type="radio" name="q15" value="A"> A. बीमारी से</li>
+                    <li><input type="radio" name="q15" value="B"> B. विषपान से</li>
+                    <li><input type="radio" name="q15" value="C"> C. युद्ध के दौरान तोप विस्फोट से</li>
+                    <li><input type="radio" name="q15" value="D"> D. हत्या से</li>
+                </ul>
+            </div>
+
+            <div class="submit-section">
+                <button type="button" onclick="submitQuiz()">परिणाम देखें</button>
                 <div id="score" class="score" style="display: none;"></div>
             </div>
         </form>
     </div>
 
     <script>
-        function toggleAnswer(qid) {
-            const answer = document.querySelector(`input[name="${qid}"]`).parentElement.parentElement.parentElement.querySelector('.answer');
-            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-        }
+        const correctAnswers = {
+            q1: 'C', q2: 'C', q3: 'C', q4: 'C', q5: 'C', q6: 'C', q7: 'C',
+            q8: 'C', q9: 'B', q10: 'C', q11: 'C', q12: 'C', q13: 'B', q14: 'C', q15: 'C'
+        };
 
-        function calculateScore() {
+        function submitQuiz() {
             let score = 0;
-            const answers = {
-                q1: 'C', q2: 'C', q3: 'C', q4: 'C', q5: 'C', q6: 'C', q7: 'C',
-                q8: 'C', q9: 'B', q10: 'C', q11: 'C', q12: 'C', q13: 'B', q14: 'C', q15: 'C'
-            };
+            let total = 15;
 
-            for (let i = 1; i <= 15; i++) {
+            // Calculate score and mark answers
+            for (let i = 1; i <= total; i++) {
                 const selected = document.querySelector(`input[name="q${i}"]:checked`);
-                if (selected && selected.value === answers[`q${i}`]) {
-                    score++;
+                const question = document.querySelectorAll('.question')[i-1];
+                const options = question.querySelector('.options').children;
+
+                // Reset previous colors
+                for (let opt of options) {
+                    opt.classList.remove('correct', 'wrong');
+                }
+
+                if (selected) {
+                    const li = selected.parentElement;
+                    if (selected.value === correctAnswers[`q${i}`]) {
+                        score++;
+                        li.classList.add('correct');
+                    } else {
+                        li.classList.add('wrong');
+                        // Highlight correct answer
+                        for (let opt of options) {
+                            if (opt.querySelector('input').value === correctAnswers[`q${i}`]) {
+                                opt.classList.add('correct');
+                            }
+                        }
+                    }
+                } else {
+                    // Show correct answer if no selection
+                    for (let opt of options) {
+                        if (opt.querySelector('input').value === correctAnswers[`q${i}`]) {
+                            opt.classList.add('correct');
+                        }
+                    }
                 }
             }
 
+            // Show score
             const scoreDiv = document.getElementById('score');
-            scoreDiv.innerHTML = `🎉 आपका स्कोर: ${score}/15 (${Math.round((score/15)*100)}%)`;
+            const percentage = Math.round((score / total) * 100);
+            let grade = '';
+            
+            if (percentage >= 80) {
+                grade = 'उत्कृष्ट! 👏';
+                scoreDiv.className = 'score excellent';
+            } else if (percentage >= 60) {
+                grade = 'अच्छा प्रयास! 👍';
+                scoreDiv.className = 'score good';
+            } else {
+                grade = 'फिर कोशिश करें! 💪';
+                scoreDiv.className = 'score poor';
+            }
+
+            scoreDiv.innerHTML = `🎉 आपका स्कोर: ${score}/${total} (${percentage}%)<br><strong>${grade}</strong>`;
             scoreDiv.style.display = 'block';
-            scoreDiv.style.color = score >= 12 ? '#27ae60' : score >= 9 ? '#f39c12' : '#e74c3c';
+
+            // Disable further interaction
+            document.querySelector('#quizForm').classList.add('results-hidden');
         }
     </script>
 </body>
