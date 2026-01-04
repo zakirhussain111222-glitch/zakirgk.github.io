@@ -1,306 +1,56 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>भारत के लोक नृत्य</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', 'Noto Sans Devanagari', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            color: #333;
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            text-align: center;
-            background: linear-gradient(90deg, #FF9933, #FFFFFF, #138808);
-            border-radius: 20px;
-            padding: 30px 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50,5 L60,35 L90,35 L65,55 L75,85 L50,65 L25,85 L35,55 L10,35 L40,35 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            z-index: 0;
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .subtitle {
-            font-size: 1.3rem;
-            color: #34495e;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .dance-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            border-left: 5px solid;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .dance-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        
-        .dance-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #FF9933, #138808);
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .number {
-            background: linear-gradient(135deg, #FF9933, #FF5722);
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 12px;
-            box-shadow: 0 3px 6px rgba(255, 87, 34, 0.3);
-        }
-        
-        .dance-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #2c3e50;
-            flex-grow: 1;
-        }
-        
-        .state {
-            background: linear-gradient(135deg, #138808, #0d6e05);
-            color: white;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            box-shadow: 0 3px 6px rgba(19, 136, 8, 0.3);
-            text-align: center;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 25px;
-            background: linear-gradient(90deg, #2c3e50, #34495e);
-            color: white;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-        
-        .footer-text {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-        
-        .credit {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        .decoration {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .decoration span {
-            font-size: 24px;
-            color: #FF9933;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🇮🇳 भारत के प्रसिद्ध लोक नृत्य</h1>
-        <p class="subtitle">सांस्कृतिक विविधता का रंगीन संगम</p>
-    </div>
-    
-    <div class="decoration">
-        <span>✦</span><span>✧</span><span>✦</span><span>✧</span><span>✦</span>
-    </div>
-    
-    <div class="container">
-        <!-- Dance cards will be inserted here by JavaScript -->
-    </div>
-    
-    <div class="footer">
-        <p class="footer-text">"नृत्य आत्मा की कविता है, शरीर उसका साधन मात्र"</p>
-        <p class="credit">भारतीय सांस्कृतिक विरासत का संकलन</p>
-        <p class="credit">ज्ञान एवं मनोरंजन हेतु प्रस्तुत</p>
-    </div>
+from PIL import Image, ImageDraw, ImageFont
+import textwrap
 
-    <script>
-        // Dance data
-        const dances = [
-            {id: 1, name: "बसंत", state: "उत्तराखंड / हिमाचल प्रदेश"},
-            {id: 2, name: "डंडानटा", state: "आंध्र प्रदेश"},
-            {id: 3, name: "लिम", state: "नागालैंड"},
-            {id: 4, name: "खेता (खेड़ा)", state: "राजस्थान"},
-            {id: 5, name: "सुईसिनी", state: "उत्तराखंड"},
-            {id: 6, name: "गोटीपुवा", state: "ओडिशा"},
-            {id: 7, name: "नौटंकी", state: "उत्तर प्रदेश"},
-            {id: 8, name: "झोरा", state: "हरियाणा"},
-            {id: 9, name: "कीर्तन", state: "महाराष्ट्र / पश्चिम बंगाल"},
-            {id: 10, name: "कावड़ी", state: "तमिलनाडु"},
-            {id: 11, name: "तैय्यम", state: "केरल"},
-            {id: 12, name: "चेराव", state: "मिजोरम"},
-            {id: 13, name: "कुड", state: "जम्मू और कश्मीर"},
-            {id: 14, name: "बम्बू", state: "मिजोरम"},
-            {id: 15, name: "सवारी", state: "गोवा"},
-            {id: 16, name: "कोड़ोहोह", state: "मेघालय"},
-            {id: 17, name: "लास्या", state: "मणिपुर"},
-            {id: 18, name: "कजरी", state: "उत्तर प्रदेश, बिहार"},
-            {id: 19, name: "हिक्कत", state: "हिमाचल प्रदेश"},
-            {id: 20, name: "कुजीता", state: "कर्नाटक"},
-            {id: 21, name: "गोडा", state: "राजस्थान"},
-            {id: 22, name: "गिद्दा", state: "पंजाब"},
-            {id: 23, name: "सरहुल", state: "झारखंड"},
-            {id: 24, name: "गंभीरा", state: "पश्चिम बंगाल"},
-            {id: 25, name: "कीकली", state: "हरियाणा, राजस्थान"},
-            {id: 26, name: "कर्गा", state: "कर्नाटक"},
-            {id: 27, name: "रोना", state: "मध्य प्रदेश"},
-            {id: 28, name: "संचार", state: "छत्तीसगढ़"},
-            {id: 29, name: "करागम", state: "तमिलनाडु"},
-            {id: 30, name: "दुहिकला", state: "गुजरात"},
-            {id: 31, name: "कुम्मी", state: "तमिलनाडु"},
-            {id: 32, name: "मघा", state: "असम"},
-            {id: 33, name: "गरुणवहन", state: "मणिपुर"},
-            {id: 34, name: "छपेली", state: "उत्तराखंड"},
-            {id: 35, name: "दिवारी", state: "छत्तीसगढ़"},
-            {id: 36, name: "दागला", state: "हिमाचल प्रदेश"},
-            {id: 37, name: "चाकरी", state: "उत्तराखंड"},
-            {id: 38, name: "लेजम", state: "सिक्किम"},
-            {id: 39, name: "आत्म", state: "आंध्र प्रदेश"},
-            {id: 40, name: "पीपाड़ी", state: "महाराष्ट्र"},
-            {id: 41, name: "मौनी", state: "मध्य प्रदेश"},
-            {id: 42, name: "घमान", state: "राजस्थान"},
-            {id: 43, name: "पाली", state: "हिमाचल प्रदेश"},
-            {id: 44, name: "पंथी", state: "छत्तीसगढ़"},
-            {id: 45, name: "ग्रीडा", state: "राजस्थान"},
-            {id: 46, name: "काठी", state: "आंध्र प्रदेश"},
-            {id: 47, name: "वैशाखी", state: "पंजाब"},
-            {id: 48, name: "शैला", state: "मध्य प्रदेश"},
-            {id: 49, name: "कुडीयट्टम", state: "केरल"},
-            {id: 50, name: "उम्मट आट", state: "कर्नाटक"},
-            {id: 51, name: "बोईसाजू", state: "आंध्र प्रदेश"},
-            {id: 52, name: "भगोरिया", state: "मध्य प्रदेश"},
-            {id: 53, name: "झकोलिया", state: "राजस्थान"},
-            {id: 54, name: "पाईका", state: "ओडिशा"},
-            {id: 55, name: "घंट मरदाला", state: "ओडिशा"},
-            {id: 56, name: "धमाल", state: "गुजरात"},
-            {id: 57, name: "शूआ शैली", state: "असम"},
-            {id: 58, name: "आल", state: "हिमाचल प्रदेश"},
-            {id: 59, name: "बाउल", state: "पश्चिम बंगाल"},
-            {id: 60, name: "कोट्टायम", state: "केरल"},
-            {id: 61, name: "चोंग", state: "मणिपुर"},
-            {id: 62, name: "लुझरी", state: "हिमाचल प्रदेश"},
-            {id: 63, name: "नागा नृत्य राखल", state: "नागालैंड"},
-            {id: 64, name: "छेरिया", state: "ओडिशा"},
-            {id: 65, name: "हेरूदन्ना हुल्की", state: "कर्नाटक"},
-            {id: 66, name: "रंगभ", state: "हिमाचल प्रदेश"},
-            {id: 67, name: "खोल", state: "मिजोरम"},
-            {id: 68, name: "कली गोपाल", state: "उत्तर प्रदेश"},
-            {id: 69, name: "झाकोर", state: "गुजरात"},
-            {id: 70, name: "दकनी", state: "महाराष्ट्र"},
-            {id: 71, name: "मुखौटा", state: "सिक्किम"},
-            {id: 72, name: "मंजीरा", state: "राजस्थान"},
-            {id: 73, name: "खेल गोपाल", state: "उत्तर प्रदेश"},
-            {id: 74, name: "कूद डंडी नाच", state: "हरियाणा"},
-            {id: 75, name: "तैरा ताली", state: "राजस्थान"},
-            {id: 76, name: "युद्ध नृत्य", state: "मणिपुर"},
-            {id: 77, name: "खेड़ा (खेता)", state: "राजस्थान"},
-            {id: 78, name: "बांस", state: "गोवा"},
-            {id: 79, name: "पनिहारी", state: "राजस्थान"},
-            {id: 80, name: "खेवा नृत्य", state: "उत्तराखंड"},
-            {id: 81, name: "गढ़वाली", state: "उत्तराखंड"},
-            {id: 82, name: "दमली", state: "हिमाचल प्रदेश"},
-            {id: 83, name: "कुमाऊनी", state: "उत्तराखंड"}
-        ];
+# Create image
+width, height = 1080, 6000
+image = Image.new('RGB', (width, height), color='white')
+draw = ImageDraw.Draw(image)
 
-        // Get container
-        const container = document.querySelector('.container');
-        
-        // Create dance cards
-        dances.forEach(dance => {
-            const card = document.createElement('div');
-            card.className = 'dance-card';
-            
-            // Color variations based on dance number
-            const colorClass = dance.id % 4;
-            
-            card.innerHTML = `
-                <div class="card-header">
-                    <div class="number">${dance.id}</div>
-                    <div class="dance-name">${dance.name}</div>
-                </div>
-                <div class="state">${dance.state}</div>
-            `;
-            
-            container.appendChild(card);
-        });
-    </script>
-</body>
-</html>
+# Add background gradient
+for i in range(height):
+    r = int(255 - (i/height)*100)
+    g = int(245 - (i/height)*80)
+    b = int(235 - (i/height)*60)
+    draw.line([(0, i), (width, i)], fill=(r, g, b))
+
+# Add header
+header_height = 200
+draw.rectangle([(0, 0), (width, header_height)], fill='#FF9933')
+draw.rectangle([(0, header_height-50), (width, header_height)], fill='#138808')
+draw.rectangle([(0, header_height), (width, header_height+10)], fill='#FFFFFF')
+
+# Try to add Hindi font (you may need to download one)
+try:
+    font_large = ImageFont.truetype("NotoSansDevanagari-Regular.ttf", 50)
+    font_medium = ImageFont.truetype("NotoSansDevanagari-Regular.ttf", 35)
+    font_small = ImageFont.truetype("NotoSansDevanagari-Regular.ttf", 28)
+except:
+    font_large = ImageFont.load_default()
+    font_medium = ImageFont.load_default()
+    font_small = ImageFont.load_default()
+
+# Title
+title = "भारत के प्रसिद्ध लोक नृत्य"
+draw.text((width//2, 80), title, fill='white', font=font_large, anchor='mm')
+
+# Dance data
+dances = [
+    ("1. बसंत", "उत्तराखंड / हिमाचल प्रदेश"),
+    ("2. डंडानटा", "आंध्र प्रदेश"),
+    # ... add all dances here
+]
+
+# Add dances
+y_position = 250
+for i in range(min(20, len(dances))):  # First 20 for example
+    # Dance name
+    draw.text((100, y_position), dances[i][0], fill='#2c3e50', font=font_medium)
+    
+    # State
+    draw.text((400, y_position), dances[i][1], fill='#138808', font=font_small)
+    
+    y_position += 70
+
+# Save image
+image.save("indian_folk_dances.png")
+print("Image saved as 'indian_folk_dances.png'")
