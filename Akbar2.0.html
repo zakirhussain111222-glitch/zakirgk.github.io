@@ -1,214 +1,148 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>अकबर : 25 MCQs Quiz</title>
-
-<style>
-body{
-  margin:0;
-  font-family: "Noto Sans Devanagari", system-ui;
-  background: linear-gradient(180deg,#e57373,#80cbc4);
-}
-
-.container{
-  max-width:420px;
-  margin:12px auto;
-  background:#fff;
-  border-radius:22px;
-  padding:16px;
-  min-height:94vh;
-  display:flex;
-  flex-direction:column;
-}
-
-.title{
-  text-align:center;
-  font-size:22px;
-  font-weight:700;
-}
-.timer{
-  margin:12px 0;
-  background:#fff3cd;
-  padding:12px;
-  border-radius:14px;
-  text-align:center;
-  font-size:20px;
-  font-weight:600;
-}
-
-.progress-text{
-  text-align:center;
-  margin:8px 0;
-  font-weight:600;
-}
-
-.progress-bar{
-  height:8px;
-  background:#eee;
-  border-radius:10px;
-  overflow:hidden;
-}
-.progress{
-  height:100%;
-  width:0%;
-  background:#4caf50;
-}
-
-.question-card{
-  border:2px solid #eee;
-  border-radius:18px;
-  padding:16px;
-  margin-top:14px;
-  flex-grow:1;
-}
-
-.question{
-  font-size:18px;
-  font-weight:600;
-  margin-bottom:14px;
-}
-
-.option{
-  border:2px solid #e0e0e0;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:12px;
-  font-size:16px;
-  cursor:pointer;
-}
-.option.selected{
-  background:#e3f2fd;
-  border-color:#2196f3;
-}
-.option.correct{
-  background:#c8e6c9;
-  border-color:#2e7d32;
-}
-.option.wrong{
-  background:#ffcdd2;
-  border-color:#c62828;
-}
-
-.nav{
-  display:flex;
-  gap:12px;
-  margin-top:16px;
-}
-.nav button{
-  flex:1;
-  padding:14px;
-  font-size:18px;
-  border:none;
-  border-radius:14px;
-  cursor:pointer;
-}
-.prev{ background:#9e9e9e; color:#fff; }
-.next{ background:#1976d2; color:#fff; }
-
-.result{
-  text-align:center;
-  padding:30px;
-}
-.score{
-  font-size:34px;
-  font-weight:700;
-  color:#2e7d32;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕌 सम्राट अकबर - 25 MCQ क्विज</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Noto Sans Devanagari', Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+        .quiz-container {
+            max-width: 900px; 
+            margin: auto; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #ff9ff3); 
+            color: white; 
+            padding: 30px; 
+            text-align: center;
+        }
+        .header h1 { font-size: 2.2em; margin-bottom: 10px; }
+        .question {
+            background: #f8f9fa; 
+            margin: 25px; 
+            padding: 30px; 
+            border-radius: 15px; 
+            border-left: 6px solid #3498db;
+            margin-bottom: 0;
+        }
+        .question:last-child { margin-bottom: 25px; }
+        .question h3 { 
+            color: #2c3e50; 
+            margin-bottom: 20px; 
+            font-size: 1.3em; 
+        }
+        .options { list-style: none; padding: 0; }
+        .option {
+            background: white; 
+            margin: 12px 0; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border: 2px solid #e9ecef; 
+            transition: all 0.3s; 
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+        .option:hover { 
+            border-color: #3498db; 
+            transform: translateX(5px); 
+            box-shadow: 0 5px 15px rgba(52,152,219,0.2);
+        }
+        .answer { 
+            background: linear-gradient(135deg, #d4edda, #c3e6cb); 
+            margin: 20px 0 0 0; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #28a745;
+            font-weight: 600;
+        }
+        .print-btn {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            border-radius: 25px; 
+            cursor: pointer; 
+            font-size: 1.1em; 
+            margin: 20px auto; 
+            display: block;
+        }
+        @media (max-width: 768px) { 
+            body { padding: 10px; } 
+            .header h1 { font-size: 1.8em; }
+            .question { margin: 15px; padding: 20px; }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="quiz-container">
+        <div class="header">
+            <h1>🕌 सम्राट अकबर - 25 MCQ</h1>
+            <p><strong>मुगल साम्राज्य का स्वर्ण युग</strong> | सभी प्रश्न सत्यापित</p>
+            <button class="print-btn" onclick="window.print()">📄 PDF डाउनलोड / प्रिंट</button>
+        </div>
 
-<div class="container">
+        <!-- प्रश्न 1 -->
+        <div class="question">
+            <h3>1. अकबर का जन्म कब हुआ था?</h3>
+            <ul class="options">
+                <li class="option">A) 1540 ई.</li>
+                <li class="option">B) 1542 ई.</li>
+                <li class="option">C) 1544 ई.</li>
+                <li class="option">D) 1550 ई.</li>
+            </ul>
+            <div class="answer">✅ <strong>B) 1542 ई.</strong> - 14 अक्टूबर 1542 को उमरकोट में</div>
+        </div>
 
-<div class="title">🏹 अकबर : 25 MCQs Quiz</div>
+        <!-- प्रश्न 2 -->
+        <div class="question">
+            <h3>2. अकबर का राज्याभिषेक कब हुआ?</h3>
+            <ul class="options">
+                <li class="option">A) 1555 ई.</li>
+                <li class="option">B) 1556 ई.</li>
+                <li class="option">C) 1558 ई.</li>
+                <li class="option">D) 1560 ई.</li>
+            </ul>
+            <div class="answer">✅ <strong>B) 1556 ई.</strong> - पानीपत-II के बाद</div>
+        </div>
 
-<div class="timer" id="timer">Time: 20:00</div>
+        <!-- प्रश्न 3 -->
+        <div class="question">
+            <h3>3. अकबर का राज्याभिषेक किस स्थान पर हुआ था?</h3>
+            <ul class="options">
+                <li class="option">A) दिल्ली</li>
+                <li class="option">B) आगरा</li>
+                <li class="option">C) कालानौर</li>
+                <li class="option">D) लाहौर</li>
+            </ul>
+            <div class="answer">✅ <strong>C) कालानौर</strong> - पंजाब में 1556</div>
+        </div>
 
-<div class="progress-text" id="qCount">प्रश्न 1 / 25</div>
-<div class="progress-bar"><div class="progress" id="progress"></div></div>
+        <!-- प्रश्न 4 -->
+        <div class="question">
+            <h3>4. बैरम खान कब से कब तक अकबर का संरक्षक रहा?</h3>
+            <ul class="options">
+                <li class="option">A) 1555–1556</li>
+                <li class="option">B) 1556–1560</li>
+                <li class="option">C) 1556–1565</li>
+                <li class="option">D) 1558–1564</li>
+            </ul>
+            <div class="answer">✅ <strong>B) 1556–1560</strong> - वकील-ए-मुतलक</div>
+        </div>
 
-<div class="question-card" id="quiz">
-  <div class="question" id="question"></div>
-  <div id="options"></div>
-</div>
-
-<div class="nav">
-  <button class="prev" onclick="prev()">‹ पिछला</button>
-  <button class="next" onclick="next()">अगला ›</button>
-</div>
-
-<div class="result" id="result" style="display:none;">
-  <h2>🎉 Test Completed</h2>
-  <div class="score" id="score"></div>
-</div>
-
-</div>
-
-<script>
-const questions=[
-["अकबर का जन्म कब हुआ था?",["1540","1542","1544","1550"],1],
-["अकबर का राज्याभिषेक कब हुआ?",["1555","1556","1558","1560"],1],
-["अकबर का राज्याभिषेक कहाँ हुआ?",["दिल्ली","आगरा","कालानौर","लाहौर"],2],
-["पानीपत की दूसरी लड़ाई कब हुई?",["1526","1556","1576","1605"],1],
-["महाराणा प्रताप के घोड़े का नाम क्या था?",["चेतक","बादल","शेर","वीर"],0]
-];
-
-let i=0;
-let ans=new Array(questions.length).fill(null);
-
-function load(){
-  question.innerText = (i+1)+". "+questions[i][0];
-  qCount.innerText = `प्रश्न ${i+1} / ${questions.length}`;
-  progress.style.width = ((i+1)/questions.length)*100+"%";
-  options.innerHTML="";
-  questions[i][1].forEach((o,j)=>{
-    let d=document.createElement("div");
-    d.className="option";
-    if(ans[i]===j) d.classList.add("selected");
-    d.innerText=o;
-    d.onclick=()=>select(j,d);
-    options.appendChild(d);
-  });
-}
-
-function select(j,el){
-  ans[i]=j;
-  document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
-  el.classList.add("selected");
-}
-
-function next(){
-  if(i<questions.length-1){ i++; load(); }
-  else submit();
-}
-function prev(){
-  if(i>0){ i--; load(); }
-}
-
-function submit(){
-  let score=0;
-  ans.forEach((a,x)=>{ if(a===questions[x][2]) score++; });
-  quiz.style.display="none";
-  document.querySelector(".nav").style.display="none";
-  result.style.display="block";
-  document.getElementById("score").innerText = `${score} / ${questions.length}`;
-}
-
-/* Timer */
-let time=20*60;
-setInterval(()=>{
-  if(time<=0) submit();
-  let m=Math.floor(time/60);
-  let s=time%60;
-  timer.innerText=`Time: ${m}:${s<10?'0':''}${s}`;
-  time--;
-},1000);
-
-load();
-</script>
-
-</body>
-</html>
+        <!-- प्रश्न 5 -->
+        <div class="question">
+            <h3>5. पानीपत की दूसरी लड़ाई कब हुई?</h3>
+            <ul class="options">
+                <li class="option">A) 1526 ई.</li>
+                <li class="option">
