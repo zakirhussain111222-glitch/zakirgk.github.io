@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akbar Quiz ✨</title>
+<title>Akbar Quiz</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:"Poppins","Noto Sans Devanagari",system-ui;
-  background:
-    radial-gradient(circle at top,#ff9a9e,#fad0c4 30%,transparent 60%),
-    linear-gradient(135deg,#667eea,#764ba2);
+  background:linear-gradient(135deg,#667eea,#764ba2,#ff758c);
   min-height:100vh;
   display:flex;
   justify-content:center;
@@ -25,7 +24,7 @@ body{
   max-width:430px;
   min-height:96vh;
   padding:18px;
-  border-radius:32px;
+  border-radius:28px;
   background:rgba(255,255,255,.22);
   backdrop-filter:blur(18px);
   box-shadow:0 30px 70px rgba(0,0,0,.35);
@@ -40,95 +39,77 @@ body{
 }
 .header h1{
   margin:0;
-  font-size:28px;
+  font-size:26px;
   font-weight:800;
-  letter-spacing:.5px;
 }
-.header span{
-  display:block;
-  font-size:13px;
+.header p{
+  margin:6px 0 0;
   opacity:.85;
-  margin-top:6px;
 }
 
 /* Card */
 .card{
   margin-top:20px;
-  background:linear-gradient(180deg,#ffffff,#f7f7ff);
+  background:#ffffff;
   color:#222;
-  border-radius:26px;
+  border-radius:24px;
   padding:22px;
   flex-grow:1;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.6),
-    0 15px 40px rgba(0,0,0,.25);
-  animation:pop .6s ease;
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
+  animation:fade .5s ease;
 }
 
-@keyframes pop{
-  from{transform:scale(.95);opacity:0}
-  to{transform:scale(1);opacity:1}
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
 }
 
+/* Question */
 .qno{
   font-size:13px;
   color:#777;
 }
 .question{
-  font-size:21px;
+  font-size:20px;
   font-weight:600;
-  margin:12px 0 22px;
-  line-height:1.35;
+  margin:10px 0 18px;
+  line-height:1.4;
 }
 
-/* Options */
+/* OPTIONS – CLEAN */
 .option{
-  padding:15px 16px;
-  border-radius:18px;
-  margin-bottom:14px;
+  background:#ffffff;
+  border:2px solid #e0e0e0;
+  border-radius:16px;
+  padding:14px 16px;
+  margin-bottom:12px;
   font-size:16px;
   font-weight:500;
-  color:#fff;
+  color:#222;
   cursor:pointer;
-  position:relative;
-  overflow:hidden;
-  transition:.3s;
-}
-.option::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);
-  transform:translateX(-100%);
-}
-.option:hover::after{
-  transform:translateX(100%);
-  transition:.6s;
-}
-.option:hover{
-  transform:translateY(-2px) scale(1.02);
+  transition:.25s;
 }
 
-.option.a{background:linear-gradient(135deg,#ff6a88,#ff99ac);}
-.option.b{background:linear-gradient(135deg,#7f7fd5,#86a8e7);}
-.option.c{background:linear-gradient(135deg,#42e695,#3bb2b8);}
-.option.d{background:linear-gradient(135deg,#f7971e,#ffd200);}
+.option:hover{
+  background:#f5f7ff;
+}
 
 .option.selected{
-  outline:4px solid rgba(0,0,0,.5);
+  border-color:#3f51b5;
+  background:#eef1ff;
 }
 
-/* Nav */
+/* Navigation */
 .nav{
   display:flex;
   gap:14px;
-  margin-top:20px;
+  margin-top:18px;
 }
 .nav button{
   flex:1;
   padding:16px;
   border:none;
-  border-radius:20px;
+  border-radius:18px;
   font-size:18px;
   font-weight:700;
   cursor:pointer;
@@ -144,10 +125,10 @@ body{
 /* Result */
 .result{
   text-align:center;
-  padding:50px 20px;
+  padding:40px 20px;
 }
 .score{
-  font-size:48px;
+  font-size:44px;
   font-weight:900;
   background:linear-gradient(135deg,#ff512f,#dd2476);
   -webkit-background-clip:text;
@@ -161,8 +142,8 @@ body{
 <div class="app">
 
 <div class="header">
-  <h1>👑 Akbar Quiz</h1>
-  <span>Ultra Beautiful • Colourful • Premium</span>
+  <h1>👑 अकबर Quiz</h1>
+  <p>Beautiful Page • Clean Options</p>
 </div>
 
 <div class="card" id="quiz">
@@ -177,7 +158,7 @@ body{
 </div>
 
 <div class="result" id="result" style="display:none;">
-  <h2>✨ Completed</h2>
+  <h2>🎉 Completed</h2>
   <div class="score" id="score"></div>
 </div>
 
@@ -196,10 +177,9 @@ function load(){
   count.innerText=`Question ${i+1} / ${questions.length}`;
   question.innerText=questions[i][0];
   options.innerHTML="";
-  const cls=["a","b","c","d"];
   questions[i][1].forEach((o,j)=>{
     let d=document.createElement("div");
-    d.className=`option ${cls[j]} ${ans[i]===j?"selected":""}`;
+    d.className="option"+(ans[i]===j?" selected":"");
     d.innerText=o;
     d.onclick=()=>{ans[i]=j;load();}
     options.appendChild(d);
