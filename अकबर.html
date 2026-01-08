@@ -2,7 +2,8 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<title>अकबर MCQ (25 प्रश्न)</title>
+<title>Akbar MCQ Test</title>
+
 <style>
 body{
     font-family: "Noto Sans Devanagari", Arial, sans-serif;
@@ -13,8 +14,12 @@ h1{
     text-align:center;
     color:#7a0000;
 }
-.mcq{
-    background:#ffffff;
+.quiz{
+    max-width:900px;
+    margin:auto;
+}
+.question-box{
+    background:#fff;
     padding:15px 20px;
     margin-bottom:15px;
     border-radius:8px;
@@ -22,298 +27,133 @@ h1{
 }
 .question{
     font-weight:bold;
-    margin-bottom:6px;
+    margin-bottom:10px;
 }
-.options div{
-    margin-left:20px;
-    margin-top:3px;
+.option{
+    padding:8px 10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    margin:6px 0;
+    cursor:pointer;
 }
-.answer{
-    margin-top:8px;
-    color:#006400;
+.option:hover{
+    background:#eef3ff;
+}
+.option.selected{
+    background:#dbe7ff;
+    border-color:#4a6cf7;
+}
+.option.correct{
+    background:#c8f7c5;
+    border-color:green;
+}
+.option.wrong{
+    background:#f7c5c5;
+    border-color:red;
+}
+#submitBtn{
+    display:block;
+    margin:30px auto;
+    padding:12px 30px;
+    font-size:16px;
+    background:#7a0000;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+#result{
+    text-align:center;
+    font-size:20px;
     font-weight:bold;
+    margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>अकबर पर आधारित 25 MCQ (उत्तर सहित)</h1>
+<h1>अकबर : MCQ Test (25 Questions)</h1>
 
-<div class="mcq">
-<div class="question">1. अकबर का जन्म कब हुआ था?</div>
-<div class="options">
-<div>A) 1540 ई.</div>
-<div>B) 1542 ई.</div>
-<div>C) 1544 ई.</div>
-<div>D) 1550 ई.</div>
-</div>
-<div class="answer">उत्तर: B) 1542 ई.</div>
-</div>
+<div class="quiz" id="quiz"></div>
 
-<div class="mcq">
-<div class="question">2. अकबर का राज्याभिषेक कब हुआ?</div>
-<div class="options">
-<div>A) 1555 ई.</div>
-<div>B) 1556 ई.</div>
-<div>C) 1558 ई.</div>
-<div>D) 1560 ई.</div>
-</div>
-<div class="answer">उत्तर: B) 1556 ई.</div>
-</div>
+<button id="submitBtn" onclick="submitTest()">Submit Test</button>
 
-<div class="mcq">
-<div class="question">3. अकबर का राज्याभिषेक कहाँ हुआ?</div>
-<div class="options">
-<div>A) दिल्ली</div>
-<div>B) आगरा</div>
-<div>C) कालानौर</div>
-<div>D) लाहौर</div>
-</div>
-<div class="answer">उत्तर: C) कालानौर</div>
-</div>
+<div id="result"></div>
 
-<div class="mcq">
-<div class="question">4. बैरम खान कब तक अकबर का संरक्षक रहा?</div>
-<div class="options">
-<div>A) 1555–1556</div>
-<div>B) 1556–1560</div>
-<div>C) 1556–1565</div>
-<div>D) 1558–1564</div>
-</div>
-<div class="answer">उत्तर: B) 1556–1560</div>
-</div>
+<script>
+const questions = [
+{q:"अकबर का जन्म कब हुआ था?", options:["1540 ई.","1542 ई.","1544 ई.","1550 ई."], ans:1},
+{q:"अकबर का राज्याभिषेक कब हुआ?", options:["1555 ई.","1556 ई.","1558 ई.","1560 ई."], ans:1},
+{q:"अकबर का राज्याभिषेक कहाँ हुआ?", options:["दिल्ली","आगरा","कालानौर","लाहौर"], ans:2},
+{q:"बैरम खान कब तक अकबर का संरक्षक रहा?", options:["1555–56","1556–60","1556–65","1558–64"], ans:1},
+{q:"पानीपत की दूसरी लड़ाई कब हुई?", options:["1526","1556","1576","1605"], ans:1},
+{q:"अकबर ने बैरम खान से कब मुक्ति पाई?", options:["1556","1558","1560","1565"], ans:2},
+{q:"हल्दीघाटी का युद्ध कब हुआ?", options:["1572","1575","1576","1580"], ans:2},
+{q:"हल्दीघाटी युद्ध किसके बीच हुआ?", options:["अकबर–राणा सांगा","अकबर–महाराणा प्रताप","जहाँगीर–प्रताप","बाबर–प्रताप"], ans:1},
+{q:"हल्दीघाटी में मुगल सेना का नेतृत्व किसने किया?", options:["बैरम खान","टोडरमल","राजा मानसिंह","अबुल फजल"], ans:2},
+{q:"अकबर का प्रमुख सेनापति कौन था?", options:["बीरबल","राजा मानसिंह","तानसेन","अबुल फजल"], ans:1},
+{q:"महाराणा प्रताप के घोड़े का नाम?", options:["चेतक","बादल","वीर","रणवीर"], ans:0},
+{q:"जब्ती प्रणाली किसके शासन में?", options:["बाबर","हुमायूँ","अकबर","जहाँगीर"], ans:2},
+{q:"अकबर ने मालवा कब जीता?", options:["1560","1561","1572","1580"], ans:1},
+{q:"अकबर ने दास प्रथा कब समाप्त की?", options:["1556","1558","1562","1565"], ans:2},
+{q:"जजिया कर अकबर ने कब हटाया?", options:["1558","1560","1564","1572"], ans:2},
+{q:"मनसबदारी प्रथा किसने शुरू की?", options:["बाबर","हुमायूँ","अकबर","जहाँगीर"], ans:2},
+{q:"अकबरनामा के लेखक?", options:["फैज़ी","अबुल फजल","बदायूँनी","बीरबल"], ans:1},
+{q:"अबुल फजल की हत्या किसने की?", options:["अकबर","जहाँगीर","बीर सिंह बुंदेला","औरंगजेब"], ans:2},
+{q:"किस विद्रोह में बीरबल मारे गए?", options:["बंगाल","उज़बेक","जाट","राजपूत"], ans:1},
+{q:"महाभारत का फारसी नाम?", options:["शाहनामा","रज़्मनामा","तुज़ुक","अकबरनामा"], ans:1},
+{q:"बुलंद दरवाज़ा कब बना?", options:["1569","1571","1576","1585"], ans:1},
+{q:"मुगलों की राजकीय भाषा?", options:["अरबी","फारसी","संस्कृत","उर्दू"], ans:1},
+{q:"नवरत्नों में कौन नहीं था?", options:["तानसेन","बीरबल","अबुल फजल","मलिक अंबर"], ans:3},
+{q:"अकबर के दरबारी संगीतकार?", options:["बैजू बावरा","तानसेन","खुसरो","हरिदास"], ans:1},
+{q:"जजिया कर पर गलत कथन?", options:["मोहम्मद बिन कासिम","1560 में हटाया","1679 में लगाया","गैर-मुस्लिमों पर"], ans:1}
+];
 
-<div class="mcq">
-<div class="question">5. पानीपत की दूसरी लड़ाई कब हुई?</div>
-<div class="options">
-<div>A) 1526 ई.</div>
-<div>B) 1556 ई.</div>
-<div>C) 1576 ई.</div>
-<div>D) 1605 ई.</div>
-</div>
-<div class="answer">उत्तर: B) 1556 ई.</div>
-</div>
+let userAnswers = new Array(questions.length).fill(null);
 
-<div class="mcq">
-<div class="question">6. अकबर ने बैरम खान के प्रभाव से कब मुक्ति पाई?</div>
-<div class="options">
-<div>A) 1556 ई.</div>
-<div>B) 1558 ई.</div>
-<div>C) 1560 ई.</div>
-<div>D) 1565 ई.</div>
-</div>
-<div class="answer">उत्तर: C) 1560 ई.</div>
-</div>
+function loadQuiz(){
+    const quiz = document.getElementById("quiz");
+    questions.forEach((item,i)=>{
+        let box = document.createElement("div");
+        box.className="question-box";
+        box.innerHTML = `<div class="question">${i+1}. ${item.q}</div>`;
+        item.options.forEach((op,j)=>{
+            let div = document.createElement("div");
+            div.className="option";
+            div.innerText=op;
+            div.onclick=()=>selectOption(i,j,div);
+            box.appendChild(div);
+        });
+        quiz.appendChild(box);
+    });
+}
 
-<div class="mcq">
-<div class="question">7. हल्दीघाटी का युद्ध कब हुआ?</div>
-<div class="options">
-<div>A) 1572 ई.</div>
-<div>B) 1575 ई.</div>
-<div>C) 1576 ई.</div>
-<div>D) 1580 ई.</div>
-</div>
-<div class="answer">उत्तर: C) 1576 ई.</div>
-</div>
+function selectOption(qIndex,oIndex,element){
+    if(document.getElementById("result").innerText) return;
+    userAnswers[qIndex]=oIndex;
+    const opts = element.parentNode.querySelectorAll(".option");
+    opts.forEach(o=>o.classList.remove("selected"));
+    element.classList.add("selected");
+}
 
-<div class="mcq">
-<div class="question">8. हल्दीघाटी का युद्ध किसके बीच हुआ?</div>
-<div class="options">
-<div>A) अकबर–राणा सांगा</div>
-<div>B) अकबर–महाराणा प्रताप</div>
-<div>C) जहाँगीर–प्रताप</div>
-<div>D) बाबर–प्रताप</div>
-</div>
-<div class="answer">उत्तर: B) अकबर–महाराणा प्रताप</div>
-</div>
+function submitTest(){
+    let score=0;
+    const boxes=document.querySelectorAll(".question-box");
+    boxes.forEach((box,i)=>{
+        const opts=box.querySelectorAll(".option");
+        opts.forEach((op,j)=>{
+            if(j===questions[i].ans) op.classList.add("correct");
+            if(userAnswers[i]===j && j!==questions[i].ans) op.classList.add("wrong");
+        });
+        if(userAnswers[i]===questions[i].ans) score++;
+    });
+    document.getElementById("result").innerText =
+        `आपका स्कोर : ${score} / ${questions.length}`;
+}
 
-<div class="mcq">
-<div class="question">9. हल्दीघाटी में मुगल सेना का नेतृत्व किसने किया?</div>
-<div class="options">
-<div>A) बैरम खान</div>
-<div>B) टोडरमल</div>
-<div>C) राजा मानसिंह</div>
-<div>D) अबुल फजल</div>
-</div>
-<div class="answer">उत्तर: C) राजा मानसिंह</div>
-</div>
-
-<div class="mcq">
-<div class="question">10. अकबर का प्रमुख सेनापति कौन था?</div>
-<div class="options">
-<div>A) बीरबल</div>
-<div>B) राजा मानसिंह</div>
-<div>C) तानसेन</div>
-<div>D) अबुल फजल</div>
-</div>
-<div class="answer">उत्तर: B) राजा मानसिंह</div>
-</div>
-
-<div class="mcq">
-<div class="question">11. महाराणा प्रताप के घोड़े का नाम क्या था?</div>
-<div class="options">
-<div>A) चेतक</div>
-<div>B) बादल</div>
-<div>C) राणा</div>
-<div>D) वीर</div>
-</div>
-<div class="answer">उत्तर: A) चेतक</div>
-</div>
-
-<div class="mcq">
-<div class="question">12. जब्ती राजस्व प्रणाली किसके शासनकाल में लागू हुई?</div>
-<div class="options">
-<div>A) बाबर</div>
-<div>B) हुमायूँ</div>
-<div>C) अकबर</div>
-<div>D) जहाँगीर</div>
-</div>
-<div class="answer">उत्तर: C) अकबर</div>
-</div>
-
-<div class="mcq">
-<div class="question">13. अकबर ने मालवा पर कब विजय प्राप्त की?</div>
-<div class="options">
-<div>A) 1560 ई.</div>
-<div>B) 1561 ई.</div>
-<div>C) 1572 ई.</div>
-<div>D) 1580 ई.</div>
-</div>
-<div class="answer">उत्तर: B) 1561 ई.</div>
-</div>
-
-<div class="mcq">
-<div class="question">14. अकबर ने दास प्रथा कब समाप्त की?</div>
-<div class="options">
-<div>A) 1556 ई.</div>
-<div>B) 1558 ई.</div>
-<div>C) 1562 ई.</div>
-<div>D) 1565 ई.</div>
-</div>
-<div class="answer">उत्तर: C) 1562 ई.</div>
-</div>
-
-<div class="mcq">
-<div class="question">15. अकबर ने जजिया कर कब समाप्त किया?</div>
-<div class="options">
-<div>A) 1558 ई.</div>
-<div>B) 1560 ई.</div>
-<div>C) 1564 ई.</div>
-<div>D) 1572 ई.</div>
-</div>
-<div class="answer">उत्तर: C) 1564 ई.</div>
-</div>
-
-<div class="mcq">
-<div class="question">16. मनसबदारी प्रथा की शुरुआत किसने की?</div>
-<div class="options">
-<div>A) बाबर</div>
-<div>B) हुमायूँ</div>
-<div>C) अकबर</div>
-<div>D) जहाँगीर</div>
-</div>
-<div class="answer">उत्तर: C) अकबर</div>
-</div>
-
-<div class="mcq">
-<div class="question">17. अकबरनामा के लेखक कौन थे?</div>
-<div class="options">
-<div>A) फैज़ी</div>
-<div>B) अबुल फजल</div>
-<div>C) बदायूँनी</div>
-<div>D) बीरबल</div>
-</div>
-<div class="answer">उत्तर: B) अबुल फजल</div>
-</div>
-
-<div class="mcq">
-<div class="question">18. अबुल फजल की हत्या किसने करवाई?</div>
-<div class="options">
-<div>A) अकबर</div>
-<div>B) जहाँगीर</div>
-<div>C) बीर सिंह बुंदेला</div>
-<div>D) औरंगजेब</div>
-</div>
-<div class="answer">उत्तर: C) बीर सिंह बुंदेला</div>
-</div>
-
-<div class="mcq">
-<div class="question">19. किस विद्रोह के दौरान बीरबल की मृत्यु हुई?</div>
-<div class="options">
-<div>A) बंगाल</div>
-<div>B) उज़बेक</div>
-<div>C) राजपूत</div>
-<div>D) जाट</div>
-</div>
-<div class="answer">उत्तर: B) उज़बेक विद्रोह</div>
-</div>
-
-<div class="mcq">
-<div class="question">20. महाभारत का फारसी अनुवाद क्या कहलाता है?</div>
-<div class="options">
-<div>A) शाहनामा</div>
-<div>B) रज़्मनामा</div>
-<div>C) अकबरनामा</div>
-<div>D) तुज़ुक</div>
-</div>
-<div class="answer">उत्तर: B) रज़्मनामा</div>
-</div>
-
-<div class="mcq">
-<div class="question">21. बुलंद दरवाज़ा कब बनवाया गया?</div>
-<div class="options">
-<div>A) 1569 ई.</div>
-<div>B) 1571 ई.</div>
-<div>C) 1576 ई.</div>
-<div>D) 1585 ई.</div>
-</div>
-<div class="answer">उत्तर: B) 1571 ई.</div>
-</div>
-
-<div class="mcq">
-<div class="question">22. मुगलों की राजकीय भाषा क्या थी?</div>
-<div class="options">
-<div>A) अरबी</div>
-<div>B) फारसी</div>
-<div>C) संस्कृत</div>
-<div>D) उर्दू</div>
-</div>
-<div class="answer">उत्तर: B) फारसी</div>
-</div>
-
-<div class="mcq">
-<div class="question">23. अकबर के नवरत्नों में कौन शामिल नहीं था?</div>
-<div class="options">
-<div>A) तानसेन</div>
-<div>B) बीरबल</div>
-<div>C) अबुल फजल</div>
-<div>D) मलिक अंबर</div>
-</div>
-<div class="answer">उत्तर: D) मलिक अंबर</div>
-</div>
-
-<div class="mcq">
-<div class="question">24. अकबर के दरबारी संगीतकार कौन थे?</div>
-<div class="options">
-<div>A) बैजू बावरा</div>
-<div>B) तानसेन</div>
-<div>C) अमीर खुसरो</div>
-<div>D) हरिदास</div>
-</div>
-<div class="answer">उत्तर: B) तानसेन</div>
-</div>
-
-<div class="mcq">
-<div class="question">25. जजिया कर के बारे में कौन सा कथन गलत है?</div>
-<div class="options">
-<div>A) मोहम्मद बिन कासिम ने लगाया</div>
-<div>B) 1560 में अकबर ने हटाया</div>
-<div>C) 1679 में औरंगजेब ने लगाया</div>
-<div>D) गैर-मुसलमानों पर लगाया जाता था</div>
-</div>
-<div class="answer">उत्तर: B) 1560 में अकबर ने हटाया</div>
-</div>
+loadQuiz();
+</script>
 
 </body>
 </html>
