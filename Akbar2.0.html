@@ -2,124 +2,161 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<title>Akbar Online Exam</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akbar MCQ Test</title>
 
 <style>
 :root{
-  --primary:#7a0000;
-  --accent:#ffb703;
-  --correct:#c7f9cc;
-  --wrong:#ffd6d6;
+  --primary:#8b0000;
+  --accent:#ff9800;
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --correct:#d4f8d4;
+  --wrong:#ffdada;
 }
+
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:"Noto Sans Devanagari", Arial, sans-serif;
+  font-family:"Noto Sans Devanagari", system-ui, Arial;
+  background:linear-gradient(180deg,#8b0000,#b31217);
   min-height:100vh;
-  background:linear-gradient(135deg,#1d2671,#c33764);
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
+  padding:10px;
 }
 
-.exam-container{
-  width:90%;
-  max-width:700px;
-  background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(18px);
-  border-radius:20px;
-  padding:30px;
-  color:white;
-  box-shadow:0 20px 40px rgba(0,0,0,.4);
+/* App container */
+.app{
+  width:100%;
+  max-width:420px;
+  background:var(--bg);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
 }
 
-.top-bar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-  font-size:15px;
+/* Header */
+.header{
+  background:var(--primary);
+  color:#fff;
+  padding:16px;
+  text-align:center;
+}
+.header h1{
+  font-size:18px;
+  margin:0;
+}
+.header p{
+  font-size:13px;
+  margin:4px 0 0;
   opacity:.9;
 }
 
-.question{
-  font-size:22px;
-  font-weight:bold;
-  margin-bottom:20px;
+/* Question card */
+.card{
+  background:var(--card);
+  margin:12px;
+  padding:16px;
+  border-radius:14px;
 }
 
-.option{
-  background:rgba(255,255,255,0.85);
-  color:#000;
-  padding:14px 18px;
-  border-radius:12px;
-  margin:10px 0;
-  cursor:pointer;
-  transition:.25s;
+.q-count{
+  font-size:13px;
+  color:#666;
+  margin-bottom:6px;
 }
-.option:hover{transform:scale(1.02);}
+
+.question{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:14px;
+}
+
+/* Options */
+.option{
+  padding:14px;
+  border-radius:12px;
+  border:2px solid #e0e0e0;
+  margin-bottom:10px;
+  font-size:16px;
+  cursor:pointer;
+}
 .option.selected{
-  border:3px solid var(--accent);
+  border-color:var(--accent);
+  background:#fff6e0;
 }
 .option.correct{
   background:var(--correct);
-  border:3px solid green;
+  border-color:#2e7d32;
 }
 .option.wrong{
   background:var(--wrong);
-  border:3px solid red;
+  border-color:#c62828;
 }
 
+/* Navigation */
 .nav{
   display:flex;
-  justify-content:space-between;
-  margin-top:25px;
+  gap:10px;
+  padding:12px;
 }
-
-button{
-  padding:12px 28px;
+.nav button{
+  flex:1;
+  padding:14px;
   border:none;
-  border-radius:30px;
+  border-radius:12px;
   font-size:16px;
+  font-weight:600;
   cursor:pointer;
-  background:linear-gradient(135deg,#ffb703,#fb8500);
-  color:black;
-  font-weight:bold;
 }
-button:disabled{opacity:.5}
+.prev{
+  background:#e0e0e0;
+}
+.next{
+  background:var(--accent);
+  color:#000;
+}
 
+/* Result */
 .result{
   text-align:center;
+  padding:30px 20px;
 }
 .score{
-  font-size:36px;
-  margin-top:15px;
-  color:#90ff90;
+  font-size:32px;
+  font-weight:bold;
+  color:#2e7d32;
 }
 </style>
 </head>
 
 <body>
 
-<div class="exam-container">
+<div class="app">
 
-<div id="quizBox">
-  <div class="top-bar">
-    <span id="qCount">Question 1 / 25</span>
-    <span>Akbar Test</span>
+<div class="header">
+  <h1>अकबर MCQ टेस्ट</h1>
+  <p>25 Questions • Mobile Exam</p>
+</div>
+
+<div id="quiz">
+  <div class="card">
+    <div class="q-count" id="count"></div>
+    <div class="question" id="question"></div>
+    <div id="options"></div>
   </div>
 
-  <div class="question" id="question"></div>
-  <div id="options"></div>
-
   <div class="nav">
-    <button onclick="prevQ()">Previous</button>
-    <button onclick="nextQ()">Next</button>
+    <button class="prev" onclick="prev()">Previous</button>
+    <button class="next" onclick="next()">Next</button>
   </div>
 </div>
 
-<div id="resultBox" class="result" style="display:none;">
-  <h1>Test Completed 🎉</h1>
+<div id="result" class="result" style="display:none;">
+  <h2>Test Completed 🎉</h2>
   <div class="score" id="score"></div>
 </div>
 
@@ -130,75 +167,51 @@ const questions=[
 ["अकबर का जन्म कब हुआ था?",["1540","1542","1544","1550"],1],
 ["अकबर का राज्याभिषेक कब हुआ?",["1555","1556","1558","1560"],1],
 ["अकबर का राज्याभिषेक कहाँ हुआ?",["दिल्ली","आगरा","कालानौर","लाहौर"],2],
-["बैरम खान कब तक अकबर का संरक्षक रहा?",["1555–56","1556–60","1556–65","1558–64"],1],
-["पानीपत की दूसरी लड़ाई कब हुई?",["1526","1556","1576","1605"],1],
-["अकबर ने बैरम खान से कब मुक्ति पाई?",["1556","1558","1560","1565"],2],
-["हल्दीघाटी का युद्ध कब हुआ?",["1572","1575","1576","1580"],2],
-["हल्दीघाटी युद्ध किसके बीच हुआ?",["अकबर–सांगा","अकबर–प्रताप","जहाँगीर–प्रताप","बाबर–प्रताप"],1],
-["हल्दीघाटी में मुगल सेना का नेतृत्व किसने किया?",["बैरम खान","टोडरमल","मानसिंह","अबुल फजल"],2],
-["अकबर का प्रमुख सेनापति कौन था?",["बीरबल","मानसिंह","तानसेन","अबुल फजल"],1],
-["महाराणा प्रताप के घोड़े का नाम?",["चेतक","बादल","वीर","रणवीर"],0],
-["जब्ती प्रणाली किसने लागू की?",["बाबर","हुमायूँ","अकबर","जहाँगीर"],2],
-["अकबर ने मालवा कब जीता?",["1560","1561","1572","1580"],1],
-["अकबर ने दास प्रथा कब समाप्त की?",["1556","1558","1562","1565"],2],
-["अकबर ने जजिया कर कब हटाया?",["1558","1560","1564","1572"],2],
-["मनसबदारी प्रथा किसने शुरू की?",["बाबर","हुमायूँ","अकबर","जहाँगीर"],2],
-["अकबरनामा के लेखक?",["फैज़ी","अबुल फजल","बदायूँनी","बीरबल"],1],
-["अबुल फजल की हत्या किसने की?",["अकबर","जहाँगीर","बीर सिंह","औरंगजेब"],2],
-["किस विद्रोह में बीरबल मारे गए?",["बंगाल","उज़बेक","जाट","राजपूत"],1],
-["महाभारत का फारसी नाम?",["शाहनामा","रज़्मनामा","तुज़ुक","अकबरनामा"],1],
-["बुलंद दरवाज़ा कब बना?",["1569","1571","1576","1585"],1],
-["मुगलों की राजकीय भाषा?",["अरबी","फारसी","संस्कृत","उर्दू"],1],
-["नवरत्नों में कौन नहीं था?",["तानसेन","बीरबल","अबुल फजल","मलिक अंबर"],3],
-["अकबर के दरबारी संगीतकार?",["बैजू","तानसेन","खुसरो","हरिदास"],1],
-["जजिया कर पर गलत कथन?",["कासिम","1560 हटाया","1679 लगाया","गैर मुस्लिम"],1]
+["बैरम खान कब तक संरक्षक रहा?",["1555–56","1556–60","1556–65","1558–64"],1],
+["पानीपत की दूसरी लड़ाई कब हुई?",["1526","1556","1576","1605"],1]
 ];
 
-let index=0;
-let answers=new Array(25).fill(null);
-let submitted=false;
+let i=0;
+let ans=new Array(questions.length).fill(null);
 
-function loadQ(){
-  document.getElementById("qCount").innerText=`Question ${index+1} / 25`;
-  document.getElementById("question").innerText=questions[index][0];
-  let ops=document.getElementById("options");
-  ops.innerHTML="";
-  questions[index][1].forEach((op,i)=>{
+function load(){
+  count.innerText=`Question ${i+1} / ${questions.length}`;
+  question.innerText=questions[i][0];
+  options.innerHTML="";
+  questions[i][1].forEach((op,j)=>{
     let d=document.createElement("div");
     d.className="option";
-    if(answers[index]===i) d.classList.add("selected");
+    if(ans[i]===j) d.classList.add("selected");
     d.innerText=op;
-    d.onclick=()=>select(i,d);
-    ops.appendChild(d);
+    d.onclick=()=>select(j,d);
+    options.appendChild(d);
   });
 }
 
-function select(i,el){
-  if(submitted) return;
-  answers[index]=i;
+function select(j,el){
+  ans[i]=j;
   document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
   el.classList.add("selected");
 }
 
-function nextQ(){
-  if(index<24){index++;loadQ();}
+function next(){
+  if(i<questions.length-1){i++;load();}
   else submit();
 }
-
-function prevQ(){
-  if(index>0){index--;loadQ();}
+function prev(){
+  if(i>0){i--;load();}
 }
 
 function submit(){
-  submitted=true;
   let score=0;
-  answers.forEach((a,i)=>{if(a===questions[i][2]) score++;});
-  document.getElementById("quizBox").style.display="none";
-  document.getElementById("resultBox").style.display="block";
-  document.getElementById("score").innerText=`Score : ${score} / 25`;
+  ans.forEach((a,x)=>{if(a===questions[x][2])score++;});
+  quiz.style.display="none";
+  result.style.display="block";
+  scoreBox=document.getElementById("score");
+  scoreBox.innerText=`${score} / ${questions.length}`;
 }
 
-loadQ();
+load();
 </script>
 
 </body>
