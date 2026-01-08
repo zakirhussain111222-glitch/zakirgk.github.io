@@ -1,104 +1,181 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <title>अकबर से संबंधित MCQ</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6fb;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-    .mcq {
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 15px 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .question {
-      font-weight: bold;
-      margin-bottom: 8px;
-      color: #34495e;
-    }
-    .options {
-      margin-left: 15px;
-    }
-    .options li {
-      margin: 4px 0;
-    }
-    .answer {
-      margin-top: 8px;
-      color: #27ae60;
-      font-weight: bold;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕌 अकबर क्विज - स्टूडेंट टेस्ट</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(45deg, #d63031, #00b894);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        .header h1 { margin: 0; font-size: 2.5em; }
+        .progress {
+            background: #ddd;
+            height: 10px;
+            margin: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background: #00b894;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .question {
+            display: none;
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        .question.active {
+            display: block;
+        }
+        .qnum {
+            background: #00b894;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .question h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.4em;
+        }
+        .options label {
+            display: block;
+            background: #f8f9fa;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+        .options label:hover {
+            background: #e9ecef;
+            border-color: #00b894;
+        }
+        .options input:checked + label {
+            background: #00b894;
+            color: white;
+            border-color: #00b894;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+        button {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,184,148,0.4);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+        .score {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .grade-a { color: #00b894; }
+        .grade-b { color: #fdcb6e; }
+        .grade-c { color: #e17055; }
+        .grade-d { color: #d63031; }
+        .review {
+            display: none;
+            padding: 30px;
+            text-align: left;
+        }
+        .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
+        .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2em; }
+            button { padding: 12px 25px; font-size: 1em; }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>🕌 सम्राट अकबर क्विज</h1>
+            <p>25 प्रश्न | अपना सर्वश्रेष्ठ दें!</p>
+            <div class="progress"><div class="progress-bar" id="progress"></div></div>
+        </div>
 
-<h1>अकबर से संबंधित MCQ</h1>
+        <form id="quizForm">
+            <div class="question active" data-question="1">
+                <div class="qnum">प्रश्न 1/25</div>
+                <h3>अकबर का जन्म कब हुआ था?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="A"> A) 1540 ई.</label>
+                    <label><input type="radio" name="q1" value="B"> B) 1542 ई.</label>
+                    <label><input type="radio" name="q1" value="C"> C) 1544 ई.</label>
+                    <label><input type="radio" name="q1" value="D"> D) 1550 ई.</label>
+                </div>
+            </div>
 
-<div class="mcq">
-  <div class="question">1. अकबर का जन्म कब हुआ था?</div>
-  <ul class="options">
-    <li>A) 14 अक्टूबर 1542</li>
-    <li>B) 15 अक्टूबर 1542</li>
-    <li>C) 14 अक्टूबर 1540</li>
-    <li>D) 15 अक्टूबर 1540</li>
-  </ul>
-  <div class="answer">उत्तर: B) 15 अक्टूबर 1542</div>
-</div>
+            <div class="question" data-question="2">
+                <div class="qnum">प्रश्न 2/25</div>
+                <h3>अकबर का राज्याभिषेक कब हुआ?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="A"> A) 1555 ई.</label>
+                    <label><input type="radio" name="q2" value="B"> B) 1556 ई.</label>
+                    <label><input type="radio" name="q2" value="C"> C) 1558 ई.</label>
+                    <label><input type="radio" name="q2" value="D"> D) 1560 ई.</label>
+                </div>
+            </div>
 
-<div class="mcq">
-  <div class="question">2. अकबर का राज्याभिषेक कब हुआ?</div>
-  <ul class="options">
-    <li>A) 1555 ई.</li>
-    <li>B) 1556 ई.</li>
-    <li>C) 1557 ई.</li>
-    <li>D) 1558 ई.</li>
-  </ul>
-  <div class="answer">उत्तर: B) 1556 ई.</div>
-</div>
+            <div class="question" data-question="3">
+                <div class="qnum">प्रश्न 3/25</div>
+                <h3>अकबर का राज्याभिषेक किस स्थान पर हुआ था?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="A"> A) दिल्ली</label>
+                    <label><input type="radio" name="q3" value="B"> B) आगरा</label>
+                    <label><input type="radio" name="q3" value="C"> C) कालानौर</label>
+                    <label><input type="radio" name="q3" value="D"> D) लाहौर</label>
+                </div>
+            </div>
 
-<div class="mcq">
-  <div class="question">3. अकबर का राज्याभिषेक किस स्थान पर हुआ था?</div>
-  <ul class="options">
-    <li>A) आगरा</li>
-    <li>B) दिल्ली</li>
-    <li>C) कालानौर</li>
-    <li>D) लाहौर</li>
-  </ul>
-  <div class="answer">उत्तर: C) कालानौर</div>
-</div>
-
-<div class="mcq">
-  <div class="question">4. बैरम खान कब से कब तक अकबर का संरक्षक रहा?</div>
-  <ul class="options">
-    <li>A) 1556–1558</li>
-    <li>B) 1556–1560</li>
-    <li>C) 1557–1561</li>
-    <li>D) 1555–1560</li>
-  </ul>
-  <div class="answer">उत्तर: B) 1556–1560</div>
-</div>
-
-<div class="mcq">
-  <div class="question">5. पानीपत की दूसरी लड़ाई कब हुई?</div>
-  <ul class="options">
-    <li>A) 1526 ई.</li>
-    <li>B) 1540 ई.</li>
-    <li>C) 1556 ई.</li>
-    <li>D) 1565 ई.</li>
-  </ul>
-  <div class="answer">उत्तर: C) 1556 ई.</div>
-</div>
-
-<!-- इसी पैटर्न पर बाकी प्रश्न भी जोड़े जा सकते हैं -->
-
-</body>
-</html>
+            <div class="question" data-question="4">
+                <div class="qnum">प्रश्न 4/25</div>
+                <h3>बैरम खान कब से कब तक अकबर का संरक्षक रहा?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="A"> A) 1555–1556</label>
+                    <label><input type="radio" name="q4" value
