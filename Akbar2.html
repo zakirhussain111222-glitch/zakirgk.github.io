@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Akbar MCQ Test</title>
+
+<style>
+:root{
+  --primary:#7a0000;
+  --secondary:#ffb703;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --correct:#c8f7c5;
+  --wrong:#ffd6d6;
+}
+
+body{
+  margin:0;
+  font-family:"Noto Sans Devanagari", Arial, sans-serif;
+  background:linear-gradient(135deg,#fdfbfb,#ebedee);
+}
+
+header{
+  background:linear-gradient(135deg,#7a0000,#b11226);
+  color:white;
+  padding:25px;
+  text-align:center;
+  box-shadow:0 4px 15px rgba(0,0,0,.2);
+}
+
+header h1{margin:0;font-size:26px;}
+header p{margin-top:5px;opacity:.9}
+
+.container{
+  max-width:900px;
+  margin:25px auto;
+  padding:10px;
+}
+
+.progress{
+  height:10px;
+  background:#ddd;
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:20px;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#ffb703,#fb8500);
+  transition:.3s;
+}
+
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+  animation:fade .4s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.question{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.option{
+  padding:12px 15px;
+  border-radius:10px;
+  border:2px solid #e0e0e0;
+  margin:8px 0;
+  cursor:pointer;
+  transition:.25s;
+}
+.option:hover{
+  transform:scale(1.02);
+  background:#f0f4ff;
+}
+.option.selected{
+  background:#e0eaff;
+  border-color:#4a6cf7;
+}
+.option.correct{
+  background:var(--correct);
+  border-color:green;
+}
+.option.wrong{
+  background:var(--wrong);
+  border-color:red;
+}
+
+.submit-btn{
+  display:block;
+  margin:30px auto;
+  padding:15px 45px;
+  font-size:18px;
+  background:linear-gradient(135deg,#7a0000,#b11226);
+  color:white;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.25);
+}
+.submit-btn:hover{transform:scale(1.05)}
+
+.result-box{
+  text-align:center;
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  margin-top:30px;
+}
+.score{
+  font-size:28px;
+  color:#1b7f1b;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>अकबर : Online MCQ Test</h1>
+  <p>25 Questions • Full Exam Experience</p>
+</header>
+
+<div class="container">
+
+<div class="progress">
+  <div class="progress-bar" id="progress"></div>
+</div>
+
+<div id="quiz"></div>
+
+<button class="submit-btn" onclick="submitTest()">Submit Test</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+const questions=[
+["अकबर का जन्म कब हुआ था?",["1540","1542","1544","1550"],1],
+["अकबर का राज्याभिषेक कब हुआ?",["1555","1556","1558","1560"],1],
+["अकबर का राज्याभिषेक कहाँ हुआ?",["दिल्ली","आगरा","कालानौर","लाहौर"],2],
+["बैरम खान कब तक संरक्षक रहा?",["1555–56","1556–60","1556–65","1558–64"],1],
+["पानीपत की दूसरी लड़ाई कब?",["1526","1556","1576","1605"],1],
+["अकबर ने बैरम खान से कब मुक्ति पाई?",["1556","1558","1560","1565"],2],
+["हल्दीघाटी युद्ध कब?",["1572","1575","1576","1580"],2],
+["हल्दीघाटी युद्ध किसके बीच?",["अकबर–सांगा","अकबर–प्रताप","जहाँगीर–प्रताप","बाबर–प्रताप"],1],
+["मुगल सेना का नेतृत्व?",["बैरम खान","टोडरमल","मानसिंह","अबुल फजल"],2],
+["अकबर का सेनापति?",["बीरबल","मानसिंह","तानसेन","अबुल फजल"],1],
+["महाराणा प्रताप का घोड़ा?",["चेतक","बादल","वीर","रणवीर"],0],
+["जब्ती प्रणाली किसने?",["बाबर","हुमायूँ","अकबर","जहाँगीर"],2],
+["मालवा विजय कब?",["1560","1561","1572","1580"],1],
+["दास प्रथा समाप्त?",["1556","1558","1562","1565"],2],
+["जजिया कर हटाया?",["1558","1560","1564","1572"],2],
+["मनसबदारी प्रथा?",["बाबर","हुमायूँ","अकबर","जहाँगीर"],2],
+["अकबरनामा लेखक?",["फैज़ी","अबुल फजल","बदायूँनी","बीरबल"],1],
+["अबुल फजल हत्या?",["अकबर","जहाँगीर","बीर सिंह","औरंगजेब"],2],
+["बीरबल मृत्यु?",["बंगाल","उज़बेक","जाट","राजपूत"],1],
+["महाभारत फारसी?",["शाहनामा","रज़्मनामा","तुज़ुक","अकबरनामा"],1],
+["बुलंद दरवाज़ा?",["1569","1571","1576","1585"],1],
+["मुगल भाषा?",["अरबी","फारसी","संस्कृत","उर्दू"],1],
+["नवरत्न नहीं?",["तानसेन","बीरबल","अबुल फजल","मलिक अंबर"],3],
+["दरबारी संगीतकार?",["बैजू","तानसेन","खुसरो","हरिदास"],1],
+["जजिया गलत कथन?",["कासिम","1560 हटाया","1679 लगाया","गैर मुस्लिम"],1]
+];
+
+let answers=new Array(25).fill(null);
+
+function loadQuiz(){
+  const quiz=document.getElementById("quiz");
+  questions.forEach((q,i)=>{
+    let card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`<div class="question">${i+1}. ${q[0]}</div>`;
+    q[1].forEach((op,j)=>{
+      let d=document.createElement("div");
+      d.className="option";
+      d.innerText=op;
+      d.onclick=()=>select(i,j,d);
+      card.appendChild(d);
+    });
+    quiz.appendChild(card);
+  });
+}
+
+function select(q,o,el){
+  if(document.getElementById("result").innerHTML) return;
+  answers[q]=o;
+  el.parentNode.querySelectorAll(".option").forEach(x=>x.classList.remove("selected"));
+  el.classList.add("selected");
+  updateProgress();
+}
+
+function updateProgress(){
+  let done=answers.filter(x=>x!==null).length;
+  document.getElementById("progress").style.width=(done/25*100)+"%";
+}
+
+function submitTest(){
+  let score=0;
+  document.querySelectorAll(".card").forEach((card,i)=>{
+    card.querySelectorAll(".option").forEach((op,j)=>{
+      if(j===questions[i][2]) op.classList.add("correct");
+      if(answers[i]===j && j!==questions[i][2]) op.classList.add("wrong");
+    });
+    if(answers[i]===questions[i][2]) score++;
+  });
+  document.getElementById("result").innerHTML=
+    `<div class="result-box">
+      <h2>Test Completed 🎉</h2>
+      <div class="score">Score : ${score} / 25</div>
+     </div>`;
+}
+
+loadQuiz();
+</script>
+
+</body>
+</html>
