@@ -3,31 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akbar Quiz</title>
+<title>Akbar Quiz ✨</title>
 
 <style>
+*{box-sizing:border-box}
 body{
   margin:0;
   font-family:"Poppins","Noto Sans Devanagari",system-ui;
-  background:linear-gradient(135deg,#667eea,#764ba2,#ff758c);
+  background:
+    radial-gradient(circle at top,#ff9a9e,#fad0c4 30%,transparent 60%),
+    linear-gradient(135deg,#667eea,#764ba2);
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
+/* App shell */
 .app{
   width:100%;
   max-width:430px;
-  min-height:95vh;
-  background:rgba(255,255,255,.18);
-  backdrop-filter:blur(14px);
-  border-radius:28px;
+  min-height:96vh;
   padding:18px;
-  box-shadow:0 25px 60px rgba(0,0,0,.35);
-  color:#fff;
+  border-radius:32px;
+  background:rgba(255,255,255,.22);
+  backdrop-filter:blur(18px);
+  box-shadow:0 30px 70px rgba(0,0,0,.35);
   display:flex;
   flex-direction:column;
+  color:#fff;
 }
 
 /* Header */
@@ -36,92 +40,116 @@ body{
 }
 .header h1{
   margin:0;
-  font-size:26px;
-  font-weight:700;
+  font-size:28px;
+  font-weight:800;
+  letter-spacing:.5px;
 }
-.header p{
-  opacity:.9;
+.header span{
+  display:block;
+  font-size:13px;
+  opacity:.85;
   margin-top:6px;
 }
 
 /* Card */
 .card{
-  margin-top:18px;
-  background:#ffffff;
+  margin-top:20px;
+  background:linear-gradient(180deg,#ffffff,#f7f7ff);
   color:#222;
-  border-radius:22px;
-  padding:20px;
+  border-radius:26px;
+  padding:22px;
   flex-grow:1;
-  box-shadow:0 10px 25px rgba(0,0,0,.2);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.6),
+    0 15px 40px rgba(0,0,0,.25);
+  animation:pop .6s ease;
 }
 
-/* Question */
+@keyframes pop{
+  from{transform:scale(.95);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
 .qno{
-  font-size:14px;
+  font-size:13px;
   color:#777;
 }
 .question{
-  font-size:20px;
+  font-size:21px;
   font-weight:600;
-  margin:10px 0 18px;
+  margin:12px 0 22px;
+  line-height:1.35;
 }
 
 /* Options */
 .option{
-  border-radius:16px;
-  padding:14px;
-  margin-bottom:12px;
+  padding:15px 16px;
+  border-radius:18px;
+  margin-bottom:14px;
   font-size:16px;
   font-weight:500;
   color:#fff;
   cursor:pointer;
-  transition:.25s;
+  position:relative;
+  overflow:hidden;
+  transition:.3s;
 }
-.option:nth-child(1){background:linear-gradient(135deg,#ff9a9e,#fad0c4);}
-.option:nth-child(2){background:linear-gradient(135deg,#a18cd1,#fbc2eb);}
-.option:nth-child(3){background:linear-gradient(135deg,#fbc2eb,#a6c1ee);}
-.option:nth-child(4){background:linear-gradient(135deg,#84fab0,#8fd3f4);}
-
+.option::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);
+  transform:translateX(-100%);
+}
+.option:hover::after{
+  transform:translateX(100%);
+  transition:.6s;
+}
 .option:hover{
-  transform:scale(1.03);
+  transform:translateY(-2px) scale(1.02);
 }
+
+.option.a{background:linear-gradient(135deg,#ff6a88,#ff99ac);}
+.option.b{background:linear-gradient(135deg,#7f7fd5,#86a8e7);}
+.option.c{background:linear-gradient(135deg,#42e695,#3bb2b8);}
+.option.d{background:linear-gradient(135deg,#f7971e,#ffd200);}
 
 .option.selected{
-  outline:4px solid #222;
+  outline:4px solid rgba(0,0,0,.5);
 }
 
-/* Navigation */
+/* Nav */
 .nav{
   display:flex;
   gap:14px;
-  margin-top:18px;
+  margin-top:20px;
 }
 .nav button{
   flex:1;
   padding:16px;
   border:none;
-  border-radius:18px;
+  border-radius:20px;
   font-size:18px;
-  font-weight:600;
+  font-weight:700;
   cursor:pointer;
 }
 .prev{
-  background:#444;
+  background:rgba(0,0,0,.35);
   color:#fff;
 }
 .next{
-  background:linear-gradient(135deg,#ffe259,#ffa751);
+  background:linear-gradient(135deg,#43e97b,#38f9d7);
 }
 
 /* Result */
 .result{
   text-align:center;
-  padding:40px 20px;
+  padding:50px 20px;
 }
 .score{
-  font-size:42px;
-  font-weight:800;
-  background:linear-gradient(135deg,#43e97b,#38f9d7);
+  font-size:48px;
+  font-weight:900;
+  background:linear-gradient(135deg,#ff512f,#dd2476);
   -webkit-background-clip:text;
   color:transparent;
 }
@@ -133,12 +161,12 @@ body{
 <div class="app">
 
 <div class="header">
-  <h1>✨ अकबर Quiz</h1>
-  <p>Beautiful • Colourful • Amazing</p>
+  <h1>👑 Akbar Quiz</h1>
+  <span>Ultra Beautiful • Colourful • Premium</span>
 </div>
 
 <div class="card" id="quiz">
-  <div class="qno" id="count">Question 1</div>
+  <div class="qno" id="count"></div>
   <div class="question" id="question"></div>
   <div id="options"></div>
 </div>
@@ -149,7 +177,7 @@ body{
 </div>
 
 <div class="result" id="result" style="display:none;">
-  <h2>🎉 Completed</h2>
+  <h2>✨ Completed</h2>
   <div class="score" id="score"></div>
 </div>
 
@@ -162,40 +190,31 @@ const questions=[
 ["महाराणा प्रताप के घोड़े का नाम?",["चेतक","बादल","शेर","वीर"],0]
 ];
 
-let i=0;
-let ans=[];
+let i=0, ans=[];
 
 function load(){
   count.innerText=`Question ${i+1} / ${questions.length}`;
   question.innerText=questions[i][0];
   options.innerHTML="";
+  const cls=["a","b","c","d"];
   questions[i][1].forEach((o,j)=>{
     let d=document.createElement("div");
-    d.className="option";
-    if(ans[i]===j) d.classList.add("selected");
+    d.className=`option ${cls[j]} ${ans[i]===j?"selected":""}`;
     d.innerText=o;
     d.onclick=()=>{ans[i]=j;load();}
     options.appendChild(d);
   });
 }
-
-function next(){
-  if(i<questions.length-1){i++;load();}
-  else submit();
-}
-function prev(){
-  if(i>0){i--;load();}
-}
-
+function next(){ i<questions.length-1 ? (i++,load()) : submit(); }
+function prev(){ if(i>0){i--;load();} }
 function submit(){
-  let score=0;
-  ans.forEach((a,x)=>{if(a===questions[x][2])score++;});
+  let s=0;
+  ans.forEach((a,x)=>{if(a===questions[x][2])s++;});
   quiz.style.display="none";
   document.querySelector(".nav").style.display="none";
   result.style.display="block";
-  score.innerText=`${score} / ${questions.length}`;
+  score.innerText=`${s} / ${questions.length}`;
 }
-
 load();
 </script>
 
