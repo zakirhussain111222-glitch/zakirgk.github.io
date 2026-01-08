@@ -3,70 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akbar MCQ Test</title>
+<title>अकबर : 25 MCQs Quiz</title>
 
 <style>
-:root{
-  --primary:#8b0000;
-  --accent:#ff9800;
-  --bg:#f4f6fb;
-  --card:#ffffff;
-  --correct:#d4f8d4;
-  --wrong:#ffdada;
-}
-
-*{box-sizing:border-box}
-
 body{
   margin:0;
-  font-family:"Noto Sans Devanagari", system-ui, Arial;
-  background:linear-gradient(180deg,#8b0000,#b31217);
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  padding:10px;
+  font-family: "Noto Sans Devanagari", system-ui;
+  background: linear-gradient(180deg,#e57373,#80cbc4);
 }
 
-/* App container */
-.app{
-  width:100%;
+.container{
   max-width:420px;
-  background:var(--bg);
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  margin:12px auto;
+  background:#fff;
+  border-radius:22px;
+  padding:16px;
+  min-height:94vh;
+  display:flex;
+  flex-direction:column;
 }
 
-/* Header */
-.header{
-  background:var(--primary);
-  color:#fff;
-  padding:16px;
+.title{
   text-align:center;
+  font-size:22px;
+  font-weight:700;
 }
-.header h1{
-  font-size:18px;
-  margin:0;
-}
-.header p{
-  font-size:13px;
-  margin:4px 0 0;
-  opacity:.9;
-}
-
-/* Question card */
-.card{
-  background:var(--card);
-  margin:12px;
-  padding:16px;
+.timer{
+  margin:12px 0;
+  background:#fff3cd;
+  padding:12px;
   border-radius:14px;
+  text-align:center;
+  font-size:20px;
+  font-weight:600;
 }
 
-.q-count{
-  font-size:13px;
-  color:#666;
-  margin-bottom:6px;
+.progress-text{
+  text-align:center;
+  margin:8px 0;
+  font-weight:600;
+}
+
+.progress-bar{
+  height:8px;
+  background:#eee;
+  border-radius:10px;
+  overflow:hidden;
+}
+.progress{
+  height:100%;
+  width:0%;
+  background:#4caf50;
+}
+
+.question-card{
+  border:2px solid #eee;
+  border-radius:18px;
+  padding:16px;
+  margin-top:14px;
+  flex-grow:1;
 }
 
 .question{
@@ -75,59 +70,50 @@ body{
   margin-bottom:14px;
 }
 
-/* Options */
 .option{
-  padding:14px;
-  border-radius:12px;
   border:2px solid #e0e0e0;
-  margin-bottom:10px;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:12px;
   font-size:16px;
   cursor:pointer;
 }
 .option.selected{
-  border-color:var(--accent);
-  background:#fff6e0;
+  background:#e3f2fd;
+  border-color:#2196f3;
 }
 .option.correct{
-  background:var(--correct);
+  background:#c8e6c9;
   border-color:#2e7d32;
 }
 .option.wrong{
-  background:var(--wrong);
+  background:#ffcdd2;
   border-color:#c62828;
 }
 
-/* Navigation */
 .nav{
   display:flex;
-  gap:10px;
-  padding:12px;
+  gap:12px;
+  margin-top:16px;
 }
 .nav button{
   flex:1;
   padding:14px;
+  font-size:18px;
   border:none;
-  border-radius:12px;
-  font-size:16px;
-  font-weight:600;
+  border-radius:14px;
   cursor:pointer;
 }
-.prev{
-  background:#e0e0e0;
-}
-.next{
-  background:var(--accent);
-  color:#000;
-}
+.prev{ background:#9e9e9e; color:#fff; }
+.next{ background:#1976d2; color:#fff; }
 
-/* Result */
 .result{
   text-align:center;
-  padding:30px 20px;
+  padding:30px;
 }
 .score{
-  font-size:32px;
-  font-weight:bold;
+  font-size:34px;
+  font-weight:700;
   color:#2e7d32;
 }
 </style>
@@ -135,28 +121,27 @@ body{
 
 <body>
 
-<div class="app">
+<div class="container">
 
-<div class="header">
-  <h1>अकबर MCQ टेस्ट</h1>
-  <p>25 Questions • Mobile Exam</p>
+<div class="title">🏹 अकबर : 25 MCQs Quiz</div>
+
+<div class="timer" id="timer">Time: 20:00</div>
+
+<div class="progress-text" id="qCount">प्रश्न 1 / 25</div>
+<div class="progress-bar"><div class="progress" id="progress"></div></div>
+
+<div class="question-card" id="quiz">
+  <div class="question" id="question"></div>
+  <div id="options"></div>
 </div>
 
-<div id="quiz">
-  <div class="card">
-    <div class="q-count" id="count"></div>
-    <div class="question" id="question"></div>
-    <div id="options"></div>
-  </div>
-
-  <div class="nav">
-    <button class="prev" onclick="prev()">Previous</button>
-    <button class="next" onclick="next()">Next</button>
-  </div>
+<div class="nav">
+  <button class="prev" onclick="prev()">‹ पिछला</button>
+  <button class="next" onclick="next()">अगला ›</button>
 </div>
 
-<div id="result" class="result" style="display:none;">
-  <h2>Test Completed 🎉</h2>
+<div class="result" id="result" style="display:none;">
+  <h2>🎉 Test Completed</h2>
   <div class="score" id="score"></div>
 </div>
 
@@ -167,22 +152,23 @@ const questions=[
 ["अकबर का जन्म कब हुआ था?",["1540","1542","1544","1550"],1],
 ["अकबर का राज्याभिषेक कब हुआ?",["1555","1556","1558","1560"],1],
 ["अकबर का राज्याभिषेक कहाँ हुआ?",["दिल्ली","आगरा","कालानौर","लाहौर"],2],
-["बैरम खान कब तक संरक्षक रहा?",["1555–56","1556–60","1556–65","1558–64"],1],
-["पानीपत की दूसरी लड़ाई कब हुई?",["1526","1556","1576","1605"],1]
+["पानीपत की दूसरी लड़ाई कब हुई?",["1526","1556","1576","1605"],1],
+["महाराणा प्रताप के घोड़े का नाम क्या था?",["चेतक","बादल","शेर","वीर"],0]
 ];
 
 let i=0;
 let ans=new Array(questions.length).fill(null);
 
 function load(){
-  count.innerText=`Question ${i+1} / ${questions.length}`;
-  question.innerText=questions[i][0];
+  question.innerText = (i+1)+". "+questions[i][0];
+  qCount.innerText = `प्रश्न ${i+1} / ${questions.length}`;
+  progress.style.width = ((i+1)/questions.length)*100+"%";
   options.innerHTML="";
-  questions[i][1].forEach((op,j)=>{
+  questions[i][1].forEach((o,j)=>{
     let d=document.createElement("div");
     d.className="option";
     if(ans[i]===j) d.classList.add("selected");
-    d.innerText=op;
+    d.innerText=o;
     d.onclick=()=>select(j,d);
     options.appendChild(d);
   });
@@ -195,21 +181,31 @@ function select(j,el){
 }
 
 function next(){
-  if(i<questions.length-1){i++;load();}
+  if(i<questions.length-1){ i++; load(); }
   else submit();
 }
 function prev(){
-  if(i>0){i--;load();}
+  if(i>0){ i--; load(); }
 }
 
 function submit(){
   let score=0;
-  ans.forEach((a,x)=>{if(a===questions[x][2])score++;});
+  ans.forEach((a,x)=>{ if(a===questions[x][2]) score++; });
   quiz.style.display="none";
+  document.querySelector(".nav").style.display="none";
   result.style.display="block";
-  scoreBox=document.getElementById("score");
-  scoreBox.innerText=`${score} / ${questions.length}`;
+  document.getElementById("score").innerText = `${score} / ${questions.length}`;
 }
+
+/* Timer */
+let time=20*60;
+setInterval(()=>{
+  if(time<=0) submit();
+  let m=Math.floor(time/60);
+  let s=time%60;
+  timer.innerText=`Time: ${m}:${s<10?'0':''}${s}`;
+  time--;
+},1000);
 
 load();
 </script>
