@@ -10,22 +10,21 @@ body{font-family:Arial;max-width:900px;margin:0 auto;padding:20px;background:lin
 .header{text-align:center;background:rgba(255,255,255,0.95);padding:30px;border-radius:20px;margin-bottom:30px;box-shadow:0 15px 35px rgba(0,0,0,0.2);}
 h1{color:#2c3e50;font-size:2.5em;margin-bottom:10px;}
 .quiz-container{background:white;border-radius:20px;padding:40px;box-shadow:0 20px 40px rgba(0,0,0,0.3);}
-.controls{text-align:center;margin-bottom:30px;}
-.submit-btn{padding:18px 40px;background:linear-gradient(45deg,#28a745,#20c997);color:white;border:none;border-radius:15px;font-size:1.3em;cursor:pointer;font-weight:bold;transition:all 0.3s;box-shadow:0 5px 15px rgba(40,167,69,0.4);}
-.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(40,167,69,0.6);}
-.submit-btn:disabled{background:#6c757d;cursor:not-allowed;transform:none;}
-.reset-quiz{display:none;padding:15px 30px;margin-left:15px;background:#dc3545;color:white;border:none;border-radius:10px;font-size:1.1em;cursor:pointer;}
-.reset-quiz:hover{background:#c82333;}
 .question{background:#f8f9fa;margin:25px 0;padding:25px;border-radius:15px;border-left:6px solid #3498db;box-shadow:0 5px 15px rgba(0,0,0,0.1);}
 .question h3{color:#2c3e50;margin-bottom:20px;font-size:1.4em;border-bottom:2px solid #3498db;padding-bottom:10px;}
 .options{margin:20px 0;}
 .option{display:block;padding:15px;margin:10px 0;background:white;border:2px solid #e9ecef;border-radius:10px;cursor:pointer;transition:all 0.3s;font-size:1.1em;}
-.option:hover:not(.correct):not(.wrong){background:#3498db;color:white;border-color:#2980b9;transform:scale(1.02);}
+.option:hover:not(.selected):not(.correct):not(.wrong){background:#3498db;color:white;border-color:#2980b9;transform:scale(1.02);}
+.option.selected{background:#17a2b8 !important;border-color:#138496 !important;color:white !important;}
 .option.correct{background:#d4edda;border-color:#28a745;color:#155724;font-weight:bold;}
 .option.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
-.score-section{display:none;background:linear-gradient(135deg,#ffc107,#fd7e14);color:white;padding:30px;border-radius:20px;text-align:center;margin:20px 0;font-size:1.5em;box-shadow:0 10px 30px rgba(255,193,7,0.4);}
 .progress{background:#e9ecef;height:12px;border-radius:10px;margin:20px 0;overflow:hidden;}
 .progress-bar{height:100%;background:linear-gradient(90deg,#28a745,#20c997);width:0%;transition:width 0.5s;}
+.submit-section{text-align:center;margin-top:40px;padding:30px;background:#f8f9fa;border-radius:20px;}
+.submit-btn{padding:20px 50px;background:linear-gradient(45deg,#28a745,#20c997);color:white;border:none;border-radius:20px;font-size:1.4em;cursor:pointer;font-weight:bold;transition:all 0.3s;box-shadow:0 8px 20px rgba(40,167,69,0.4);display:none;}
+.submit-btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(40,167,69,0.6);}
+.submit-btn:disabled{background:#6c757d;cursor:not-allowed;transform:none;}
+.score-section{display:none;background:linear-gradient(135deg,#ffc107,#fd7e14);color:white;padding:40px;border-radius:25px;text-align:center;margin:30px 0;font-size:1.6em;box-shadow:0 15px 40px rgba(255,193,7,0.4);}
 .completed{pointer-events:none;opacity:0.7;}
 @media(max-width:768px){body{padding:10px;}.quiz-container{padding:20px;}}
 </style>
@@ -33,48 +32,65 @@ h1{color:#2c3e50;font-size:2.5em;margin-bottom:10px;}
 <body>
 <div class="header">
 <h1>🕌 जहांगीर इतिहास MCQ 🕌</h1>
-<p><strong>20 प्रश्न | सबमिट → उत्तर + स्कोर</strong></p>
+<p><strong>20 प्रश्न पूरे करें → निचे सबमिट बटन → उत्तर + स्कोर</strong></p>
 </div>
 
 <div class="quiz-container">
-<div class="controls">
-<button class="submit-btn" id="submitBtn" onclick="submitQuiz()">✅ सबमिट करें</button>
-<button class="reset-quiz" id="resetBtn" onclick="resetQuiz()">🔄 फिर से</button>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+<div id="questions">
+<div class="question" data-correct="b"><h3>1. अकबर का उत्तराधिकारी?</h3><div class="options"><div class="option" data-answer="a">a) शाहजहां</div><div class="option" data-answer="b">b) जहांगीर</div><div class="option" data-answer="c">c) औरंगजेब</div><div class="option" data-answer="d">d) हुमायूं</div></div></div>
+
+<div class="question" data-correct="c"><h3>2. तुजुके-ए-जहांगीरी किसकी आत्मकथा?</h3><div class="options"><div class="option" data-answer="a">a) अकबर</div><div class="option" data-answer="b">b) शाहजहां</div><div class="option" data-answer="c">c) जहांगीर</div><div class="option" data-answer="d">d) नूरजहां</div></div></div>
+
+<div class="question" data-correct="b"><h3>3. जहांगीर ने किस सिख गुरु को फांसी दी?</h3><div class="options"><div class="option" data-answer="a">a) गुरु नानक</div><div class="option" data-answer="b">b) गुरु अर्जुन देव</div><div class="option" data-answer="c">c) गुरु हरगोविंद</div><div class="option" data-answer="d">d) गुरु तेग बहादुर</div></div></div>
+
+<div class="question" data-correct="b"><h3>4. नूरजहां का मूल नाम?</h3><div class="options"><div class="option" data-answer="a">a) अस्मत बेगम</div><div class="option" data-answer="b">b) मेहरुन्निसा</div><div class="option" data-answer="c">c) गुलबदन बेगम</div><div class="option" data-answer="d">d) नूरमहल</div></div></div>
+
+<div class="question" data-correct="a"><h3>5. गुलाब इत्र की खोज किसने की?</h3><div class="options"><div class="option" data-answer="a">a) नूरजहां</div><div class="option" data-answer="b">b) जहांगीर</div><div class="option" data-answer="c">c) अस्मत बेगम</div><div class="option" data-answer="d">d) गियास बेग</div></div></div>
+
+<div class="question" data-correct="c"><h3>6. 1626 में किसने जहांगीर को बंदी बनाया?</h3><div class="options"><div class="option" data-answer="a">a) खुसरो</div><div class="option" data-answer="b">b) शाहजहां</div><div class="option" data-answer="c">c) महाबत खां</div><div class="option" data-answer="d">d) आसफ खां</div></div></div>
+
+<div class="question" data-correct="c"><h3>7. जहांगीर की मृत्यु कब?</h3><div class="options"><div class="option" data-answer="a">a) 1625</div><div class="option" data-answer="b">b) 1626</div><div class="option" data-answer="c">c) 1627</div><div class="option" data-answer="d">d) 1628</div></div></div>
+
+<div class="question" data-correct="c"><h3>8. जहांगीर मकबरा कहाँ?</h3><div class="options"><div class="option" data-answer="a">a) आगरा</div><div class="option" data-answer="b">b) दिल्ली</div><div class="option" data-answer="c">c) लाहौर</div><div class="option" data-answer="d">d) फतेहपुर सीकरी</div></div></div>
+
+<div class="question" data-correct="b"><h3>9. चित्रकला स्वर्ण काल किसका?</h3><div class="options"><div class="option" data-answer="a">a) अकबर</div><div class="option" data-answer="b">b) जहांगीर</div><div class="option" data-answer="c">c) शाहजहां</div><div class="option" data-answer="d">d) औरंगजेब</div></div></div>
+
+<div class="question" data-correct="b"><h3>10. जहांगीर मकबरा किसने बनवाया?</h3><div class="options"><div class="option" data-answer="a">a) नूरजहां</div><div class="option" data-answer="b">b) शाहजहां</div><div class="option" data-answer="c">c) आसफ खां</div><div class="option" data-answer="d">d) महाबत खां</div></div></div>
+
+<div class="question" data-correct="b"><h3>11. पहला अंग्रेज कौन आया?</h3><div class="options"><div class="option" data-answer="a">a) सर थॉमस रो</div><div class="option" data-answer="b">b) विलियम हॉकिन्स</div><div class="option" data-answer="c">c) कैप्टन हॉकिन्स</div><div class="option" data-answer="d">d) फ्रांसिस्को</div></div></div>
+
+<div class="question" data-correct="b"><h3>12. दो-अस्पा सिह-अस्पा किसने शुरू की?</h3><div class="options"><div class="option" data-answer="a">a) अकबर</div><div class="option" data-answer="b">b) जहांगीर</div><div class="option" data-answer="c">c) शाहजहां</div><div class="option" data-answer="d">d) औरंगजेब</div></div></div>
+
+<div class="question" data-correct="b"><h3>13. न्याय की जंजीर कहाँ लगी?</h3><div class="options"><div class="option" data-answer="a">a) लाहौर</div><div class="option" data-answer="b">b) आगरा किला</div><div class="option" data-answer="c">c) दिल्ली</div><div class="option" data-answer="d">d) कश्मीर</div></div></div>
+
+<div class="question" data-correct="b"><h3>14. बेबी ताज कौन सा मकबरा?</h3><div class="options"><div class="option" data-answer="a">a) जहांगीर</div><div class="option" data-answer="b">b) इतिमाद-उद-दौला</div><div class="option" data-answer="c">c) शाहजहां</div><div class="option" data-answer="d">d) अकबर</div></div></div>
+
+<div class="question" data-correct="a"><h3>15. पहला फ्रांसीसी यात्री?</h3><div class="options"><div class="option" data-answer="a">a) फ्रांसिस्को पेलेर्ट</div><div class="option" data-answer="b">b) पियरे डु जाररिक</div><div class="option" data-answer="c">c) निकोलस डौवल</div><div class="option" data-answer="d">d) तावर्नियर</div></div></div>
+
+<div class="question" data-correct="d"><h3>16. सूरत कारखाना किसे?</h3><div class="options"><div class="option" data-answer="a">a) पुर्तगाली</div><div class="option" data-answer="b">b) डच</div><div class="option" data-answer="c">c) फ्रांसीसी</div><div class="option" data-answer="d">d) अंग्रेज</div></div></div>
+
+<div class="question" data-correct="b"><h3>17. किस पुत्र ने विद्रोह किया?</h3><div class="options"><div class="option" data-answer="a">a) शाहजहां</div><div class="option" data-answer="b">b) खुसरो</div><div class="option" data-answer="c">c) खुर्रम</div><div class="option" data-answer="d">d) दारा</div></div></div>
+
+<div class="question" data-correct="b"><h3>18. जेम्स प्रथम का राजदूत?</h3><div class="options"><div class="option" data-answer="a">a) विलियम हॉकिन्स</div><div class="option" data-answer="b">b) सर थॉमस रो</div><div class="option" data-answer="c">c) निकोलस डौवल</div><div class="option" data-answer="d">d) एडवर्ड टerry</div></div></div>
+
+<div class="question" data-correct="a"><h3>19. शासन काल?</h3><div class="options"><div class="option" data-answer="a">a) 1605-1627</div><div class="option" data-answer="b">b) 1605-1626</div><div class="option" data-answer="c">c) 1604-1627</div><div class="option" data-answer="d">d) 1606-1627</div></div></div>
+
+<div class="question" data-correct="b"><h3>20. उत्तराधिकारी कौन?</h3><div class="options"><div class="option" data-answer="a">a) खुसरो</div><div class="option" data-answer="b">b) शाहजहां</div><div class="option" data-answer="c">c) महाबत खां</div><div class="option" data-answer="d">d) नूरजहां</div></div></div>
+</div>
+
+<div class="submit-section">
+<button class="submit-btn" id="submitBtn" onclick="submitQuiz()">🎉 फाइनल सबमिशन करें</button>
 </div>
 
 <div class="score-section" id="scoreSection">
 <h2 id="finalScore"></h2><p id="scoreMessage"></p>
 </div>
-
-<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-
-<div id="questions">
-<div class="question" data-correct="b"><h3>1. अकबर का उत्तराधिकारी?</h3><div class="options"><div class="option" data-answer="a">a) शाहजहां</div><div class="option" data-answer="b">b) जहांगीर</div><div class="option" data-answer="c">c) औरंगजेब</div><div class="option" data-answer="d">d) हुमायूं</div></div></div>
-<div class="question" data-correct="c"><h3>2. तुजुके-ए-जहांगीरी किसकी आत्मकथा?</h3><div class="options"><div class="option" data-answer="a">a) अकबर</div><div class="option" data-answer="b">b) शाहजहां</div><div class="option" data-answer="c">c) जहांगीर</div><div class="option" data-answer="d">d) नूरजहां</div></div></div>
-<div class="question" data-correct="b"><h3>3. जहांगीर ने किस सिख गुरु को फांसी दी?</h3><div class="options"><div class="option" data-answer="a">a) गुरु नानक</div><div class="option" data-answer="b">b) गुरु अर्जुन देव</div><div class="option" data-answer="c">c) गुरु हरगोविंद</div><div class="option" data-answer="d">d) गुरु तेग बहादुर</div></div></div>
-<div class="question" data-correct="b"><h3>4. नूरजहां का मूल नाम?</h3><div class="options"><div class="option" data-answer="a">a) अस्मत बेगम</div><div class="option" data-answer="b">b) मेहरुन्निसा</div><div class="option" data-answer="c">c) गुलबदन बेगम</div><div class="option" data-answer="d">d) नूरमहल</div></div></div>
-<div class="question" data-correct="a"><h3>5. गुलाब इत्र की खोज किसने की?</h3><div class="options"><div class="option" data-answer="a">a) नूरजहां</div><div class="option" data-answer="b">b) जहांगीर</div><div class="option" data-answer="c">c) अस्मत बेगम</div><div class="option" data-answer="d">d) गियास बेग</div></div></div>
-<div class="question" data-correct="c"><h3>6. 1626 में किसने जहांगीर को बंदी बनाया?</h3><div class="options"><div class="option" data-answer="a">a) खुसरो</div><div class="option" data-answer="b">b) शाहजहां</div><div class="option" data-answer="c">c) महाबत खां</div><div class="option" data-answer="d">d) आसफ खां</div></div></div>
-<div class="question" data-correct="c"><h3>7. जहांगीर की मृत्यु कब?</h3><div class="options"><div class="option" data-answer="a">a) 1625</div><div class="option" data-answer="b">b) 1626</div><div class="option" data-answer="c">c) 1627</div><div class="option" data-answer="d">d) 1628</div></div></div>
-<div class="question" data-correct="c"><h3>8. जहांगीर मकबरा कहाँ?</h3><div class="options"><div class="option" data-answer="a">a) आगरा</div><div class="option" data-answer="b">b) दिल्ली</div><div class="option" data-answer="c">c) लाहौर</div><div class="option" data-answer="d">d) फतेहपुर सीकरी</div></div></div>
-<div class="question" data-correct="b"><h3>9. चित्रकला स्वर्ण काल किसका?</h3><div class="options"><div class="option" data-answer="a">a) अकबर</div><div class="option" data-answer="b">b) जहांगीर</div><div class="option" data-answer="c">c) शाहजहां</div><div class="option" data-answer="d">d) औरंगजेब</div></div></div>
-<div class="question" data-correct="b"><h3>10. जहांगीर मकबरा किसने बनवाया?</h3><div class="options"><div class="option" data-answer="a">a) नूरजहां</div><div class="option" data-answer="b">b) शाहजहां</div><div class="option" data-answer="c">c) आसफ खां</div><div class="option" data-answer="d">d) महाबत खां</div></div></div>
-<div class="question" data-correct="b"><h3>11. पहला अंग्रेज कौन आया?</h3><div class="options"><div class="option" data-answer="a">a) सर थॉमस रो</div><div class="option" data-answer="b">b) विलियम हॉकिन्स</div><div class="option" data-answer="c">c) कैप्टन हॉकिन्स</div><div class="option" data-answer="d">d) फ्रांसिस्को</div></div></div>
-<div class="question" data-correct="b"><h3>12. दो-अस्पा सिह-अस्पा किसने शुरू की?</h3><div class="options"><div class="option" data-answer="a">a) अकबर</div><div class="option" data-answer="b">b) जहांगीर</div><div class="option" data-answer="c">c) शाहजहां</div><div class="option" data-answer="d">d) औरंगजेब</div></div></div>
-<div class="question" data-correct="b"><h3>13. न्याय की जंजीर कहाँ लगी?</h3><div class="options"><div class="option" data-answer="a">a) लाहौर</div><div class="option" data-answer="b">b) आगरा किला</div><div class="option" data-answer="c">c) दिल्ली</div><div class="option" data-answer="d">d) कश्मीर</div></div></div>
-<div class="question" data-correct="b"><h3>14. बेबी ताज कौन सा मकबरा?</h3><div class="options"><div class="option" data-answer="a">a) जहांगीर</div><div class="option" data-answer="b">b) इतिमाद-उद-दौला</div><div class="option" data-answer="c">c) शाहजहां</div><div class="option" data-answer="d">d) अकबर</div></div></div>
-<div class="question" data-correct="a"><h3>15. पहला फ्रांसीसी यात्री?</h3><div class="options"><div class="option" data-answer="a">a) फ्रांसिस्को पेलेर्ट</div><div class="option" data-answer="b">b) पियरे डु जाररिक</div><div class="option" data-answer="c">c) निकोलस डौवल</div><div class="option" data-answer="d">d) तावर्नियर</div></div></div>
-<div class="question" data-correct="d"><h3>16. सूरत कारखाना किसे?</h3><div class="options"><div class="option" data-answer="a">a) पुर्तगाली</div><div class="option" data-answer="b">b) डच</div><div class="option" data-answer="c">c) फ्रांसीसी</div><div class="option" data-answer="d">d) अंग्रेज</div></div></div>
-<div class="question" data-correct="b"><h3>17. किस पुत्र ने विद्रोह किया?</h3><div class="options"><div class="option" data-answer="a">a) शाहजहां</div><div class="option" data-answer="b">b) खुसरो</div><div class="option" data-answer="c">c) खुर्रम</div><div class="option" data-answer="d">d) दारा</div></div></div>
-<div class="question" data-correct="b"><h3>18. जेम्स प्रथम का राजदूत?</h3><div class="options"><div class="option" data-answer="a">a) विलियम हॉकिन्स</div><div class="option" data-answer="b">b) सर थॉमस रो</div><div class="option" data-answer="c">c) निकोलस डौवल</div><div class="option" data-answer="d">d) एडवर्ड टerry</div></div></div>
-<div class="question" data-correct="a"><h3>19. शासन काल?</h3><div class="options"><div class="option" data-answer="a">a) 1605-1627</div><div class="option" data-answer="b">b) 1605-1626</div><div class="option" data-answer="c">c) 1604-1627</div><div class="option" data-answer="d">d) 1606-1627</div></div></div>
-<div class="question" data-correct="b"><h3>20. उत्तराधिकारी कौन?</h3><div class="options"><div class="option" data-answer="a">a) खुसरो</div><div class="option" data-answer="b">b) शाहजहां</div><div class="option" data-answer="c">c) महाबत खां</div><div class="option" data-answer="d">d) नूरजहां</div></div></div>
-</div>
 </div>
 
 <script>
-let selections = {};
-let score = 0;
+let selections = new Array(20).fill(null);
 let totalAnswered = 0;
 const totalQuestions = 20;
 
@@ -82,10 +98,22 @@ document.querySelectorAll('.option').forEach(option => {
     option.onclick = function() {
         const question = this.closest('.question');
         const qIndex = Array.from(document.querySelectorAll('.question')).indexOf(question);
+        
+        // Remove previous selection from same question
+        question.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+        
+        // Add selection to clicked option
+        this.classList.add('selected');
         selections[qIndex] = this.dataset.answer;
-        totalAnswered++;
+        
+        // Count answered questions
+        totalAnswered = selections.filter(s => s !== null).length;
         updateProgress();
-        if(totalAnswered === totalQuestions) document.getElementById('submitBtn').disabled = false;
+        
+        // Show submit button when all answered
+        if(totalAnswered === totalQuestions) {
+            document.getElementById('submitBtn').style.display = 'inline-block';
+        }
     }
 });
 
@@ -95,17 +123,22 @@ function updateProgress() {
 }
 
 function submitQuiz() {
-    document.getElementById('submitBtn').style.display = 'none';
-    document.getElementById('resetBtn').style.display = 'inline-block';
+    // Disable all interactions
+    document.querySelectorAll('.question').forEach(q => q.classList.add('completed'));
+    document.getElementById('submitBtn').disabled = true;
     
+    // Show correct/wrong answers
     document.querySelectorAll('.question').forEach((question, index) => {
         const correct = question.dataset.correct;
         const selected = selections[index];
-        question.classList.add('completed');
         
         question.querySelectorAll('.option').forEach(option => {
-            if(option.dataset.answer === correct) option.classList.add('correct');
-            if(selected && option.dataset.answer === selected && selected !== correct) option.classList.add('wrong');
+            if(option.dataset.answer === correct) {
+                option.classList.add('correct');
+            }
+            if(selected && option.dataset.answer === selected && selected !== correct) {
+                option.classList.add('wrong');
+            }
         });
     });
     
@@ -114,31 +147,17 @@ function submitQuiz() {
 }
 
 function calculateScore() {
-    score = Object.keys(selections).filter(index => selections[index] === document.querySelectorAll('.question')[index].dataset.correct).length;
+    score = selections.filter((selection, index) => selection === document.querySelectorAll('.question')[index].dataset.correct).length;
     const percentage = Math.round((score / totalQuestions) * 100);
     let message = '';
-    if(percentage >= 90) message = '🏆 उत्कृष्ट! इतिहासकार बन सकते हो!';
-    else if(percentage >= 75) message = '👍 बहुत अच्छा! शानदार ज्ञान!';
-    else if(percentage >= 60) message = '👌 अच्छा प्रयास! और पढ़ो!';
-    else message = '📚 कोशिश अच्छी थी! फिर से ट्राई करो!';
     
-    document.getElementById('finalScore').innerHTML = `🎉 स्कोर: ${score}/${totalQuestions} (${percentage}%)`;
+    if(percentage >= 90) message = '🏆 उत्कृष्ट! इतिहासकार बन सकते हो! 👑';
+    else if(percentage >= 75) message = '👍 बहुत अच्छा! शानदार ज्ञान! ⭐';
+    else if(percentage >= 60) message = '👌 अच्छा प्रयास! और अभ्यास करो! 📚';
+    else message = '💪 पहली कोशिश अच्छी! फिर ट्राई करो! 🔥';
+    
+    document.getElementById('finalScore').innerHTML = `🎉 आपका स्कोर: ${score}/${totalQuestions} (${percentage}%)`;
     document.getElementById('scoreMessage').innerHTML = message;
-}
-
-function resetQuiz() {
-    selections = {};
-    score = 0;
-    totalAnswered = 0;
-    document.querySelectorAll('.option').forEach(opt => {
-        opt.classList.remove('correct','wrong');
-    });
-    document.querySelectorAll('.question').forEach(q => q.classList.remove('completed'));
-    document.getElementById('scoreSection').style.display = 'none';
-    document.getElementById('submitBtn').style.display = 'inline-block';
-    document.getElementById('resetBtn').style.display = 'none';
-    document.getElementById('submitBtn').disabled = true;
-    document.getElementById('progressBar').style.width = '0%';
 }
 </script>
 </body>
