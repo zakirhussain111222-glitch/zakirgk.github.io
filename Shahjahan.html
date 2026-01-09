@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>शाहजहाँ - MCQ क्विज</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 3px solid #5c6bc0;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #283593;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            color: #5c6bc0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .instructions {
+            background-color: #e8eaf6;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #3949ab;
+        }
+        
+        .instructions h3 {
+            color: #3949ab;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-container {
+            margin-bottom: 30px;
+        }
+        
+        .question-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background-color: #3949ab;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .question-text {
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c387e;
+            width: calc(100% - 60px);
+            vertical-align: top;
+        }
+        
+        .options {
+            margin-top: 15px;
+            padding-left: 50px;
+        }
+        
+        .option {
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            background-color: #f5f7ff;
+            border-radius: 8px;
+            border: 1px solid #d1d9ff;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option:hover {
+            background-color: #e8edff;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background-color: #c5cae9;
+            border-color: #3949ab;
+            font-weight: bold;
+        }
+        
+        .option.correct {
+            background-color: #c8e6c9;
+            border-color: #2e7d32;
+            color: #1b5e20;
+        }
+        
+        .option.incorrect {
+            background-color: #ffcdd2;
+            border-color: #c62828;
+            color: #b71c1c;
+        }
+        
+        .option-label {
+            font-weight: bold;
+            color: #3949ab;
+            margin-right: 10px;
+        }
+        
+        .answer-section {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f1f8e9;
+            border-radius: 8px;
+            border-left: 5px solid #7cb342;
+        }
+        
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .answer-text {
+            font-weight: bold;
+            color: #33691e;
+        }
+        
+        .explanation {
+            margin-top: 8px;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: #3949ab;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            margin: 0 10px 15px;
+            min-width: 180px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        button:hover {
+            background-color: #283593;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        #checkAnswers {
+            background-color: #2e7d32;
+        }
+        
+        #checkAnswers:hover {
+            background-color: #1b5e20;
+        }
+        
+        #resetQuiz {
+            background-color: #6a1b9a;
+        }
+        
+        #resetQuiz:hover {
+            background-color: #4a148c;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 25px;
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            margin-top: 25px;
+            border: 2px solid #1976d2;
+        }
+        
+        .results.show {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .results h2 {
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
+        
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #0d47a1;
+            margin: 15px 0;
+        }
+        
+        .score-text {
+            font-size: 1.2rem;
+            color: #555;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #e8eaf6;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .options {
+                padding-left: 20px;
+            }
+            
+            button {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>शाहजहाँ - MCQ क्विज</h1>
+            <div class="subtitle">मुगल साम्राज्य के स्थापत्यकला के स्वर्ण युग से संबंधित प्रश्न</div>
+        </header>
+        
+        <div class="instructions">
+            <h3>निर्देश:</h3>
+            <p>1. नीचे दिए गए 15 बहुविकल्पीय प्रश्नों के उत्तर दें।</p>
+            <p>2. प्रत्येक प्रश्न के लिए सही विकल्प पर क्लिक करें।</p>
+            <p>3. सभी उत्तर चुनने के बाद "उत्तर जांचें" बटन दबाएं।</p>
+            <p>4. क्विज को दोबारा शुरू करने के लिए "क्विज रीसेट करें" बटन का उपयोग करें।</p>
+        </div>
+        
+        <div class="quiz-container" id="quizContainer">
+            <!-- Questions will be inserted here by JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button id="checkAnswers">उत्तर जांचें</button>
+            <button id="resetQuiz">क्विज रीसेट करें</button>
+        </div>
+        
+        <div class="results" id="results">
+            <h2>आपका परिणाम</h2>
+            <div class="score" id="score">0/15</div>
+            <div class="score-text" id="scoreText"></div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>शाहजहाँ (1628-1658) - मुगल साम्राज्य के पांचवें सम्राट</p>
+        <p>© 2023 इतिहास MCQ क्विज | सभी प्रश्न ऐतिहासिक तथ्यों पर आधारित हैं</p>
+    </footer>
+
+    <script>
+        // Questions data
+        const questions = [
+            {
+                question: "शाहजहाँ सिंहासन पर कब बैठा?",
+                options: ["1627 ई.", "1628 ई.", "1658 ई.", "1666 ई."],
+                correctAnswer: 1,
+                explanation: "शाहजहाँ आधिकारिक रूप से 19 जनवरी 1628 को मुगल सिंहासन पर बैठा।"
+            },
+            {
+                question: "शाहजहाँ द्वारा निर्मित प्रमुख इमारतें कौन-सी हैं?",
+                options: ["ताजमहल, आगरा", "लाल किला, दिल्ली", "जामा मस्जिद, दिल्ली", "उपरोक्त सभी"],
+                correctAnswer: 3,
+                explanation: "शाहजहाँ ने ताजमहल, लाल किला और जामा मस्जिद (दिल्ली) सहित कई प्रसिद्ध इमारतों का निर्माण करवाया।"
+            },
+            {
+                question: "मयूर सिंहासन का निर्माण किसने करवाया?",
+                options: ["अकबर", "जहाँगीर", "शाहजहाँ", "औरंगज़ेब"],
+                correctAnswer: 2,
+                explanation: "मयूर सिंहासन का निर्माण शाहजहाँ ने 1628-1635 के बीच करवाया था।"
+            },
+            {
+                question: "मयूर सिंहासन का वास्तुकार कौन था?",
+                options: ["उस्ताद अहमद लाहौरी", "उस्ताद ईसा", "बदल खाँ", "मीर अब्दुल करीम"],
+                correctAnswer: 2,
+                explanation: "मयूर सिंहासन का वास्तुकार बदल खाँ था जो एक स्वर्णकार भी था।"
+            },
+            {
+                question: "ताजमहल का निर्माण करने वाला मुख्य स्थापत्य कलाकार कौन था?",
+                options: ["उस्ताद अहमद लाहौरी", "उस्ताद ईसा", "मीर अब्दुल करीम", "उपरोक्त सभी"],
+                correctAnswer: 0,
+                explanation: "ताजमहल का मुख्य वास्तुकार उस्ताद अहमद लाहौरी को माना जाता है।"
+            },
+            {
+                question: "स्थापत्यकला का स्वर्ण युग किसके काल को कहा जाता है?",
+                options: ["अकबर", "जहाँगीर", "शाहजहाँ", "औरंगज़ेब"],
+                correctAnswer: 2,
+                explanation: "शाहजहाँ के काल को मुगल स्थापत्यकला का स्वर्ण युग कहा जाता है।"
+            },
+            {
+                question: "ताजमहल का पूर्ववर्ती (प्रेरणा स्रोत) किसे माना जाता है?",
+                options: ["हुमायूँ का मकबरा (दिल्ली)", "इतिमाद-उद-दौला का मकबरा (आगरा)", "जहाँगीर का मकबरा (लाहौर)", "बीबी का मकबरा (औरंगाबाद)"],
+                correctAnswer: 0,
+                explanation: "ताजमहल की डिजाइन हुमायूँ के मकबरे से प्रेरित है, विशेषकर चारबाग शैली और बाग़-मकबरा डिजाइन में।"
+            },
+            {
+                question: "शाहजहाँ ने अहमदनगर को मुगल साम्राज्य में कब मिला लिया?",
+                options: ["1633 ई.", "1636 ई.", "1658 ई.", "1660 ई."],
+                correctAnswer: 1,
+                explanation: "शाहजहाँ ने 1636 ई. में अहमदनगर को मुगल साम्राज्य में विलय किया।"
+            },
+            {
+                question: "आगरा की जामा मस्जिद (जमा मस्जिद) का निर्माण किसने करवाया?",
+                options: ["शाहजहाँ", "जहाँआरा बेगम", "औरंगज़ेब", "दारा शिकोह"],
+                correctAnswer: 1,
+                explanation: "आगरा की जामा मस्जिद का निर्माण शाहजहाँ की पुत्री जहाँआरा बेगम ने 1648 में करवाया।"
+            },
+            {
+                question: "धरमट का युद्ध किसके बीच हुआ?",
+                options: ["शाहजहाँ और औरंगज़ेब", "औरंगज़ेब और दारा शिकोह", "औरंगज़ेब और शाह शुजा", "औरंगज़ेब और मुराद बख्श"],
+                correctAnswer: 2,
+                explanation: "धरमट का युद्ध 15 अप्रैल 1658 को औरंगज़ेब और शाह शुजा के बीच उत्तराधिकार युद्ध के दौरान हुआ था।"
+            },
+            {
+                question: "'शाह बुलंद इकबाल' के रूप में किसे जाना जाता है?",
+                options: ["शाहजहाँ", "दारा शिकोह", "औरंगज़ेब", "जहाँगीर"],
+                correctAnswer: 1,
+                explanation: "'शाह बुलंद इकबाल' (उच्च भाग्य वाले शासक) दारा शिकोह की उपाधि थी।"
+            },
+            {
+                question: "8 जून 1658 ई. को शाहजहाँ को किसने बंदी बना लिया?",
+                options: ["औरंगज़ेब", "दारा शिकोह", "मुराद बख्श", "शाह शुजा"],
+                correctAnswer: 0,
+                explanation: "8 जून 1658 को औरंगज़ेब ने शाहजहाँ को आगरा किले में नजरबंद कर दिया।"
+            },
+            {
+                question: "शाहजहाँ की मृत्यु कब हुई?",
+                options: ["1658 ई.", "1666 ई.", "1707 ई.", "1627 ई."],
+                correctAnswer: 1,
+                explanation: "शाहजहाँ की मृत्यु 22 जनवरी 1666 को आगरा किले में नजरबंदी के दौरान हुई।"
+            },
+            {
+                question: "अपने अंतिम दिनों में शाहजहाँ को किस किले में कैद कर रखा गया था?",
+                options: ["लाल किला, दिल्ली", "आगरा का किला", "ग्वालियर का किला", "लाहौर का किला"],
+                correctAnswer: 1,
+                explanation: "शाहजहाँ को उसके अंतिम दिनों में आगरा के किले में मुस्मन बुर्ज में कैद रखा गया था।"
+            },
+            {
+                question: "शाहजहाँ के काल में बने 'लाल किला' (दिल्ली) का वास्तुकार कौन था?",
+                options: ["उस्ताद अहमद लाहौरी", "उस्ताद ईसा", "बदल खाँ", "मीर अब्दुल करीम"],
+                correctAnswer: 0,
+                explanation: "दिल्ली के लाल किले का वास्तुकार उस्ताद अहमद लाहौरी था जो ताजमहल का भी वास्तुकार था।"
+            }
+        ];
+
+        // DOM elements
+        const quizContainer = document.getElementById('quizContainer');
+        const checkAnswersBtn = document.getElementById('checkAnswers');
+        const resetQuizBtn = document.getElementById('resetQuiz');
+        const resultsDiv = document.getElementById('results');
+        const scoreDiv = document.getElementById('score');
+        const scoreTextDiv = document.getElementById('scoreText');
+
+        // Initialize quiz
+        let userAnswers = new Array(questions.length).fill(-1);
+        
+        function initializeQuiz() {
+            quizContainer.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                
+                let optionsHtml = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                        <div class="option" data-question="${index}" data-option="${optIndex}">
+                            <span class="option-label">${String.fromCharCode(65 + optIndex)}.</span> ${option}
+                        </div>
+                    `;
+                });
+                
+                questionCard.innerHTML = `
+                    <div>
+                        <span class="question-number">${index + 1}</span>
+                        <span class="question-text">${q.question}</span>
+                    </div>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="answer-section" id="answer${index}">
+                        <div class="answer-text">सही उत्तर: ${String.fromCharCode(65 + q.correctAnswer)}. ${q.options[q.correctAnswer]}</div>
+                        <div class="explanation">${q.explanation}</div>
+                    </div>
+                `;
+                
+                quizContainer.appendChild(questionCard);
+            });
+            
+            // Add event listeners to options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionIndex = parseInt(this.getAttribute('data-question'));
+                    const optionIndex = parseInt(this.getAttribute('data-option'));
+                    
+                    // Remove selected class from all options in this question
+                    const allOptionsInQuestion = document.querySelectorAll(`.option[data-question="${questionIndex}"]`);
+                    allOptionsInQuestion.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Store user's answer
+                    userAnswers[questionIndex] = optionIndex;
+                });
+            });
+            
+            // Reset results display
+            resultsDiv.classList.remove('show');
+            userAnswers.fill(-1);
+        }
+
+        // Check answers function
+        function checkAnswers() {
+            let score = 0;
+            let allAnswered = true;
+            
+            // Check if all questions are answered
+            for (let i = 0; i < userAnswers.length; i++) {
+                if (userAnswers[i] === -1) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            
+            if (!allAnswered) {
+                alert('कृपया सभी प्रश्नों के उत्तर दें!');
+                return;
+            }
+            
+            // Calculate score and show correct/incorrect answers
+            questions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const answerSection = document.getElementById(`answer${index}`);
+                const options = document.querySelectorAll(`.option[data-question="${index}"]`);
+                
+                // Show answer section
+                answerSection.classList.add('show');
+                
+                // Mark correct and incorrect answers
+                options.forEach((option, optIndex) => {
+                    option.classList.remove('correct', 'incorrect');
+                    
+                    if (optIndex === q.correctAnswer) {
+                        option.classList.add('correct');
+                    } else if (optIndex === userAnswer && userAnswer !== q.correctAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                // Update score if answer is correct
+                if (userAnswer === q.correctAnswer) {
+                    score++;
+                }
+            });
+            
+            // Show results
+            scoreDiv.textContent = `${score}/${questions.length}`;
+            
+            let scoreMessage = '';
+            if (score === questions.length) {
+                scoreMessage = 'बहुत बढ़िया! आपने सभी प्रश्नों के सही उत्तर दिए।';
+            } else if (score >= questions.length * 0.7) {
+                scoreMessage = 'अच्छा प्रदर्शन! आप शाहजहाँ के बारे में अच्छी जानकारी रखते हैं।';
+            } else if (score >= questions.length * 0.5) {
+                scoreMessage = 'ठीक-ठाक प्रदर्शन। आप मुगल इतिहास के बारे में बुनियादी जानकारी रखते हैं।';
+            } else {
+                scoreMessage = 'आपको शाहजहाँ और मुगल इतिहास के बारे में और अध्ययन की आवश्यकता है।';
+            }
+            
+            scoreTextDiv.textContent = scoreMessage;
+            resultsDiv.classList.add('show');
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Event listeners
+        checkAnswersBtn.addEventListener('click', checkAnswers);
+        
+        resetQuizBtn.addEventListener('click', function() {
+            if (confirm('क्या आप वाकई क्विज को रीसेट करना चाहते हैं?')) {
+                initializeQuiz();
+            }
+        });
+
+        // Initialize the quiz on page load
+        document.addEventListener('DOMContentLoaded', initializeQuiz);
+    </script>
+</body>
+</html>
