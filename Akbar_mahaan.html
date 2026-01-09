@@ -170,3 +170,83 @@ function calculateScore() {
 </script>
 </body>
 </html>
+<script>
+let selections = new Array(25).fill(null);
+let totalAnswered = 0;
+const totalQuestions = 25;
+
+document.querySelectorAll('.option').forEach(option => {
+    option.onclick = function() {
+        const question = this.closest('.question');
+        const qIndex = Array.from(document.querySelectorAll('.question')).indexOf(question);
+        
+        // Remove previous selection
+        question.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        selections[qIndex] = this.dataset.answer;
+        
+        // Count answered questions
+        totalAnswered = 0;
+        selections.forEach((sel, i) => {
+            if(sel !== null && document.querySelectorAll('.question')[i].contains(document.querySelector(`[data-answer="${sel}"]`))) {
+                totalAnswered++;
+            }
+        });
+        
+        updateProgress();
+        
+        // Show submit button when ALL 25 answered
+        if(totalAnswered === totalQuestions) {
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('submitBtn').textContent = '🎉 सभी 25 उत्तर चुने! फाइनल सबमिशन करें';
+        }
+    }
+});
+
+function updateProgress() {
+    const progress = (totalAnswered / totalQuestions) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+}
+
+function submitQuiz() {
+    document.querySelectorAll('.question').forEach(q => q.classList.add('completed'));
+    document.getElementById('submitBtn').style.display = 'none';
+    
+    // Show correct/wrong
+    document.querySelectorAll('.question').forEach((question, index) => {
+        const correct = question.dataset.correct;
+        const selected = selections[index];
+        
+        question.querySelectorAll('.option').forEach(option => {
+            if(option.dataset.answer === correct) {
+                option.classList.add('correct');
+            }
+            if(selected && option.dataset.answer === selected && selected !== correct) {
+                option.classList.add('wrong');
+            }
+        });
+    });
+    
+    calculateScore();
+    document.getElementById('scoreSection').style.display = 'block';
+}
+
+function calculateScore() {
+    let score = 0;
+    for(let i = 0; i < totalQuestions; i++) {
+        if(selections[i] === document.querySelectorAll('.question')[i].dataset.correct) {
+            score++;
+        }
+    }
+    const percentage = Math.round((score / totalQuestions) * 100);
+    let message = '';
+    
+    if(percentage >= 90) message = '🏆 सम्राट अकबर के जानकार! 👑';
+    else if(percentage >= 75) message = '⭐ शानदार इतिहास ज्ञान! ✨';
+    else if(percentage >= 60) message = '👌 अच्छा प्रयास! 📚';
+    else message = '💪 फिर से ट्राई करो! 🔥';
+    
+    document.getElementById('finalScore').innerHTML = `🎉 स्कोर: ${score}/${totalQuestions} (${percentage}%)`;
+    document.getElementById('scoreMessage').innerHTML = message;
+}
+                    </script>
