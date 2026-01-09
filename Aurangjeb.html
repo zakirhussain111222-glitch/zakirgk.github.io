@@ -63,11 +63,6 @@
             border-radius: 10px;
             background-color: #f8f9fa;
             border: 1px solid #e9ecef;
-            transition: all 0.3s ease;
-        }
-        
-        .question-container:hover {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
         
         .question-number {
@@ -142,57 +137,32 @@
             transform: scale(1.2);
         }
         
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .submit-btn-container {
+            text-align: center;
             margin-top: 40px;
             margin-bottom: 30px;
         }
         
-        button {
-            padding: 14px 28px;
-            font-size: 1.1rem;
+        #submit-btn {
+            padding: 16px 40px;
+            font-size: 1.2rem;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            background-color: #2ecc71;
+            color: white;
             transition: all 0.3s ease;
         }
         
-        #check-btn {
-            background-color: #2ecc71;
-            color: white;
-        }
-        
-        #check-btn:hover {
+        #submit-btn:hover {
             background-color: #27ae60;
-            transform: translateY(-2px);
-        }
-        
-        #reset-btn {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        #reset-btn:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-        }
-        
-        #show-all-btn {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        #show-all-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
+            transform: scale(1.05);
         }
         
         .result-container {
             background-color: #f8f9fa;
-            padding: 25px;
+            padding: 30px;
             border-radius: 10px;
             margin-top: 30px;
             text-align: center;
@@ -201,34 +171,62 @@
         
         .result-container.show {
             display: block;
+            animation: fadeIn 0.5s ease;
         }
         
-        .score {
-            font-size: 2.5rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-display {
+            font-size: 3rem;
             font-weight: bold;
             color: #2c3e50;
-            margin: 10px 0;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
         
-        .score-text {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
+        .score-message {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: #7f8c8d;
         }
         
         .answers-summary {
-            margin-top: 25px;
+            margin-top: 30px;
             text-align: left;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
         .answer-item {
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
             border-radius: 8px;
-            background-color: white;
+            background-color: #f8f9fa;
+            border-left: 4px solid #e9ecef;
+        }
+        
+        .answer-item.correct {
+            border-left-color: #28a745;
+            background-color: #f0fff4;
+        }
+        
+        .answer-item.incorrect {
+            border-left-color: #dc3545;
+            background-color: #fff5f5;
         }
         
         .correct-answer {
-            color: #27ae60;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .incorrect-answer {
+            color: #dc3545;
             font-weight: bold;
         }
         
@@ -237,16 +235,6 @@
             margin-top: 40px;
             color: #7f8c8d;
             font-size: 0.9rem;
-        }
-        
-        @media print {
-            .controls, footer {
-                display: none;
-            }
-            
-            .result-container {
-                display: block;
-            }
         }
     </style>
 </head>
@@ -258,7 +246,7 @@
         </header>
         
         <div class="instructions">
-            <p><strong>निर्देश:</strong> नीचे दिए गए 15 प्रश्नों के चार-चार विकल्प हैं। प्रत्येक प्रश्न के लिए सही विकल्प चुनें। "सभी उत्तर जांचें" बटन दबाकर अपना स्कोर देखें।</p>
+            <p><strong>निर्देश:</strong> नीचे दिए गए 15 प्रश्नों के चार-चार विकल्प हैं। प्रत्येक प्रश्न के लिए सही विकल्प चुनें। "प्रश्नोत्तरी जमा करें" बटन दबाकर अपना स्कोर देखें।</p>
         </div>
         
         <div id="quiz-container">
@@ -593,25 +581,25 @@
             </div>
         </div>
         
-        <div class="controls">
-            <button id="check-btn">सभी उत्तर जांचें</button>
-            <button id="reset-btn">प्रश्नोत्तरी रीसेट करें</button>
-            <button id="show-all-btn">सभी उत्तर दिखाएं</button>
+        <div class="submit-btn-container">
+            <button id="submit-btn">प्रश्नोत्तरी जमा करें</button>
         </div>
         
         <div class="result-container" id="result-container">
             <h2>आपका परिणाम</h2>
-            <div class="score" id="score">0/15</div>
-            <div class="score-text" id="score-text"></div>
+            <div class="score-display" id="score-display">0/15</div>
+            <div class="score-message" id="score-message"></div>
             
-            <div class="answers-summary" id="answers-summary">
-                <!-- यहाँ उत्तरों का सारांश जोड़ा जाएगा -->
+            <div class="answers-summary">
+                <h3>प्रश्नवार परिणाम:</h3>
+                <div id="answers-details">
+                    <!-- यहाँ उत्तरों का विवरण जोड़ा जाएगा -->
+                </div>
             </div>
         </div>
         
         <footer>
             <p>औरंगजेब MCQ प्रश्नोत्तरी | मुग़ल इतिहास अध्ययन सामग्री</p>
-            <p>इस HTML फ़ाइल को GitHub पर अपलोड करने के लिए इसे सीधे कॉपी-पेस्ट करें</p>
         </footer>
     </div>
 
@@ -635,30 +623,48 @@
             15: 'c'  // वीणा
         };
         
-        // उत्तरों के विस्तृत विवरण
-        const answerExplanations = {
-            1: "औरंगजेब को शाहजहाँ ने दक्कन प्रांत का सूबेदार नियुक्त किया था। यह अनुभव उनके लिए बाद में महत्वपूर्ण साबित हुआ।",
-            2: "औरंगजेब ने 1658 से 1707 तक शासन किया, जो किसी भी मुगल शासक का सबसे लंबा शासनकाल था।",
-            3: "मीर मुहम्मद हकीम औरंगजेब के प्रमुख शिक्षक (गुरु) थे जिन्होंने उन्हें धार्मिक और प्रशासनिक शिक्षा दी।",
-            4: "अपनी धार्मिक जीवनशैली के कारण औरंगजेब को 'जिंदा पीर' (जीवित संत) कहा जाता था।",
-            5: "1665 में शिवाजी ने मुगल सेनापति मिर्ज़ा राजा जय सिंह के साथ पुरंदर की संधि पर हस्ताक्षर किए।",
-            6: "औरंगजेब के आदेश से नौवें सिख गुरु, गुरु तेग बहादुर की हत्या कर दी गई थी।",
-            7: "1679 में औरंगजेब ने जज़िया कर (गैर-मुसलमानों पर लगने वाला कर) पुनः लागू किया।",
-            8: "बीबी का मकबरा औरंगाबाद में स्थित है और इसे 'दक्कन का ताजमहल' भी कहा जाता है।",
-            9: "1686 में औरंगजेब ने बीजापुर को मुगल साम्राज्य में मिला लिया।",
-            10: "फ्रांसीसी यात्री फ्रांस्वा बर्नियर औरंगजेब के दरबार में चिकित्सक थे।",
-            11: "औरंगजेब का दो बार राज्याभिषेक हुआ था - पहली बार 1658 में और दूसरी बार 1659 में।",
-            12: "औरंगजेब ने दक्षिण में बीजापुर (1686) और गोलकुंडा (1687) पर विजय प्राप्त की।",
-            13: "दिल्ली के लाल किले में स्थित मोती मस्जिद का निर्माण औरंगजेब ने करवाया था।",
-            14: "बीबी का मकबरा (औरंगाबाद) को 'द्वितीय ताजमहल' कहा जाता है क्योंकि यह ताजमहल जैसा दिखता है।",
-            15: "औरंगजेब वीणा बजाने में निपुण थे, हालांकि वे सार्वजनिक रूप से संगीत के विरोधी थे।"
+        // विकल्पों के टेक्स्ट
+        const optionTexts = {
+            1: { a: "पंजाब", b: "बंगाल", c: "दक्कन", d: "गुजरात" },
+            2: { a: "1628-1658", b: "1658-1707", c: "1707-1748", d: "1526-1530" },
+            3: { a: "गुरु नानक देव", b: "दारा शिकोह", c: "मीर मुहम्मद हकीम", d: "शाहजहाँ" },
+            4: { a: "शिवाजी", b: "अकबर", c: "औरंगजेब", d: "शाहजहाँ" },
+            5: { a: "शाइस्ता खाँ", b: "मिर्ज़ा राजा जय सिंह", c: "राजा जसवंत सिंह", d: "दिलेर खाँ" },
+            6: { a: "गुरु नानक देव", b: "गुरु गोबिंद सिंह", c: "गुरु तेग बहादुर", d: "गुरु अर्जुन देव" },
+            7: { a: "1658 ई.", b: "1679 ई.", c: "1685 ई.", d: "1705 ई." },
+            8: { a: "दिल्ली", b: "आगरा", c: "औरंगाबाद", d: "फतेहपुर सीकरी" },
+            9: { a: "1680 ई.", b: "1686 ई.", c: "1689 ई.", d: "1700 ई." },
+            10: { a: "जीन-बैप्टिस्ट तवर्नियर", b: "फ्रांस्वा बर्नियर", c: "निकोलस मैनुक्सी", d: "पीटर मुंडी" },
+            11: { a: "बाबर", b: "हुमायूँ", c: "शाहजहाँ", d: "औरंगजेब" },
+            12: { a: "अहमदनगर और बरार", b: "बरार और गोलकुंडा", c: "बीजापुर और गोलकुंडा", d: "अहमदनगर और बीजापुर" },
+            13: { a: "शाहजहाँ", b: "औरंगजेब", c: "जहाँदार शाह", d: "फर्रुख़सियर" },
+            14: { a: "हुमायूँ का मकबरा", b: "इतमाद-उद-दौला का मकबरा", c: "बीबी का मकबरा (औरंगाबाद)", d: "सफ़दरजंग का मकबरा" },
+            15: { a: "सितार", b: "सारंगी", c: "वीणा", d: "तबला" }
+        };
+        
+        // प्रश्नों के टेक्स्ट
+        const questionTexts = {
+            1: "औरंगजेब को शाहजहाँ ने उत्तराधिकार युद्ध से पहले किस प्रांत का सूबेदार नियुक्त किया था?",
+            2: "औरंगजेब का शासन काल कब से कब तक रहा?",
+            3: "औरंगजेब के गुरु कौन थे?",
+            4: "किसे 'जिंदा पीर' कहा जाता था?",
+            5: "किस मुगल सेनापति के साथ 1665 ईस्वी में शिवाजी ने पुरंदर की संधि पर हस्ताक्षर किए?",
+            6: "औरंगजेब ने किस सिख गुरु की हत्या करवा दी?",
+            7: "औरंगजेब ने जज़िया कर पुनः कब लागू किया?",
+            8: "औरंगजेब द्वारा 'बीबी का मकबरा' कहाँ बनवाया गया?",
+            9: "औरंगजेब ने बीजापुर को कब मुगल साम्राज्य में मिला दिया?",
+            10: "कौन-सा फ्रांसीसी यात्री औरंगजेब का चिकित्सक था?",
+            11: "किस मुगल बादशाह का दो बार राज्याभिषेक हुआ था?",
+            12: "औरंगजेब ने दक्षिण में किन दो राज्यों पर विजय किया था?",
+            13: "दिल्ली के लाल किले में 'मोती मस्जिद' का निर्माण किसने करवाया?",
+            14: "कौन-सा मकबरा 'द्वितीय ताजमहल' कहलाता है?",
+            15: "औरंगजेब कौन-सा संगीत वाद्य यंत्र बजाने में निपुण था?"
         };
         
         // विकल्पों पर क्लिक करने के लिए इवेंट लिसनर्स
         document.querySelectorAll('.option').forEach(option => {
             option.addEventListener('click', function() {
                 const questionNum = this.getAttribute('data-question');
-                const selectedOption = this.getAttribute('data-option');
                 
                 // पहले से चयनित विकल्प को हटाएं
                 document.querySelectorAll(`[data-question="${questionNum}"]`).forEach(opt => {
@@ -674,170 +680,88 @@
             });
         });
         
-        // सभी उत्तर जांचें बटन
-        document.getElementById('check-btn').addEventListener('click', function() {
+        // प्रश्नोत्तरी जमा करें बटन
+        document.getElementById('submit-btn').addEventListener('click', function() {
             let score = 0;
-            let userAnswers = {};
-            let answersSummaryHTML = "";
+            let answersDetailsHTML = "";
             
             // प्रत्येक प्रश्न की जांच करें
             for (let i = 1; i <= 15; i++) {
                 const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
                 const correctOption = correctAnswers[i];
-                let userAnswer = selectedOption ? selectedOption.value : 'कोई उत्तर नहीं';
-                
-                userAnswers[i] = userAnswer;
+                const userAnswer = selectedOption ? selectedOption.value : null;
                 
                 // सही उत्तर के लिए स्कोर बढ़ाएं
                 if (userAnswer === correctOption) {
                     score++;
                 }
                 
-                // उत्तर सारांश बनाएं
+                // विकल्पों को हाइलाइट करें
                 const questionElement = document.getElementById(`q${i}`);
                 const options = questionElement.querySelectorAll('.option');
                 
-                // सभी विकल्पों को रीसेट करें
                 options.forEach(opt => {
+                    const optValue = opt.getAttribute('data-option');
+                    
+                    // पहले से मौजूद क्लासेस हटाएं
                     opt.classList.remove('correct', 'incorrect');
                     
-                    const optValue = opt.getAttribute('data-option');
+                    // सही उत्तर को हाइलाइट करें
                     if (optValue === correctOption) {
                         opt.classList.add('correct');
-                    } else if (optValue === userAnswer && userAnswer !== correctOption) {
+                    }
+                    // गलत उत्तर को हाइलाइट करें (अगर उसका चयन किया गया है)
+                    else if (optValue === userAnswer && userAnswer !== correctOption) {
                         opt.classList.add('incorrect');
                     }
                 });
                 
-                // सारांश HTML जोड़ें
-                const optionLetters = { 'a': 'A', 'b': 'B', 'c': 'C', 'd': 'D' };
-                const userAnswerText = userAnswer === 'कोई उत्तर नहीं' ? 'कोई उत्तर नहीं' : 
-                                      `${optionLetters[userAnswer]}: ${getOptionText(i, userAnswer)}`;
-                const correctAnswerText = `${optionLetters[correctOption]}: ${getOptionText(i, correctOption)}`;
+                // उत्तर विवरण जोड़ें
+                const userAnswerText = userAnswer ? 
+                    `${optionTexts[i][userAnswer]}` : 
+                    "कोई उत्तर नहीं दिया";
+                const correctAnswerText = optionTexts[i][correctOption];
+                const isCorrect = userAnswer === correctOption;
                 
-                answersSummaryHTML += `
-                    <div class="answer-item">
-                        <strong>प्रश्न ${i}:</strong> ${getQuestionText(i)}<br>
-                        <strong>आपका उत्तर:</strong> <span class="${userAnswer === correctOption ? 'correct-answer' : ''}">${userAnswerText}</span><br>
-                        <strong>सही उत्तर:</strong> <span class="correct-answer">${correctAnswerText}</span><br>
-                        <strong>व्याख्या:</strong> ${answerExplanations[i]}
+                answersDetailsHTML += `
+                    <div class="answer-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <strong>प्रश्न ${i}:</strong> ${questionTexts[i]}<br>
+                        <strong>आपका उत्तर:</strong> <span class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">${userAnswerText}</span><br>
+                        <strong>सही उत्तर:</strong> <span class="correct-answer">${correctAnswerText}</span>
                     </div>
                 `;
             }
             
             // स्कोर दिखाएं
-            document.getElementById('score').textContent = `${score}/15`;
+            document.getElementById('score-display').textContent = `${score}/15`;
             
-            // स्कोर टेक्स्ट दिखाएं
-            let scoreText = "";
+            // स्कोर संदेश दिखाएं
+            let scoreMessage = "";
             if (score >= 14) {
-                scoreText = "बहुत बढ़िया! आपको औरंगजेब के बारे में उत्कृष्ट ज्ञान है।";
+                scoreMessage = "बहुत बढ़िया! आपको औरंगजेब के बारे में उत्कृष्ट ज्ञान है।";
             } else if (score >= 11) {
-                scoreText = "अच्छा! आपको औरंगजेब के बारे में अच्छी जानकारी है।";
+                scoreMessage = "अच्छा! आपको औरंगजेब के बारे में अच्छी जानकारी है।";
             } else if (score >= 8) {
-                scoreText = "ठीक है! आपको औरंगजेब के बारे में बुनियादी ज्ञान है।";
+                scoreMessage = "ठीक है! आपको औरंगजेब के बारे में बुनियादी ज्ञान है।";
             } else {
-                scoreText = "और अभ्यास की आवश्यकता है। औरंगजेब के बारे में और पढ़ें।";
+                scoreMessage = "और अभ्यास की आवश्यकता है। औरंगजेब के बारे में और पढ़ें।";
             }
             
-            document.getElementById('score-text').textContent = scoreText;
+            document.getElementById('score-message').textContent = scoreMessage;
             
-            // उत्तर सारांश दिखाएं
-            document.getElementById('answers-summary').innerHTML = answersSummaryHTML;
+            // उत्तर विवरण दिखाएं
+            document.getElementById('answers-details').innerHTML = answersDetailsHTML;
             
             // परिणाम दिखाएं
             document.getElementById('result-container').classList.add('show');
+            
+            // बटन का टेक्स्ट बदलें
+            this.textContent = "परिणाम देखें";
+            this.disabled = true;
             
             // परिणाम तक स्क्रॉल करें
             document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
         });
-        
-        // प्रश्नोत्तरी रीसेट करें बटन
-        document.getElementById('reset-btn').addEventListener('click', function() {
-            // सभी चयनित विकल्प हटाएं
-            document.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.checked = false;
-            });
-            
-            // सभी विकल्पों से स्टाइल हटाएं
-            document.querySelectorAll('.option').forEach(option => {
-                option.classList.remove('selected', 'correct', 'incorrect');
-            });
-            
-            // परिणाम छिपाएं
-            document.getElementById('result-container').classList.remove('show');
-            
-            // शीर्ष पर स्क्रॉल करें
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        
-        // सभी उत्तर दिखाएं बटन
-        document.getElementById('show-all-btn').addEventListener('click', function() {
-            for (let i = 1; i <= 15; i++) {
-                const correctOption = correctAnswers[i];
-                const questionElement = document.getElementById(`q${i}`);
-                const options = questionElement.querySelectorAll('.option');
-                
-                // सभी विकल्पों को रीसेट करें
-                options.forEach(opt => {
-                    opt.classList.remove('selected', 'correct', 'incorrect');
-                    
-                    const optValue = opt.getAttribute('data-option');
-                    if (optValue === correctOption) {
-                        opt.classList.add('correct');
-                    }
-                });
-            }
-            
-            // परिणाम दिखाएं
-            document.getElementById('result-container').classList.add('show');
-        });
-        
-        // विकल्पों के टेक्स्ट प्राप्त करने के लिए सहायक फ़ंक्शन
-        function getOptionText(questionNum, optionLetter) {
-            const optionElements = {
-                1: { a: "पंजाब", b: "बंगाल", c: "दक्कन", d: "गुजरात" },
-                2: { a: "1628-1658", b: "1658-1707", c: "1707-1748", d: "1526-1530" },
-                3: { a: "गुरु नानक देव", b: "दारा शिकोह", c: "मीर मुहम्मद हकीम", d: "शाहजहाँ" },
-                4: { a: "शिवाजी", b: "अकबर", c: "औरंगजेब", d: "शाहजहाँ" },
-                5: { a: "शाइस्ता खाँ", b: "मिर्ज़ा राजा जय सिंह", c: "राजा जसवंत सिंह", d: "दिलेर खाँ" },
-                6: { a: "गुरु नानक देव", b: "गुरु गोबिंद सिंह", c: "गुरु तेग बहादुर", d: "गुरु अर्जुन देव" },
-                7: { a: "1658 ई.", b: "1679 ई.", c: "1685 ई.", d: "1705 ई." },
-                8: { a: "दिल्ली", b: "आगरा", c: "औरंगाबाद", d: "फतेहपुर सीकरी" },
-                9: { a: "1680 ई.", b: "1686 ई.", c: "1689 ई.", d: "1700 ई." },
-                10: { a: "जीन-बैप्टिस्ट तवर्नियर", b: "फ्रांस्वा बर्नियर", c: "निकोलस मैनुक्सी", d: "पीटर मुंडी" },
-                11: { a: "बाबर", b: "हुमायूँ", c: "शाहजहाँ", d: "औरंगजेब" },
-                12: { a: "अहमदनगर और बरार", b: "बरार और गोलकुंडा", c: "बीजापुर और गोलकुंडा", d: "अहमदनगर और बीजापुर" },
-                13: { a: "शाहजहाँ", b: "औरंगजेब", c: "जहाँदार शाह", d: "फर्रुख़सियर" },
-                14: { a: "हुमायूँ का मकबरा", b: "इतमाद-उद-दौला का मकबरा", c: "बीबी का मकबरा (औरंगाबाद)", d: "सफ़दरजंग का मकबरा" },
-                15: { a: "सितार", b: "सारंगी", c: "वीणा", d: "तबला" }
-            };
-            
-            return optionElements[questionNum][optionLetter] || "जानकारी उपलब्ध नहीं";
-        }
-        
-        // प्रश्न टेक्स्ट प्राप्त करने के लिए सहायक फ़ंक्शन
-        function getQuestionText(questionNum) {
-            const questions = {
-                1: "औरंगजेब को शाहजहाँ ने उत्तराधिकार युद्ध से पहले किस प्रांत का सूबेदार नियुक्त किया था?",
-                2: "औरंगजेब का शासन काल कब से कब तक रहा?",
-                3: "औरंगजेब के गुरु कौन थे?",
-                4: "किसे 'जिंदा पीर' कहा जाता था?",
-                5: "किस मुगल सेनापति के साथ 1665 ईस्वी में शिवाजी ने पुरंदर की संधि पर हस्ताक्षर किए?",
-                6: "औरंगजेब ने किस सिख गुरु की हत्या करवा दी?",
-                7: "औरंगजेब ने जज़िया कर पुनः कब लागू किया?",
-                8: "औरंगजेब द्वारा 'बीबी का मकबरा' कहाँ बनवाया गया?",
-                9: "औरंगजेब ने बीजापुर को कब मुगल साम्राज्य में मिला दिया?",
-                10: "कौन-सा फ्रांसीसी यात्री औरंगजेब का चिकित्सक था?",
-                11: "किस मुगल बादशाह का दो बार राज्याभिषेक हुआ था?",
-                12: "औरंगजेब ने दक्षिण में किन दो राज्यों पर विजय किया था?",
-                13: "दिल्ली के लाल किले में 'मोती मस्जिद' का निर्माण किसने करवाया?",
-                14: "कौन-सा मकबरा 'द्वितीय ताजमहल' कहलाता है?",
-                15: "औरंगजेब कौन-सा संगीत वाद्य यंत्र बजाने में निपुण था?"
-            };
-            
-            return questions[questionNum] || "प्रश्न जानकारी उपलब्ध नहीं";
-        }
     </script>
 </body>
 </html>
