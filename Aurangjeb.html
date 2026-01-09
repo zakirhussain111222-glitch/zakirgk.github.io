@@ -5,236 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>औरंगजेब MCQ प्रश्नोत्तरी</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', 'Arial', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-top: 20px;
-            margin-bottom: 40px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #2c3e50;
-        }
-        
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-        }
-        
-        .instructions {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border-left: 5px solid #3498db;
-        }
-        
-        .question-container {
-            margin-bottom: 25px;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-        }
-        
-        .question-number {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            width: 32px;
-            height: 32px;
-            text-align: center;
-            line-height: 32px;
-            border-radius: 50%;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-        
-        .question-text {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        
-        .options-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background: #f0f2f5; color: #333; line-height: 1.6; padding: 20px; min-height: 100vh; }
+        .container { max-width: 800px; margin: 20px auto; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 25px; }
+        header { text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 3px solid #2c3e50; }
+        h1 { color: #2c3e50; font-size: 2.2rem; margin-bottom: 5px; }
+        .instructions { background: #e8f4fc; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid #3498db; font-size: 1rem; }
+        .question-container { margin-bottom: 20px; padding: 18px; border-radius: 10px; background: #f8f9fa; border: 1px solid #eaeaea; }
+        .question-number { display: inline-block; background: #3498db; color: white; width: 30px; height: 30px; text-align: center; line-height: 30px; border-radius: 50%; margin-right: 10px; font-weight: bold; font-size: 0.9em; }
+        .question-text { font-size: 1.1rem; font-weight: 600; color: #2c3e50; margin-bottom: 12px; }
+        .options-container { display: flex; flex-direction: column; gap: 10px; }
+        .option { padding: 12px 15px; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .option:hover { background: #f1f8ff; border-color: #3498db; }
+        .option.selected { background: #d6eaf8; border-color: #2980b9; font-weight: bold; }
+        .option.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .option.incorrect { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .submit-btn-container { text-align: center; margin: 35px 0 25px; }
+        #submit-btn { padding: 16px 50px; font-size: 1.2rem; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
+        #submit-btn:hover { background: #219653; }
+        .result-container { background: #e8f6f3; padding: 25px; border-radius: 10px; margin-top: 20px; display: none; text-align: center; }
+        .result-container.show { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .score-display { font-size: 3.5rem; font-weight: bold; color: #2c3e50; margin: 10px 0; }
+        .score-message { font-size: 1.3rem; color: #555; margin-bottom: 20px; }
+        .answer-detail { text-align: left; background: white; margin-top: 15px; padding: 15px; border-radius: 8px; font-size: 0.95rem; border-left: 4px solid #eee; }
+        .answer-detail.correct { border-left-color: #28a745; }
+        .answer-detail.incorrect { border-left-color: #dc3545; }
+        footer { text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 0.85rem; }
         @media (max-width: 768px) {
-            .options-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .option {
-            padding: 12px 15px;
-            background-color: white;
-            border: 2px solid #dfe6e9;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-        }
-        
-        .option:hover {
-            background-color: #f1f8ff;
-            border-color: #3498db;
-        }
-        
-        .option.selected {
-            background-color: #d6eaf8;
-            border-color: #3498db;
-            font-weight: bold;
-        }
-        
-        .option.correct {
-            background-color: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-        
-        .option.incorrect {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-        
-        .option input {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-        
-        .submit-btn-container {
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 30px;
-        }
-        
-        #submit-btn {
-            padding: 16px 40px;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            background-color: #2ecc71;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        
-        #submit-btn:hover {
-            background-color: #27ae60;
-            transform: scale(1.05);
-        }
-        
-        .result-container {
-            background-color: #f8f9fa;
-            padding: 30px;
-            border-radius: 10px;
-            margin-top: 30px;
-            text-align: center;
-            display: none;
-        }
-        
-        .result-container.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .score-display {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .score-message {
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            color: #7f8c8d;
-        }
-        
-        .answers-summary {
-            margin-top: 30px;
-            text-align: left;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .answer-item {
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            border-left: 4px solid #e9ecef;
-        }
-        
-        .answer-item.correct {
-            border-left-color: #28a745;
-            background-color: #f0fff4;
-        }
-        
-        .answer-item.incorrect {
-            border-left-color: #dc3545;
-            background-color: #fff5f5;
-        }
-        
-        .correct-answer {
-            color: #28a745;
-            font-weight: bold;
-        }
-        
-        .incorrect-answer {
-            color: #dc3545;
-            font-weight: bold;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
+            .container { padding: 15px; }
+            h1 { font-size: 1.8rem; }
+            .question-container { padding: 15px; }
         }
     </style>
 </head>
@@ -242,362 +43,190 @@
     <div class="container">
         <header>
             <h1>औरंगजेब MCQ प्रश्नोत्तरी</h1>
-            <p class="subtitle">मुग़ल सम्राट औरंगजेब से संबंधित 15 बहुविकल्पीय प्रश्न</p>
+            <p>मुग़ल सम्राट औरंगजेब से संबंधित 15 बहुविकल्पीय प्रश्न</p>
         </header>
-        
         <div class="instructions">
-            <p><strong>निर्देश:</strong> नीचे दिए गए 15 प्रश्नों के चार-चार विकल्प हैं। प्रत्येक प्रश्न के लिए सही विकल्प चुनें। "प्रश्नोत्तरी जमा करें" बटन दबाकर अपना स्कोर देखें।</p>
+            <p><strong>निर्देश:</strong> नीचे दिए गए 15 प्रश्नों के चार-चार विकल्प हैं। प्रत्येक प्रश्न के लिए सही विकल्प चुनें और अंत में "प्रश्नोत्तरी जमा करें" बटन दबाएं। <strong>परीक्षण के लिए, प्रश्न 1, 3 और 4 के सही उत्तर पहले से चुने गए हैं।</strong></p>
         </div>
-        
-        <div id="quiz-container">
-            <!-- प्रश्न 1 -->
-            <div class="question-container" id="q1">
-                <div class="question-text">
-                    <span class="question-number">1</span>
-                    औरंगजेब को शाहजहाँ ने उत्तराधिकार युद्ध से पहले किस प्रांत का सूबेदार नियुक्त किया था?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="1" data-option="a">
-                        <input type="radio" name="q1" id="q1a"> <label for="q1a">पंजाब</label>
-                    </div>
-                    <div class="option" data-question="1" data-option="b">
-                        <input type="radio" name="q1" id="q1b"> <label for="q1b">बंगाल</label>
-                    </div>
-                    <div class="option" data-question="1" data-option="c">
-                        <input type="radio" name="q1" id="q1c"> <label for="q1c">दक्कन</label>
-                    </div>
-                    <div class="option" data-question="1" data-option="d">
-                        <input type="radio" name="q1" id="q1d"> <label for="q1d">गुजरात</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 2 -->
-            <div class="question-container" id="q2">
-                <div class="question-text">
-                    <span class="question-number">2</span>
-                    औरंगजेब का शासन काल कब से कब तक रहा?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="2" data-option="a">
-                        <input type="radio" name="q2" id="q2a"> <label for="q2a">1628-1658</label>
-                    </div>
-                    <div class="option" data-question="2" data-option="b">
-                        <input type="radio" name="q2" id="q2b"> <label for="q2b">1658-1707</label>
-                    </div>
-                    <div class="option" data-question="2" data-option="c">
-                        <input type="radio" name="q2" id="q2c"> <label for="q2c">1707-1748</label>
-                    </div>
-                    <div class="option" data-question="2" data-option="d">
-                        <input type="radio" name="q2" id="q2d"> <label for="q2d">1526-1530</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 3 -->
-            <div class="question-container" id="q3">
-                <div class="question-text">
-                    <span class="question-number">3</span>
-                    औरंगजेब के गुरु कौन थे?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="3" data-option="a">
-                        <input type="radio" name="q3" id="q3a"> <label for="q3a">गुरु नानक देव</label>
-                    </div>
-                    <div class="option" data-question="3" data-option="b">
-                        <input type="radio" name="q3" id="q3b"> <label for="q3b">दारा शिकोह</label>
-                    </div>
-                    <div class="option" data-question="3" data-option="c">
-                        <input type="radio" name="q3" id="q3c"> <label for="q3c">मीर मुहम्मद हकीम</label>
-                    </div>
-                    <div class="option" data-question="3" data-option="d">
-                        <input type="radio" name="q3" id="q3d"> <label for="q3d">शाहजहाँ</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 4 -->
-            <div class="question-container" id="q4">
-                <div class="question-text">
-                    <span class="question-number">4</span>
-                    किसे 'जिंदा पीर' कहा जाता था?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="4" data-option="a">
-                        <input type="radio" name="q4" id="q4a"> <label for="q4a">शिवाजी</label>
-                    </div>
-                    <div class="option" data-question="4" data-option="b">
-                        <input type="radio" name="q4" id="q4b"> <label for="q4b">अकबर</label>
-                    </div>
-                    <div class="option" data-question="4" data-option="c">
-                        <input type="radio" name="q4" id="q4c"> <label for="q4c">औरंगजेब</label>
-                    </div>
-                    <div class="option" data-question="4" data-option="d">
-                        <input type="radio" name="q4" id="q4d"> <label for="q4d">शाहजहाँ</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 5 -->
-            <div class="question-container" id="q5">
-                <div class="question-text">
-                    <span class="question-number">5</span>
-                    किस मुगल सेनापति के साथ 1665 ईस्वी में शिवाजी ने पुरंदर की संधि पर हस्ताक्षर किए?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="5" data-option="a">
-                        <input type="radio" name="q5" id="q5a"> <label for="q5a">शाइस्ता खाँ</label>
-                    </div>
-                    <div class="option" data-question="5" data-option="b">
-                        <input type="radio" name="q5" id="q5b"> <label for="q5b">मिर्ज़ा राजा जय सिंह</label>
-                    </div>
-                    <div class="option" data-question="5" data-option="c">
-                        <input type="radio" name="q5" id="q5c"> <label for="q5c">राजा जसवंत सिंह</label>
-                    </div>
-                    <div class="option" data-question="5" data-option="d">
-                        <input type="radio" name="q5" id="q5d"> <label for="q5d">दिलेर खाँ</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 6 -->
-            <div class="question-container" id="q6">
-                <div class="question-text">
-                    <span class="question-number">6</span>
-                    औरंगजेब ने किस सिख गुरु की हत्या करवा दी?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="6" data-option="a">
-                        <input type="radio" name="q6" id="q6a"> <label for="q6a">गुरु नानक देव</label>
-                    </div>
-                    <div class="option" data-question="6" data-option="b">
-                        <input type="radio" name="q6" id="q6b"> <label for="q6b">गुरु गोबिंद सिंह</label>
-                    </div>
-                    <div class="option" data-question="6" data-option="c">
-                        <input type="radio" name="q6" id="q6c"> <label for="q6c">गुरु तेग बहादुर</label>
-                    </div>
-                    <div class="option" data-question="6" data-option="d">
-                        <input type="radio" name="q6" id="q6d"> <label for="q6d">गुरु अर्जुन देव</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 7 -->
-            <div class="question-container" id="q7">
-                <div class="question-text">
-                    <span class="question-number">7</span>
-                    औरंगजेब ने जज़िया कर पुनः कब लागू किया?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="7" data-option="a">
-                        <input type="radio" name="q7" id="q7a"> <label for="q7a">1658 ई.</label>
-                    </div>
-                    <div class="option" data-question="7" data-option="b">
-                        <input type="radio" name="q7" id="q7b"> <label for="q7b">1679 ई.</label>
-                    </div>
-                    <div class="option" data-question="7" data-option="c">
-                        <input type="radio" name="q7" id="q7c"> <label for="q7c">1685 ई.</label>
-                    </div>
-                    <div class="option" data-question="7" data-option="d">
-                        <input type="radio" name="q7" id="q7d"> <label for="q7d">1705 ई.</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 8 -->
-            <div class="question-container" id="q8">
-                <div class="question-text">
-                    <span class="question-number">8</span>
-                    औरंगजेब द्वारा 'बीबी का मकबरा' कहाँ बनवाया गया?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="8" data-option="a">
-                        <input type="radio" name="q8" id="q8a"> <label for="q8a">दिल्ली</label>
-                    </div>
-                    <div class="option" data-question="8" data-option="b">
-                        <input type="radio" name="q8" id="q8b"> <label for="q8b">आगरा</label>
-                    </div>
-                    <div class="option" data-question="8" data-option="c">
-                        <input type="radio" name="q8" id="q8c"> <label for="q8c">औरंगाबाद</label>
-                    </div>
-                    <div class="option" data-question="8" data-option="d">
-                        <input type="radio" name="q8" id="q8d"> <label for="q8d">फतेहपुर सीकरी</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 9 -->
-            <div class="question-container" id="q9">
-                <div class="question-text">
-                    <span class="question-number">9</span>
-                    औरंगजेब ने बीजापुर को कब मुगल साम्राज्य में मिला दिया?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="9" data-option="a">
-                        <input type="radio" name="q9" id="q9a"> <label for="q9a">1680 ई.</label>
-                    </div>
-                    <div class="option" data-question="9" data-option="b">
-                        <input type="radio" name="q9" id="q9b"> <label for="q9b">1686 ई.</label>
-                    </div>
-                    <div class="option" data-question="9" data-option="c">
-                        <input type="radio" name="q9" id="q9c"> <label for="q9c">1689 ई.</label>
-                    </div>
-                    <div class="option" data-question="9" data-option="d">
-                        <input type="radio" name="q9" id="q9d"> <label for="q9d">1700 ई.</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 10 -->
-            <div class="question-container" id="q10">
-                <div class="question-text">
-                    <span class="question-number">10</span>
-                    कौन-सा फ्रांसीसी यात्री औरंगजेब का चिकित्सक था?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="10" data-option="a">
-                        <input type="radio" name="q10" id="q10a"> <label for="q10a">जीन-बैप्टिस्ट तवर्नियर</label>
-                    </div>
-                    <div class="option" data-question="10" data-option="b">
-                        <input type="radio" name="q10" id="q10b"> <label for="q10b">फ्रांस्वा बर्नियर</label>
-                    </div>
-                    <div class="option" data-question="10" data-option="c">
-                        <input type="radio" name="q10" id="q10c"> <label for="q10c">निकोलस मैनुक्सी</label>
-                    </div>
-                    <div class="option" data-question="10" data-option="d">
-                        <input type="radio" name="q10" id="q10d"> <label for="q10d">पीटर मुंडी</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 11 -->
-            <div class="question-container" id="q11">
-                <div class="question-text">
-                    <span class="question-number">11</span>
-                    किस मुगल बादशाह का दो बार राज्याभिषेक हुआ था?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="11" data-option="a">
-                        <input type="radio" name="q11" id="q11a"> <label for="q11a">बाबर</label>
-                    </div>
-                    <div class="option" data-question="11" data-option="b">
-                        <input type="radio" name="q11" id="q11b"> <label for="q11b">हुमायूँ</label>
-                    </div>
-                    <div class="option" data-question="11" data-option="c">
-                        <input type="radio" name="q11" id="q11c"> <label for="q11c">शाहजहाँ</label>
-                    </div>
-                    <div class="option" data-question="11" data-option="d">
-                        <input type="radio" name="q11" id="q11d"> <label for="q11d">औरंगजेब</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 12 -->
-            <div class="question-container" id="q12">
-                <div class="question-text">
-                    <span class="question-number">12</span>
-                    औरंगजेब ने दक्षिण में किन दो राज्यों पर विजय किया था?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="12" data-option="a">
-                        <input type="radio" name="q12" id="q12a"> <label for="q12a">अहमदनगर और बरार</label>
-                    </div>
-                    <div class="option" data-question="12" data-option="b">
-                        <input type="radio" name="q12" id="q12b"> <label for="q12b">बरार और गोलकुंडा</label>
-                    </div>
-                    <div class="option" data-question="12" data-option="c">
-                        <input type="radio" name="q12" id="q12c"> <label for="q12c">बीजापुर और गोलकुंडा</label>
-                    </div>
-                    <div class="option" data-question="12" data-option="d">
-                        <input type="radio" name="q12" id="q12d"> <label for="q12d">अहमदनगर और बीजापुर</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 13 -->
-            <div class="question-container" id="q13">
-                <div class="question-text">
-                    <span class="question-number">13</span>
-                    दिल्ली के लाल किले में 'मोती मस्जिद' का निर्माण किसने करवाया?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="13" data-option="a">
-                        <input type="radio" name="q13" id="q13a"> <label for="q13a">शाहजहाँ</label>
-                    </div>
-                    <div class="option" data-question="13" data-option="b">
-                        <input type="radio" name="q13" id="q13b"> <label for="q13b">औरंगजेब</label>
-                    </div>
-                    <div class="option" data-question="13" data-option="c">
-                        <input type="radio" name="q13" id="q13c"> <label for="q13c">जहाँदार शाह</label>
-                    </div>
-                    <div class="option" data-question="13" data-option="d">
-                        <input type="radio" name="q13" id="q13d"> <label for="q13d">फर्रुख़सियर</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 14 -->
-            <div class="question-container" id="q14">
-                <div class="question-text">
-                    <span class="question-number">14</span>
-                    कौन-सा मकबरा 'द्वितीय ताजमहल' कहलाता है?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="14" data-option="a">
-                        <input type="radio" name="q14" id="q14a"> <label for="q14a">हुमायूँ का मकबरा</label>
-                    </div>
-                    <div class="option" data-question="14" data-option="b">
-                        <input type="radio" name="q14" id="q14b"> <label for="q14b">इतमाद-उद-दौला का मकबरा</label>
-                    </div>
-                    <div class="option" data-question="14" data-option="c">
-                        <input type="radio" name="q14" id="q14c"> <label for="q14c">बीबी का मकबरा (औरंगाबाद)</label>
-                    </div>
-                    <div class="option" data-question="14" data-option="d">
-                        <input type="radio" name="q14" id="q14d"> <label for="q14d">सफ़दरजंग का मकबरा</label>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- प्रश्न 15 -->
-            <div class="question-container" id="q15">
-                <div class="question-text">
-                    <span class="question-number">15</span>
-                    औरंगजेब कौन-सा संगीत वाद्य यंत्र बजाने में निपुण था?
-                </div>
-                <div class="options-container">
-                    <div class="option" data-question="15" data-option="a">
-                        <input type="radio" name="q15" id="q15a"> <label for="q15a">सितार</label>
-                    </div>
-                    <div class="option" data-question="15" data-option="b">
-                        <input type="radio" name="q15" id="q15b"> <label for="q15b">सारंगी</label>
-                    </div>
-                    <div class="option" data-question="15" data-option="c">
-                        <input type="radio" name="q15" id="q15c"> <label for="q15c">वीणा</label>
-                    </div>
-                    <div class="option" data-question="15" data-option="d">
-                        <input type="radio" name="q15" id="q15d"> <label for="q15d">तबला</label>
-                    </div>
-                </div>
+
+        <!-- प्रश्न 1 -->
+        <div class="question-container" id="q1">
+            <div class="question-text"><span class="question-number">1</span>औरंगजेब को शाहजहाँ ने उत्तराधिकार युद्ध से पहले किस प्रांत का सूबेदार नियुक्त किया था?[citation:7]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q1" value="a"> पंजाब</label>
+                <label class="option"><input type="radio" name="q1" value="b"> बंगाल</label>
+                <label class="option selected"><input type="radio" name="q1" value="c" checked> दक्कन</label>
+                <label class="option"><input type="radio" name="q1" value="d"> गुजरात</label>
             </div>
         </div>
-        
+
+        <!-- प्रश्न 2 -->
+        <div class="question-container" id="q2">
+            <div class="question-text"><span class="question-number">2</span>औरंगजेब का शासन काल कब से कब तक रहा?[citation:3]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q2" value="a"> 1628-1658</label>
+                <label class="option"><input type="radio" name="q2" value="b"> 1658-1707</label>
+                <label class="option"><input type="radio" name="q2" value="c"> 1707-1748</label>
+                <label class="option"><input type="radio" name="q2" value="d"> 1526-1530</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 3 -->
+        <div class="question-container" id="q3">
+            <div class="question-text"><span class="question-number">3</span>औरंगजेब के गुरु कौन थे? (संशोधित)</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q3" value="a"> गुरु नानक देव</label>
+                <label class="option"><input type="radio" name="q3" value="b"> दारा शिकोह</label>
+                <label class="option selected"><input type="radio" name="q3" value="c" checked> मीर मुहम्मद हकीम</label>
+                <label class="option"><input type="radio" name="q3" value="d"> शाहजहाँ</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 4 -->
+        <div class="question-container" id="q4">
+            <div class="question-text"><span class="question-number">4</span>किसे 'जिंदा पीर' कहा जाता था?[citation:2][citation:6]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q4" value="a"> शिवाजी</label>
+                <label class="option"><input type="radio" name="q4" value="b"> अकबर</label>
+                <label class="option selected"><input type="radio" name="q4" value="c" checked> औरंगजेब</label>
+                <label class="option"><input type="radio" name="q4" value="d"> शाहजहाँ</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 5 -->
+        <div class="question-container" id="q5">
+            <div class="question-text"><span class="question-number">5</span>किस मुगल सेनापति के साथ 1665 ईस्वी में शिवाजी ने पुरंदर की संधि पर हस्ताक्षर किए?[citation:10]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q5" value="a"> शाइस्ता खाँ</label>
+                <label class="option"><input type="radio" name="q5" value="b"> मिर्ज़ा राजा जय सिंह</label>
+                <label class="option"><input type="radio" name="q5" value="c"> राजा जसवंत सिंह</label>
+                <label class="option"><input type="radio" name="q5" value="d"> दिलेर खाँ</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 6 -->
+        <div class="question-container" id="q6">
+            <div class="question-text"><span class="question-number">6</span>औरंगजेब ने किस सिख गुरु की हत्या करवा दी?[citation:2][citation:5]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q6" value="a"> गुरु नानक देव</label>
+                <label class="option"><input type="radio" name="q6" value="b"> गुरु गोबिंद सिंह</label>
+                <label class="option"><input type="radio" name="q6" value="c"> गुरु तेग बहादुर</label>
+                <label class="option"><input type="radio" name="q6" value="d"> गुरु अर्जुन देव</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 7 -->
+        <div class="question-container" id="q7">
+            <div class="question-text"><span class="question-number">7</span>औरंगजेब ने जज़िया कर पुनः कब लागू किया?[citation:3][citation:6]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q7" value="a"> 1658 ई.</label>
+                <label class="option"><input type="radio" name="q7" value="b"> 1679 ई.</label>
+                <label class="option"><input type="radio" name="q7" value="c"> 1685 ई.</label>
+                <label class="option"><input type="radio" name="q7" value="d"> 1705 ई.</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 8 -->
+        <div class="question-container" id="q8">
+            <div class="question-text"><span class="question-number">8</span>औरंगजेब द्वारा 'बीबी का मकबरा' कहाँ बनवाया गया?</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q8" value="a"> दिल्ली</label>
+                <label class="option"><input type="radio" name="q8" value="b"> आगरा</label>
+                <label class="option"><input type="radio" name="q8" value="c"> औरंगाबाद</label>
+                <label class="option"><input type="radio" name="q8" value="d"> फतेहपुर सीकरी</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 9 -->
+        <div class="question-container" id="q9">
+            <div class="question-text"><span class="question-number">9</span>औरंगजेब ने बीजापुर को कब मुगल साम्राज्य में मिला दिया?[citation:1]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q9" value="a"> 1680 ई.</label>
+                <label class="option"><input type="radio" name="q9" value="b"> 1686 ई.</label>
+                <label class="option"><input type="radio" name="q9" value="c"> 1689 ई.</label>
+                <label class="option"><input type="radio" name="q9" value="d"> 1700 ई.</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 10 -->
+        <div class="question-container" id="q10">
+            <div class="question-text"><span class="question-number">10</span>कौन-सा फ्रांसीसी यात्री औरंगजेब का चिकित्सक था?[citation:1]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q10" value="a"> जीन-बैप्टिस्ट तवर्नियर</label>
+                <label class="option"><input type="radio" name="q10" value="b"> फ्रांस्वा बर्नियर</label>
+                <label class="option"><input type="radio" name="q10" value="c"> निकोलस मैनुक्सी</label>
+                <label class="option"><input type="radio" name="q10" value="d"> पीटर मुंडी</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 11 -->
+        <div class="question-container" id="q11">
+            <div class="question-text"><span class="question-number">11</span>किस मुगल बादशाह का दो बार राज्याभिषेक हुआ था?[citation:1][citation:10]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q11" value="a"> बाबर</label>
+                <label class="option"><input type="radio" name="q11" value="b"> हुमायूँ</label>
+                <label class="option"><input type="radio" name="q11" value="c"> शाहजहाँ</label>
+                <label class="option"><input type="radio" name="q11" value="d"> औरंगजेब</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 12 -->
+        <div class="question-container" id="q12">
+            <div class="question-text"><span class="question-number">12</span>औरंगजेब ने दक्षिण में किन दो राज्यों पर विजय किया था?[citation:1]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q12" value="a"> अहमदनगर और बरार</label>
+                <label class="option"><input type="radio" name="q12" value="b"> बरार और गोलकुंडा</label>
+                <label class="option"><input type="radio" name="q12" value="c"> बीजापुर और गोलकुंडा</label>
+                <label class="option"><input type="radio" name="q12" value="d"> अहमदनगर और बीजापुर</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 13 -->
+        <div class="question-container" id="q13">
+            <div class="question-text"><span class="question-number">13</span>दिल्ली के लाल किले में 'मोती मस्जिद' का निर्माण किसने करवाया?</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q13" value="a"> शाहजहाँ</label>
+                <label class="option"><input type="radio" name="q13" value="b"> औरंगजेब</label>
+                <label class="option"><input type="radio" name="q13" value="c"> जहाँदार शाह</label>
+                <label class="option"><input type="radio" name="q13" value="d"> फर्रुख़सियर</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 14 -->
+        <div class="question-container" id="q14">
+            <div class="question-text"><span class="question-number">14</span>कौन-सा मकबरा 'द्वितीय ताजमहल' कहलाता है?</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q14" value="a"> हुमायूँ का मकबरा</label>
+                <label class="option"><input type="radio" name="q14" value="b"> इतमाद-उद-दौला का मकबरा</label>
+                <label class="option"><input type="radio" name="q14" value="c"> बीबी का मकबरा (औरंगाबाद)</label>
+                <label class="option"><input type="radio" name="q14" value="d"> सफ़दरजंग का मकबरा</label>
+            </div>
+        </div>
+
+        <!-- प्रश्न 15 -->
+        <div class="question-container" id="q15">
+            <div class="question-text"><span class="question-number">15</span>औरंगजेब कौन-सा संगीत वाद्य यंत्र बजाने में निपुण था?[citation:1][citation:2]</div>
+            <div class="options-container">
+                <label class="option"><input type="radio" name="q15" value="a"> सितार</label>
+                <label class="option"><input type="radio" name="q15" value="b"> सारंगी</label>
+                <label class="option"><input type="radio" name="q15" value="c"> वीणा</label>
+                <label class="option"><input type="radio" name="q15" value="d"> तबला</label>
+            </div>
+        </div>
+
+        <!-- जमा करें बटन -->
         <div class="submit-btn-container">
             <button id="submit-btn">प्रश्नोत्तरी जमा करें</button>
         </div>
-        
+
+        <!-- परिणाम सेक्शन -->
         <div class="result-container" id="result-container">
             <h2>आपका परिणाम</h2>
             <div class="score-display" id="score-display">0/15</div>
             <div class="score-message" id="score-message"></div>
-            
-            <div class="answers-summary">
-                <h3>प्रश्नवार परिणाम:</h3>
-                <div id="answers-details">
-                    <!-- यहाँ उत्तरों का विवरण जोड़ा जाएगा -->
-                </div>
-            </div>
+            <div id="answers-details"><!-- यहाँ विवरण डायनेमिक जोड़ा जाएगा --></div>
         </div>
-        
+
         <footer>
             <p>औरंगजेब MCQ प्रश्नोत्तरी | मुग़ल इतिहास अध्ययन सामग्री</p>
         </footer>
@@ -622,143 +251,78 @@
             14: 'c', // बीबी का मकबरा (औरंगाबाद)
             15: 'c'  // वीणा
         };
-        
-        // विकल्पों के टेक्स्ट
-        const optionTexts = {
-            1: { a: "पंजाब", b: "बंगाल", c: "दक्कन", d: "गुजरात" },
-            2: { a: "1628-1658", b: "1658-1707", c: "1707-1748", d: "1526-1530" },
-            3: { a: "गुरु नानक देव", b: "दारा शिकोह", c: "मीर मुहम्मद हकीम", d: "शाहजहाँ" },
-            4: { a: "शिवाजी", b: "अकबर", c: "औरंगजेब", d: "शाहजहाँ" },
-            5: { a: "शाइस्ता खाँ", b: "मिर्ज़ा राजा जय सिंह", c: "राजा जसवंत सिंह", d: "दिलेर खाँ" },
-            6: { a: "गुरु नानक देव", b: "गुरु गोबिंद सिंह", c: "गुरु तेग बहादुर", d: "गुरु अर्जुन देव" },
-            7: { a: "1658 ई.", b: "1679 ई.", c: "1685 ई.", d: "1705 ई." },
-            8: { a: "दिल्ली", b: "आगरा", c: "औरंगाबाद", d: "फतेहपुर सीकरी" },
-            9: { a: "1680 ई.", b: "1686 ई.", c: "1689 ई.", d: "1700 ई." },
-            10: { a: "जीन-बैप्टिस्ट तवर्नियर", b: "फ्रांस्वा बर्नियर", c: "निकोलस मैनुक्सी", d: "पीटर मुंडी" },
-            11: { a: "बाबर", b: "हुमायूँ", c: "शाहजहाँ", d: "औरंगजेब" },
-            12: { a: "अहमदनगर और बरार", b: "बरार और गोलकुंडा", c: "बीजापुर और गोलकुंडा", d: "अहमदनगर और बीजापुर" },
-            13: { a: "शाहजहाँ", b: "औरंगजेब", c: "जहाँदार शाह", d: "फर्रुख़सियर" },
-            14: { a: "हुमायूँ का मकबरा", b: "इतमाद-उद-दौला का मकबरा", c: "बीबी का मकबरा (औरंगाबाद)", d: "सफ़दरजंग का मकबरा" },
-            15: { a: "सितार", b: "सारंगी", c: "वीणा", d: "तबला" }
-        };
-        
-        // प्रश्नों के टेक्स्ट
-        const questionTexts = {
-            1: "औरंगजेब को शाहजहाँ ने उत्तराधिकार युद्ध से पहले किस प्रांत का सूबेदार नियुक्त किया था?",
-            2: "औरंगजेब का शासन काल कब से कब तक रहा?",
-            3: "औरंगजेब के गुरु कौन थे?",
-            4: "किसे 'जिंदा पीर' कहा जाता था?",
-            5: "किस मुगल सेनापति के साथ 1665 ईस्वी में शिवाजी ने पुरंदर की संधि पर हस्ताक्षर किए?",
-            6: "औरंगजेब ने किस सिख गुरु की हत्या करवा दी?",
-            7: "औरंगजेब ने जज़िया कर पुनः कब लागू किया?",
-            8: "औरंगजेब द्वारा 'बीबी का मकबरा' कहाँ बनवाया गया?",
-            9: "औरंगजेब ने बीजापुर को कब मुगल साम्राज्य में मिला दिया?",
-            10: "कौन-सा फ्रांसीसी यात्री औरंगजेब का चिकित्सक था?",
-            11: "किस मुगल बादशाह का दो बार राज्याभिषेक हुआ था?",
-            12: "औरंगजेब ने दक्षिण में किन दो राज्यों पर विजय किया था?",
-            13: "दिल्ली के लाल किले में 'मोती मस्जिद' का निर्माण किसने करवाया?",
-            14: "कौन-सा मकबरा 'द्वितीय ताजमहल' कहलाता है?",
-            15: "औरंगजेब कौन-सा संगीत वाद्य यंत्र बजाने में निपुण था?"
-        };
-        
-        // विकल्पों पर क्लिक करने के लिए इवेंट लिसनर्स
+
+        // विकल्पों पर क्लिक का प्रबंधन
         document.querySelectorAll('.option').forEach(option => {
             option.addEventListener('click', function() {
-                const questionNum = this.getAttribute('data-question');
-                
-                // पहले से चयनित विकल्प को हटाएं
-                document.querySelectorAll(`[data-question="${questionNum}"]`).forEach(opt => {
-                    opt.classList.remove('selected');
-                    const radioInput = opt.querySelector('input[type="radio"]');
-                    if (radioInput) radioInput.checked = false;
-                });
-                
-                // नए विकल्प को चुनें
-                this.classList.add('selected');
                 const radioInput = this.querySelector('input[type="radio"]');
-                if (radioInput) radioInput.checked = true;
+                const questionNum = radioInput.name.substring(1); // "q1" से "1" निकालना
+
+                // पहले से चयनित विकल्प को हटाएं
+                document.querySelectorAll(`[name="${radioInput.name}"]`).forEach(inp => {
+                    inp.parentElement.classList.remove('selected');
+                });
+                // नए विकल्प को चुनें
+                radioInput.checked = true;
+                this.classList.add('selected');
             });
         });
-        
+
         // प्रश्नोत्तरी जमा करें बटन
         document.getElementById('submit-btn').addEventListener('click', function() {
             let score = 0;
             let answersDetailsHTML = "";
-            
-            // प्रत्येक प्रश्न की जांच करें
+
             for (let i = 1; i <= 15; i++) {
-                const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
-                const correctOption = correctAnswers[i];
-                const userAnswer = selectedOption ? selectedOption.value : null;
-                
-                // सही उत्तर के लिए स्कोर बढ़ाएं
-                if (userAnswer === correctOption) {
-                    score++;
-                }
-                
+                const selectedRadio = document.querySelector(`input[name="q${i}"]:checked`);
+                const userAnswer = selectedRadio ? selectedRadio.value : null;
+                const isCorrect = userAnswer === correctAnswers[i];
+
+                // स्कोर गिनें
+                if (isCorrect) score++;
+
                 // विकल्पों को हाइलाइट करें
-                const questionElement = document.getElementById(`q${i}`);
-                const options = questionElement.querySelectorAll('.option');
-                
+                const options = document.querySelectorAll(`input[name="q${i}"]`);
                 options.forEach(opt => {
-                    const optValue = opt.getAttribute('data-option');
-                    
-                    // पहले से मौजूद क्लासेस हटाएं
-                    opt.classList.remove('correct', 'incorrect');
-                    
-                    // सही उत्तर को हाइलाइट करें
-                    if (optValue === correctOption) {
-                        opt.classList.add('correct');
-                    }
-                    // गलत उत्तर को हाइलाइट करें (अगर उसका चयन किया गया है)
-                    else if (optValue === userAnswer && userAnswer !== correctOption) {
-                        opt.classList.add('incorrect');
+                    const parentLabel = opt.parentElement;
+                    parentLabel.classList.remove('correct', 'incorrect', 'selected');
+                    if (opt.value === correctAnswers[i]) {
+                        parentLabel.classList.add('correct');
+                    } else if (opt === selectedRadio && !isCorrect) {
+                        parentLabel.classList.add('incorrect');
                     }
                 });
-                
+
                 // उत्तर विवरण जोड़ें
-                const userAnswerText = userAnswer ? 
-                    `${optionTexts[i][userAnswer]}` : 
-                    "कोई उत्तर नहीं दिया";
-                const correctAnswerText = optionTexts[i][correctOption];
-                const isCorrect = userAnswer === correctOption;
-                
+                const userAnswerText = selectedRadio ? selectedRadio.parentElement.textContent.trim() : 'उत्तर नहीं दिया';
+                const correctAnswerLabel = document.querySelector(`input[name="q${i}"][value="${correctAnswers[i]}"]`).parentElement;
+                const correctAnswerText = correctAnswerLabel.textContent.trim();
+
                 answersDetailsHTML += `
-                    <div class="answer-item ${isCorrect ? 'correct' : 'incorrect'}">
-                        <strong>प्रश्न ${i}:</strong> ${questionTexts[i]}<br>
-                        <strong>आपका उत्तर:</strong> <span class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">${userAnswerText}</span><br>
-                        <strong>सही उत्तर:</strong> <span class="correct-answer">${correctAnswerText}</span>
+                    <div class="answer-detail ${isCorrect ? 'correct' : 'incorrect'}">
+                        <strong>प्रश्न ${i}:</strong> ${isCorrect ? '✅ सही' : '❌ गलत'}<br>
+                        <strong>आपका उत्तर:</strong> ${userAnswerText}<br>
+                        <strong>सही उत्तर:</strong> ${correctAnswerText}
                     </div>
                 `;
             }
-            
-            // स्कोर दिखाएं
-            document.getElementById('score-display').textContent = `${score}/15`;
-            
-            // स्कोर संदेश दिखाएं
-            let scoreMessage = "";
-            if (score >= 14) {
-                scoreMessage = "बहुत बढ़िया! आपको औरंगजेब के बारे में उत्कृष्ट ज्ञान है।";
-            } else if (score >= 11) {
-                scoreMessage = "अच्छा! आपको औरंगजेब के बारे में अच्छी जानकारी है।";
-            } else if (score >= 8) {
-                scoreMessage = "ठीक है! आपको औरंगजेब के बारे में बुनियादी ज्ञान है।";
-            } else {
-                scoreMessage = "और अभ्यास की आवश्यकता है। औरंगजेब के बारे में और पढ़ें।";
-            }
-            
-            document.getElementById('score-message').textContent = scoreMessage;
-            
-            // उत्तर विवरण दिखाएं
-            document.getElementById('answers-details').innerHTML = answersDetailsHTML;
-            
+
             // परिणाम दिखाएं
+            document.getElementById('score-display').textContent = `${score}/15`;
+            document.getElementById('answers-details').innerHTML = answersDetailsHTML;
+
+            // स्कोर संदेश
+            let message = "";
+            if (score >= 14) message = "👑 बहुत बढ़िया! आपको औरंगजेब के बारे में उत्कृष्ट ज्ञान है।";
+            else if (score >= 11) message = "👍 अच्छा! आपको औरंगजेब के बारे में अच्छी जानकारी है।";
+            else if (score >= 8) message = "👌 ठीक है! आपको औरंगजेब के बारे में बुनियादी ज्ञान है।";
+            else message = "📚 और अभ्यास की आवश्यकता है। औरंगजेब के बारे में और पढ़ें।";
+
+            document.getElementById('score-message').textContent = message;
             document.getElementById('result-container').classList.add('show');
-            
-            // बटन का टेक्स्ट बदलें
             this.textContent = "परिणाम देखें";
             this.disabled = true;
-            
+
             // परिणाम तक स्क्रॉल करें
             document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
         });
