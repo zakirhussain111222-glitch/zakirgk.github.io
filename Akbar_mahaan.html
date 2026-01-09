@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🕌 सम्राट अकबर MCQ क्विज</title>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial;max-width:900px;margin:0 auto;padding:20px;background:linear-gradient(135deg,#ff6b6b 0%,#feca57 100%);}
+.header{text-align:center;background:rgba(255,255,255,0.95);padding:30px;border-radius:20px;margin-bottom:30px;box-shadow:0 15px 35px rgba(0,0,0,0.2);}
+h1{color:#2c3e50;font-size:2.5em;margin-bottom:10px;}
+.quiz-container{background:white;border-radius:20px;padding:40px;box-shadow:0 20px 40px rgba(0,0,0,0.3);}
+.question{background:#f8f9fa;margin:25px 0;padding:25px;border-radius:15px;border-left:6px solid #ff6b6b;box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+.question h3{color:#2c3e50;margin-bottom:20px;font-size:1.4em;border-bottom:2px solid #ff6b6b;padding-bottom:10px;}
+.options{margin:20px 0;}
+.option{display:block;padding:15px;margin:10px 0;background:white;border:2px solid #e9ecef;border-radius:10px;cursor:pointer;transition:all 0.3s;font-size:1.1em;}
+.option:hover:not(.selected):not(.correct):not(.wrong){background:#ff6b6b;color:white;border-color:#ff5252;transform:scale(1.02);}
+.option.selected{background:#ff9800 !important;border-color:#f57c00 !important;color:white !important;}
+.option.correct{background:#4caf50 !important;border-color:#388e3c !important;color:white !important;font-weight:bold;}
+.option.wrong{background:#f44336 !important;border-color:#d32f2f !important;color:white !important;}
+.progress{background:#e9ecef;height:12px;border-radius:10px;margin:20px 0;overflow:hidden;}
+.progress-bar{height:100%;background:linear-gradient(90deg,#4caf50,#8bc34a);width:0%;transition:width 0.5s;}
+.submit-section{text-align:center;margin-top:40px;padding:30px;background:#f8f9fa;border-radius:20px;}
+.submit-btn{padding:20px 50px;background:linear-gradient(45deg,#4caf50,#8bc34a);color:white;border:none;border-radius:20px;font-size:1.4em;cursor:pointer;font-weight:bold;transition:all 0.3s;box-shadow:0 8px 20px rgba(76,175,80,0.4);display:none;}
+.submit-btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(76,175,80,0.6);}
+.submit-btn:disabled{background:#6c757d;cursor:not-allowed;transform:none;}
+.score-section{display:none;background:linear-gradient(135deg,#ff6b6b,#feca57);color:white;padding:40px;border-radius:25px;text-align:center;margin:30px 0;font-size:1.6em;box-shadow:0 15px 40px rgba(255,107,107,0.4);}
+.completed{pointer-events:none;opacity:0.7;}
+@media(max-width:768px){body{padding:10px;}.quiz-container{padding:20px;}}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>🕌 सम्राट अकबर MCQ क्विज 🕌</h1>
+<p><strong>25 प्रश्न | सभी चुनें → सबमिट → लाल(गलत)/हरी(सही)!</strong></p>
+</div>
+
+<div class="quiz-container">
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+<div id="questions">
+<div class="question" data-correct="B"><h3>1. अकबर का जन्म कब हुआ था?</h3><div class="options"><div class="option" data-answer="A">A) 1540 ई.</div><div class="option" data-answer="B">B) 1542 ई.</div><div class="option" data-answer="C">C) 1544 ई.</div><div class="option" data-answer="D">D) 1550 ई.</div></div></div>
+
+<div class="question" data-correct="A"><h3>2. अकबर का राज्याभिषेक कब हुआ?</h3><div class="options"><div class="option" data-answer="A">A) 1556 ई.</div><div class="option" data-answer="B">B) 1555 ई.</div><div class="option" data-answer="C">C) 1558 ई.</div><div class="option" data-answer="D">D) 1560 ई.</div></div></div>
+
+<div class="question" data-correct="C"><h3>3. अकबर का राज्याभिषेक किस स्थान पर हुआ?</h3><div class="options"><div class="option" data-answer="A">A) आगरा</div><div class="option" data-answer="B">B) दिल्ली</div><div class="option" data-answer="C">C) कलानौर</div><div class="option" data-answer="D">D) फतेहपुर सीकरी</div></div></div>
+
+<div class="question" data-correct="B"><h3>4. बैरम खान कब से कब तक अकबर का संरक्षक रहा?</h3><div class="options"><div class="option" data-answer="A">A) 1556–1558</div><div class="option" data-answer="B">B) 1556–1560</div><div class="option" data-answer="C">C) 1557–1562</div><div class="option" data-answer="D">D) 1556–1561</div></div></div>
+
+<div class="question" data-correct="B"><h3>5. पानीपत की दूसरी लड़ाई कब हुई?</h3><div class="options"><div class="option" data-answer="A">A) 1526 ई.</div><div class="option" data-answer="B">B) 1556 ई.</div><div class="option" data-answer="C">C) 1576 ई.</div><div class="option" data-answer="D">D) 1565 ई.</div></div></div>
+
+<div class="question" data-correct="C"><h3>6. अकबर ने खुद को हरम दल से कब मुक्त किया?</h3><div class="options"><div class="option" data-answer="A">A) 1556 ई.</div><div class="option" data-answer="B">B) 1558 ई.</div><div class="option" data-answer="C">C) 1560 ई.</div><div class="option" data-answer="D">D) 1562 ई.</div></div></div>
+
+<div class="question" data-correct="C"><h3>7. हल्दीघाटी का युद्ध कब हुआ?</h3><div class="options"><div class="option" data-answer="A">A) 1572 ई.</div><div class="option" data-answer="B">B) 1574 ई.</div><div class="option" data-answer="C">C) 1576 ई.</div><div class="option" data-answer="D">D) 1580 ई.</div></div></div>
+
+<div class="question" data-correct="B"><h3>8. हल्दीघाटी का युद्ध किसके बीच हुआ?</h3><div class="options"><div class="option" data-answer="A">A) अकबर–शेरशाह</div><div class="option" data-answer="B">B) अकबर–महाराणा प्रताप</div><div class="option" data-answer="C">C) जहांगीर–प्रताप</div><div class="option" data-answer="D">D) बाबर–प्रताप</div></div></div>
+
+<div class="question" data-correct="A"><h3>9. हल्दीघाटी में मुगल सेना का नेतृत्व किसने किया?</h3><div class="options"><div class="option" data-answer="A">A) मानसिंह</div><div class="option" data-answer="B">B) बीरबल</div><div class="option" data-answer="C">C) टोडरमल</div><div class="option" data-answer="D">D) बैरम खान</div></div></div>
+
+<div class="question" data-correct="C"><h3>10. अकबर का सेनापति कौन था?</h3><div class="options"><div class="option" data-answer="A">A) बीरबल</div><div class="option" data-answer="B">B) टोडरमल</div><div class="option" data-answer="C">C) मानसिंह</div><div class="option" data-answer="D">D) अबुल फजल</div></div></div>
+
+<div class="question" data-correct="A"><h3>11. महाराणा प्रताप के घोड़े का नाम?</h3><div class="options"><div class="option" data-answer="A">A) चेतक</div><div class="option" data-answer="B">B) बादल</div><div class="option" data-answer="C">C) बिजली</div><div class="option" data-answer="D">D) शक्ति</div></div></div>
+
+<div class="question" data-correct="C"><h3>12. जब्ती प्रणाली किसके शासनकाल में?</h3><div class="options"><div class="option" data-answer="A">A) बाबर</div><div class="option" data-answer="B">B) हुमायूं</div><div class="option" data-answer="C">C) अकबर</div><div class="option" data-answer="D">D) औरंगजेब</div></div></div>
+
+<div class="question" data-correct="B"><h3>13. अकबर ने मालवा कब जीता?</h3><div class="options"><div class="option" data-answer="A">A) 1560 ई.</div><div class="option" data-answer="B">B) 1561 ई.</div><div class="option" data-answer="C">C) 1562 ई.</div><div class="option" data-answer="D">D) 1565 ई.</div></div></div>
+
+<div class="question" data-correct="C"><h3>14. अकबर ने दास प्रथा कब समाप्त की?</h3><div class="options"><div class="option" data-answer="A">A) 1556 ई.</div><div class="option" data-answer="B">B) 1558 ई.</div><div class="option" data-answer="C">C) 1562 ई.</div><div class="option" data-answer="D">D) 1570 ई.</div></div></div>
+
+<div class="question" data-correct="C"><h3>15. अकबर ने जजिया कब समाप्त किया?</h3><div class="options"><div class="option" data-answer="A">A) 1556 ई.</div><div class="option" data-answer="B">B) 1560 ई.</div><div class="option" data-answer="C">C) 1564 ई.</div><div class="option" data-answer="D">D) 1570 ई.</div></div></div>
+
+<div class="question" data-correct="C"><h3>16. मनसबदारी प्रथा किसने शुरू की?</h3><div class="options"><div class="option" data-answer="A">A) बाबर</div><div class="option" data-answer="B">B) हुमायूं</div><div class="option" data-answer="C">C) अकबर</div><div class="option" data-answer="D">D) जहांगीर</div></div></div>
+
+<div class="question" data-correct="C"><h3>17. अकबरनामा की रचना किसने की?</h3><div class="options"><div class="option" data-answer="A">A) फैजी</div><div class="option" data-answer="B">B) बीरबल</div><div class="option" data-answer="C">C) अबुल फजल</div><div class="option" data-answer="D">D) टोडरमल</div></div></div>
+
+<div class="question" data-correct="C"><h3>18. अबुल फजल की हत्या किसने की?</h3><div class="options"><div class="option" data-answer="A">A) औरंगजेब</div><div class="option" data-answer="B">B) सलीम</div><div class="option" data-answer="C">C) वीर सिंह बुंदेला</div><div class="option" data-answer="D">D) मानसिंह</div></div></div>
+
+<div class="question" data-correct="B"><h3>19. किस विद्रोह में बीरबल की मृत्यु?</h3><div class="options"><div class="option" data-answer="A">A) राजपूत विद्रोह</div><div class="option" data-answer="B">B) उजबेक विद्रोह</div><div class="option" data-answer="C">C) अफगान विद्रोह</div><div class="option" data-answer="D">D) मेवाड़ विद्रोह</div></div></div>
+
+<div class="question" data-correct="C"><h3>20. महाभारत का फारसी अनुवाद?</h3><div class="options"><div class="option" data-answer="A">A) अकबरनामा</div><div class="option" data-answer="B">B) आयने-अकबरी</div><div class="option" data-answer="C">C) रज्मनामा</div><div class="option" data-answer="D">D) हम्जानामा</div></div></div>
+
+<div class="question" data-correct="C"><h3>21. बुलंद दरवाजा कब बना?</h3><div class="options"><div class="option" data-answer="A">A) 1569 ई.</div><div class="option" data-answer="B">B) 1571 ई.</div><div class="option" data-answer="C">C) 1575 ई.</div><div class="option" data-answer="D">D) 1580 ई.</div></div></div>
+
+<div class="question" data-correct="C"><h3>22. मुगलों की राजकीय भाषा?</h3><div class="options"><div class="option" data-answer="A">A) हिंदी</div><div class="option" data-answer="B">B) अरबी</div><div class="option" data-answer="C">C) फारसी</div><div class="option" data-answer="D">D) उर्दू</div></div></div>
+
+<div class="question" data-correct="D"><h3>23. अकबर के नवरत्नों में कौन नहीं?</h3><div class="options"><div class="option" data-answer="A">A) बीरबल</div><div class="option" data-answer="B">B) टोडरमल</div><div class="option" data-answer="C">C) मानसिंह</div><div class="option" data-answer="D">D) तुलसीदास</div></div></div>
+
+<div class="question" data-correct="B"><h3>24. अकबर के दरबारी संगीतकार?</h3><div class="options"><div class="option" data-answer="A">A) बैजू बावरा</div><div class="option" data-answer="B">B) तानसेन</div><div class="option" data-answer="C">C) अमीर खुसरो</div><div class="option" data-answer="D">D) हरिदास</div></div></div>
+
+<div class="question" data-correct="B"><h3>25. जजिया के बारे में गलत कथन?</h3><div class="options"><div class="option" data-answer="A">A) मोहम्मद बिन कासिम ने लगाया</div><div class="option" data-answer="B">B) 1560 में अकबर ने समाप्त किया</div><div class="option" data-answer="C">C) 1679 में औरंगजेब ने लगाया</div><div class="option" data-answer="D">D) गैर-मुसलमानों पर लगता था</div></div></div>
+</div>
+
+<div class="submit-section">
+<button class="submit-btn" id="submitBtn" onclick="submitQuiz()">🎉 फाइनल सबमिशन करें</button>
+</div>
+
+<div class="score-section" id="scoreSection">
+<h2 id="finalScore"></h2><p id="scoreMessage"></p>
+</div>
+</div>
+
+<script>
+let selections = new Array(25).fill(null);
+let totalAnswered = 0;
+const totalQuestions = 25;
+
+document.querySelectorAll('.option').forEach(option => {
+    option.onclick = function() {
+        const question = this.closest('.question');
+        const qIndex = Array.from(document.querySelectorAll('.question')).indexOf(question);
+        
+        question.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        selections[qIndex] = this.dataset.answer;
+        
+        totalAnswered = selections.filter(s => s !== null).length;
+        updateProgress();
+        
+        if(totalAnswered === totalQuestions) {
+            document.getElementById('submitBtn').style.display = 'inline-block';
+        }
+    }
+});
+
+function updateProgress() {
+    const progress = (totalAnswered / totalQuestions) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+}
+
+function submitQuiz() {
+    document.querySelectorAll('.question').forEach(q => q.classList.add('completed'));
+    document.getElementById('submitBtn').disabled = true;
+    
+    document.querySelectorAll('.question').forEach((question, index) => {
+        const correct = question.dataset.correct;
+        const selected = selections[index];
+        
+        question.querySelectorAll('.option').forEach(option => {
+            if(option.dataset.answer === correct) {
+                option.classList.add('correct');
+            }
+            if(selected && option.dataset.answer === selected && selected !== correct) {
+                option.classList.add('wrong');
+            }
+        });
+    });
+    
+    calculateScore();
+    document.getElementById('scoreSection').style.display = 'block';
+}
+
+function calculateScore() {
+    let score = 0;
+    for(let i = 0; i < totalQuestions; i++) {
+        if(selections[i] === document.querySelectorAll('.question')[i].dataset.correct) {
+            score++;
+        }
+    }
+    const percentage = Math.round((score / totalQuestions) * 100);
+    let message = '';
+    
+    if(percentage >= 90) message = '🏆 सम्राट अकबर के जानकार! 👑';
+    else if(percentage >= 75) message = '⭐ शानदार इतिहास ज्ञान! ✨';
+    else if(percentage >= 60) message = '👌 अच्छा प्रयास! और पढ़ो! 📚';
+    else message = '💪 पहली बार अच्छा! फिर ट्राई करो! 🔥';
+    
+    document.getElementById('finalScore').innerHTML = `🎉 स्कोर: ${score}/${totalQuestions} (${percentage}%)`;
+    document.getElementById('scoreMessage').innerHTML = message;
+}
+</script>
+</body>
+</html>
