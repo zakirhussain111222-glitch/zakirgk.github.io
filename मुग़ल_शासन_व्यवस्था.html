@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मुग़ल शासन व्यवस्था - परीक्षा के लिए महत्वपूर्ण MCQ</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f5e6;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid #e0d6b9;
+        }
+        
+        h1 {
+            color: #8b4513;
+            text-align: center;
+            border-bottom: 3px solid #d4a76a;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #a0522d;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        
+        .instructions {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #ffb74d;
+            margin-bottom: 25px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #e65100;
+        }
+        
+        .question-container {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f4e9;
+            border: 1px solid #e8dfca;
+            transition: all 0.3s ease;
+        }
+        
+        .question-container:hover {
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #5d4037;
+            font-size: 1.1rem;
+        }
+        
+        .options {
+            margin-left: 15px;
+        }
+        
+        .option {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #f1e9d7;
+        }
+        
+        .option.selected {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .option.correct {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .option.incorrect {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        
+        .result {
+            display: none;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .result.correct {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        
+        .result.incorrect {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        
+        .explanation {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            display: none;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #a0522d;
+        }
+        
+        button:active {
+            transform: translateY(2px);
+        }
+        
+        .score-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f1f8e9;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #388e3c;
+        }
+        
+        .summary {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .summary h3 {
+            color: #1565c0;
+            margin-top: 0;
+        }
+        
+        .key-points {
+            background-color: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .key-points h3 {
+            color: #ef6c00;
+            margin-top: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>मुग़ल शासन व्यवस्था - परीक्षा के लिए महत्वपूर्ण MCQ</h1>
+        
+        <div class="subtitle">इन बहुविकल्पीय प्रश्नों का अभ्यास करें और अपनी तैयारी जांचें</div>
+        
+        <div class="instructions">
+            <h3>निर्देश:</h3>
+            <p>1. नीचे दिए गए प्रत्येक प्रश्न के लिए सही विकल्प चुनें।</p>
+            <p>2. एक बार उत्तर चुनने के बाद, आपको तुरंत फीडबैक मिलेगा और सही उत्तर दिखाया जाएगा।</p>
+            <p>3. सभी प्रश्नों का उत्तर देने के बाद, "परिणाम देखें" बटन पर क्लिक करें।</p>
+            <p>4. "फिर से शुरू करें" बटन से आप टेस्ट दोबारा शुरू कर सकते हैं।</p>
+        </div>
+        
+        <div id="questions-container">
+            <!-- Questions will be inserted here by JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button id="check-results">परिणाम देखें</button>
+            <button id="restart">फिर से शुरू करें</button>
+        </div>
+        
+        <div id="score-container" class="score-container">
+            <h2>आपका स्कोर:</h2>
+            <div id="score" class="score">0/15</div>
+            <p id="score-message"></p>
+        </div>
+        
+        <div id="summary" class="summary">
+            <h3>मुग़ल शासन व्यवस्था: परीक्षा के लिए याद रखने योग्य मुख्य बिंदु</h3>
+            <ul>
+                <li><strong>मनसबदारी प्रथा</strong> मुग़ल प्रशासनिक व्यवस्था की <strong>रीढ़</strong> थी।</li>
+                <li><strong>अकबर</strong> ने <strong>दहसाला बंदोबस्त (ज़ब्ती प्रणाली)</strong> और <strong>दीन-ए-इलाही</strong> शुरू किया।</li>
+                <li><strong>औरंगज़ेब</strong> ने <strong>जज़िया कर</strong> फिर से लागू किया।</li>
+                <li><strong>केंद्रीकरण</strong> मुग़ल शासन की मुख्य विशेषता थी।</li>
+                <li>प्रशासनिक स्तर: <strong>केंद्र → सूबा (प्रांत) → सरकार (जिला) → परगना → गाँव</strong>।</li>
+                <li>प्रमुख <strong>पदों (जैसे सूबेदार, दीवान, बख्शी) के कार्यों</strong> और <strong>विभिन्न भू-राजस्व शर्तों (जैसे खालसा, जागीर)</strong> में अंतर को समझना भी बहुत जरूरी है।</li>
+            </ul>
+        </div>
+        
+        <div class="key-points">
+            <h3>मुग़ल प्रशासन के प्रमुख अंग:</h3>
+            <ol>
+                <li><strong>केंद्रीय प्रशासन:</strong> बादशाह (सर्वोच्च), वकील/वज़ीर, दीवान-ए-आला, मीर बख्शी, सद्र-उस-सुदूर</li>
+                <li><strong>प्रांतीय प्रशासन:</strong> सूबा (प्रांत), सूबेदार (प्रमुख), दीवान, बख्शी, सद्र, काजी</li>
+                <li><strong>स्थानीय प्रशासन:</strong> सरकार (जिला), परगना, गाँव</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Mughal administration MCQ questions in Hindi
+        const questions = [
+            {
+                question: "1. मुग़ल प्रशासन की सबसे महत्वपूर्ण विशेषता क्या थी?",
+                options: [
+                    "सामंतवादी व्यवस्था",
+                    "विकेंद्रीकृत शासन",
+                    "केन्द्रीकृत शासन",
+                    "लोकतांत्रिक व्यवस्था"
+                ],
+                correct: 2,
+                explanation: "मुग़ल शासन व्यवस्था की सबसे महत्वपूर्ण विशेषता इसका <strong>केंद्रीकृत स्वरूप</strong> था। सभी महत्वपूर्ण निर्णय बादशाह द्वारा लिए जाते थे और प्रशासन का पूरा ढांचा केंद्र से नियंत्रित होता था।"
+            },
+            {
+                question: "2. मनसबदारी प्रथा को किस मुग़ल सम्राट ने लागू किया?",
+                options: [
+                    "बाबर",
+                    "हुमायूँ",
+                    "अकबर",
+                    "औरंगज़ेब"
+                ],
+                correct: 2,
+                explanation: "<strong>अकबर</strong> ने मनसबदारी प्रथा को लागू किया। यह प्रथा मुग़ल प्रशासनिक और सैन्य व्यवस्था की रीढ़ थी, जिसमें हर अधिकारी को एक मनसब (पद) दिया जाता था।"
+            },
+            {
+                question: "3. 'जब्ती प्रणाली' या 'दहसाला प्रणाली' का संबंध किससे है?",
+                options: [
+                    "न्यायिक प्रणाली",
+                    "भू-राजस्व प्रणाली",
+                    "सैन्य प्रणाली",
+                    "व्यापार प्रणाली"
+                ],
+                correct: 1,
+                explanation: "'जब्ती प्रणाली' या 'दहसाला प्रणाली' का संबंध <strong>भू-राजस्व प्रणाली</strong> से है। इसे अकबर के वित्त मंत्री राजा टोडरमल ने लागू किया था।"
+            },
+            {
+                question: "4. मनसबदार के पद को निर्धारित करने वाले दो अंक कौन से थे?",
+                options: [
+                    "जात और बिरादरी",
+                    "नकदी और जागीर",
+                    "जात और सवार",
+                    "खालसा और जागीर"
+                ],
+                correct: 2,
+                explanation: "मनसबदार के पद को निर्धारित करने वाले दो अंक <strong>जात और सवार</strong> थे। <strong>जात</strong> व्यक्तिगत पद और वेतन दर्शाता था, जबकि <strong>सवार</strong> घोड़सवार सैनिकों की संख्या को दर्शाता था।"
+            },
+            {
+                question: "5. 'खालसा भूमि' से क्या तात्पर्य था?",
+                options: [
+                    "जागीरदारों की भूमि",
+                    "धार्मिक अनुदान की भूमि",
+                    "सम्राट के प्रत्यक्ष नियंत्रण वाली भूमि",
+                    "किसानों की व्यक्तिगत भूमि"
+                ],
+                correct: 2,
+                explanation: "'खालसा भूमि' से तात्पर्य <strong>सम्राट के प्रत्यक्ष नियंत्रण वाली भूमि</strong> से था। इस भूमि से प्राप्त राजस्व सीधे शाही खजाने में जाता था।"
+            },
+            {
+                question: "6. मुग़ल साम्राज्य में 'सूबा' क्या था?",
+                options: [
+                    "एक गाँव",
+                    "एक जिला",
+                    "एक प्रांत",
+                    "एक राजधानी"
+                ],
+                correct: 2,
+                explanation: "मुग़ल साम्राज्य में <strong>'सूबा' एक प्रांत</strong> को कहते थे। अकबर के समय में 15 सूबे थे, जो औरंगज़ेब के समय में बढ़कर 21 हो गए थे।"
+            },
+            {
+                question: "7. प्रांत का प्रमुख अधिकारी कौन होता था?",
+                options: [
+                    "फौजदार",
+                    "दीवान",
+                    "कोतवाल",
+                    "सूबेदार"
+                ],
+                correct: 3,
+                explanation: "प्रांत का प्रमुख अधिकारी <strong>सूबेदार</strong> होता था। वह प्रांत का प्रशासनिक और सैन्य प्रमुख होता था और सीधे बादशाह के प्रति उत्तरदायी होता था।"
+            },
+            {
+                question: "8. मुग़ल प्रशासन में 'दीवान' का मुख्य कार्य क्या था?",
+                options: [
+                    "राजस्व का प्रबंधन",
+                    "सेना का नेतृत्व",
+                    "कानून और व्यवस्था बनाए रखना",
+                    "न्याय करना"
+                ],
+                correct: 0,
+                explanation: "मुग़ल प्रशासन में <strong>'दीवान' का मुख्य कार्य राजस्व का प्रबंधन</strong> था। वह भू-राजस्व संग्रह, लेखा-जोखा और वित्तीय मामलों का प्रभारी होता था।"
+            },
+            {
+                question: "9. किस मुग़ल बादशाह ने 'दीन-ए-इलाही' नामक एक नए धार्मिक पंथ की शुरुआत की?",
+                options: [
+                    "बाबर",
+                    "जहाँगीर",
+                    "अकबर",
+                    "शाहजहाँ"
+                ],
+                correct: 2,
+                explanation: "<strong>अकबर</strong> ने 1582 ई. में 'दीन-ए-इलाही' नामक एक नए धार्मिक पंथ की शुरुआत की। इसमें विभिन्न धर्मों के सिद्धांतों को सम्मिलित किया गया था।"
+            },
+            {
+                question: "10. 'मीर बख्शी' का प्राथमिक दायित्व क्या था?",
+                options: [
+                    "विदेश मामलों की देखभाल",
+                    "सैन्य भर्ती और मनसबदारों का रिकॉर्ड रखना",
+                    "न्यायिक मामलों की देखभाल",
+                    "शाही परिवार की देखभाल"
+                ],
+                correct: 1,
+                explanation: "'मीर बख्शी' का प्राथमिक दायित्व <strong>सैन्य भर्ती और मनसबदारों का रिकॉर्ड रखना</strong> था। वह सैन्य विभाग का प्रमुख होता था और मनसबदारों के वेतन का भुगतान करता था।"
+            },
+            {
+                question: "11. शहरों में कानून-व्यवस्था बनाए रखने का दायित्व किस अधिकारी पर था?",
+                options: [
+                    "फौजदार",
+                    "काजी",
+                    "कोतवाल",
+                    "वज़ीर"
+                ],
+                correct: 2,
+                explanation: "शहरों में कानून-व्यवस्था बनाए रखने का दायित्व <strong>कोतवाल</strong> पर था। वह नगर प्रशासन का प्रमुख होता था और अपराध नियंत्रण, बाजार नियमन आदि के लिए जिम्मेदार था।"
+            },
+            {
+                question: "12. 'जागीरदारी प्रथा' का संबंध मुख्यतः किससे था?",
+                options: [
+                    "मनसबदारों को वेतन के रूप में भूमि आवंटन",
+                    "किसानों को भूमि का स्वामित्व",
+                    "धार्मिक संस्थाओं को अनुदान",
+                    "व्यापारियों को विशेष अधिकार"
+                ],
+                correct: 0,
+                explanation: "'जागीरदारी प्रथा' का संबंध मुख्यतः <strong>मनसबदारों को वेतन के रूप में भूमि आवंटन</strong> से था। जागीरदार उस भूमि से राजस्व एकत्र करके अपना वेतन प्राप्त करते थे।"
+            },
+            {
+                question: "13. 'सरकार' मुग़ल प्रशासनिक इकाई में क्या था?",
+                options: [
+                    "गाँवों का समूह",
+                    "जिला (परगना के ऊपर की इकाई)",
+                    "एक प्रांत",
+                    "एक कर संग्रह क्षेत्र"
+                ],
+                correct: 1,
+                explanation: "'सरकार' मुग़ल प्रशासनिक इकाई में <strong>जिला (परगना के ऊपर की इकाई)</strong> था। कई परगनों को मिलाकर एक सरकार बनती थी।"
+            },
+            {
+                question: "14. मुग़ल काल में 'महाल' शब्द का प्रयोग अक्सर किसके लिए किया जाता था?",
+                options: [
+                    "कर संग्रह की मूल इकाई (गाँव या गाँवों का समूह)",
+                    "एक सैन्य छावनी",
+                    "एक शाही महल",
+                    "एक बाजार"
+                ],
+                correct: 0,
+                explanation: "मुग़ल काल में 'महाल' शब्द का प्रयोग अक्सर <strong>कर संग्रह की मूल इकाई (गाँव या गाँवों का समूह)</strong> के लिए किया जाता था। यह भू-राजस्व आकलन की मूल इकाई थी।"
+            },
+            {
+                question: "15. किस मुग़ल सम्राट के शासनकाल में 'जज़िया कर' फिर से लागू किया गया था?",
+                options: [
+                    "अकबर",
+                    "जहाँगीर",
+                    "शाहजहाँ",
+                    "औरंगज़ेब"
+                ],
+                correct: 3,
+                explanation: "<strong>औरंगज़ेब</strong> के शासनकाल में 1679 ई. में 'जज़िया कर' फिर से लागू किया गया था। यह गैर-मुस्लिमों पर लगाया जाने वाला कर था, जिसे अकबर ने समाप्त कर दिया था।"
+            }
+        ];
+
+        // Initialize variables
+        let userAnswers = new Array(questions.length).fill(-1);
+        let quizCompleted = false;
+
+        // Load questions when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuestions();
+            
+            // Add event listeners to buttons
+            document.getElementById('check-results').addEventListener('click', showResults);
+            document.getElementById('restart').addEventListener('click', restartQuiz);
+        });
+
+        // Function to load questions
+        function loadQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                questionDiv.id = `question-${index}`;
+                
+                let optionsHtml = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                        <div class="option" data-question="${index}" data-option="${optIndex}" onclick="selectOption(${index}, ${optIndex})">
+                            ${String.fromCharCode(97 + optIndex)}) ${option}
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <div class="question">${q.question}</div>
+                    <div class="options">${optionsHtml}</div>
+                    <div id="result-${index}" class="result"></div>
+                    <div id="explanation-${index}" class="explanation"></div>
+                `;
+                
+                container.appendChild(questionDiv);
+            });
+            
+            // Reset user answers
+            userAnswers.fill(-1);
+            quizCompleted = false;
+            
+            // Hide results and summary
+            document.getElementById('score-container').style.display = 'none';
+            document.getElementById('summary').style.display = 'none';
+        }
+
+        // Function to select an option
+        window.selectOption = function(questionIndex, optionIndex) {
+            if (quizCompleted) return;
+            
+            const questionDiv = document.getElementById(`question-${questionIndex}`);
+            const options = questionDiv.querySelectorAll('.option');
+            const resultDiv = document.getElementById(`result-${questionIndex}`);
+            const explanationDiv = document.getElementById(`explanation-${questionIndex}`);
+            
+            // Remove previous selections
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Mark selected option
+            options[optionIndex].classList.add('selected');
+            
+            // Store user answer
+            userAnswers[questionIndex] = optionIndex;
+            
+            // Check answer
+            const isCorrect = optionIndex === questions[questionIndex].correct;
+            
+            // Show immediate feedback
+            if (isCorrect) {
+                options[optionIndex].classList.add('correct');
+                resultDiv.textContent = '✓ सही उत्तर!';
+                resultDiv.className = 'result correct';
+            } else {
+                options[optionIndex].classList.add('incorrect');
+                // Also show correct answer
+                options[questions[questionIndex].correct].classList.add('correct');
+                resultDiv.textContent = '✗ गलत उत्तर! सही उत्तर देखें।';
+                resultDiv.className = 'result incorrect';
+            }
+            
+            // Show explanation
+            explanationDiv.innerHTML = `<strong>व्याख्या:</strong> ${questions[questionIndex].explanation}`;
+            explanationDiv.style.display = 'block';
+            resultDiv.style.display = 'block';
+        };
+
+        // Function to show results
+        function showResults() {
+            let score = 0;
+            let unanswered = 0;
+            
+            // Calculate score
+            userAnswers.forEach((answer, index) => {
+                if (answer === -1) {
+                    unanswered++;
+                } else if (answer === questions[index].correct) {
+                    score++;
+                }
+            });
+            
+            // If there are unanswered questions, alert the user
+            if (unanswered > 0) {
+                if (!confirm(`${unanswered} प्रश्नों का उत्तर नहीं दिया गया है। क्या आप फिर भी परिणाम देखना चाहते हैं?`)) {
+                    return;
+                }
+            }
+            
+            quizCompleted = true;
+            
+            // Display score
+            const scoreContainer = document.getElementById('score-container');
+            const scoreElement = document.getElementById('score');
+            const scoreMessage = document.getElementById('score-message');
+            
+            scoreElement.textContent = `${score}/${questions.length}`;
+            
+            // Set message based on score
+            if (score === questions.length) {
+                scoreMessage.textContent = 'बहुत बढ़िया! आपने सभी प्रश्नों के सही उत्तर दिए।';
+                scoreMessage.style.color = '#2e7d32';
+            } else if (score >= questions.length * 0.7) {
+                scoreMessage.textContent = 'अच्छा प्रदर्शन! आपकी मुग़ल प्रशासन व्यवस्था की जानकारी अच्छी है।';
+                scoreMessage.style.color = '#388e3c';
+            } else if (score >= questions.length * 0.5) {
+                scoreMessage.textContent = 'सामान्य प्रदर्शन। कुछ और अभ्यास की आवश्यकता है।';
+                scoreMessage.style.color = '#f57c00';
+            } else {
+                scoreMessage.textContent = 'अभ्यास की आवश्यकता है। मुख्य बिंदुओं को दोबारा पढ़ें।';
+                scoreMessage.style.color = '#d32f2f';
+            }
+            
+            scoreContainer.style.display = 'block';
+            document.getElementById('summary').style.display = 'block';
+            
+            // Scroll to results
+            scoreContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Function to restart quiz
+        function restartQuiz() {
+            loadQuestions();
+        }
+    </script>
+</body>
+</html>
