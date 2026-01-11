@@ -1,79 +1,229 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मराठा साम्राज्य प्रश्नोत्तरी</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         
-        #resetBtn {
-            background-color: #e74c3c;
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e63946;
+        }
+        
+        h1 {
+            color: #2a2a72;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #2a2a72;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #2a2a72;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #222;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .option {
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: white;
+            font-size: 1rem;
+        }
+        
+        .option:hover {
+            background-color: #f0f8ff;
+            border-color: #a8dadc;
+        }
+        
+        .option.selected {
+            border-width: 2px;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .explanation {
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #e9ecef;
+            margin-top: 15px;
+            display: none;
+            font-size: 0.95rem;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        #prevBtn {
+            background-color: #6c757d;
             color: white;
         }
         
-        #resetBtn:hover {
-            background-color: #c0392b;
+        #prevBtn:hover {
+            background-color: #5a6268;
+        }
+        
+        #nextBtn {
+            background-color: #2a2a72;
+            color: white;
+        }
+        
+        #nextBtn:hover {
+            background-color: #1a1a52;
+        }
+        
+        #submitBtn {
+            background-color: #e63946;
+            color: white;
+        }
+        
+        #submitBtn:hover {
+            background-color: #d00000;
         }
         
         .result-container {
-            display: none;
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            margin-top: 30px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .result-header {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #ecf0f1;
-        }
-        
-        .score-display {
-            font-size: 48px;
-            font-weight: bold;
-            color: #3498db;
-            margin: 20px 0;
-        }
-        
-        .score-text {
-            font-size: 20px;
-            color: #7f8c8d;
-            margin-bottom: 25px;
-        }
-        
-        .result-details {
-            text-align: left;
-            margin-top: 25px;
+            padding: 30px;
             background-color: #f8f9fa;
-            padding: 20px;
             border-radius: 8px;
+            margin-top: 30px;
+            display: none;
+            border: 2px dashed #2a2a72;
         }
         
-        .feedback {
-            font-size: 18px;
-            margin-top: 15px;
+        .result-container.show {
+            display: block;
+        }
+        
+        .score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2a2a72;
+            margin: 10px 0;
+        }
+        
+        .score-message {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .correct-answers {
+            text-align: left;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .answer-item {
+            margin-bottom: 15px;
             padding: 10px;
-            border-radius: 6px;
+            border-radius: 5px;
+            background-color: white;
         }
         
-        .excellent {
-            color: #27ae60;
-            background-color: #d4edda;
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
         }
         
-        .good {
-            color: #f39c12;
-            background-color: #fff3cd;
+        .progress {
+            height: 100%;
+            background-color: #2a2a72;
+            width: 0%;
+            transition: width 0.5s;
         }
         
-        .average {
-            color: #e74c3c;
-            background-color: #f8d7da;
-        }
-        
-        .answer-explanation {
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-top: 8px;
-            padding-left: 25px;
-            font-style: italic;
+        .progress-text {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
         }
         
         @media (max-width: 768px) {
@@ -81,8 +231,13 @@
                 padding: 15px;
             }
             
+            h1 {
+                font-size: 1.8rem;
+            }
+            
             .controls {
                 flex-direction: column;
+                gap: 10px;
             }
             
             button {
@@ -93,314 +248,369 @@
 </head>
 <body>
     <div class="container">
-        <h1>मराठा साम्राज्य प्रश्नोत्तरी</h1>
+        <header>
+            <h1>मराठा साम्राज्य प्रश्नोत्तरी</h1>
+            <div class="subtitle">20 बहुविकल्पीय प्रश्नों का सेट | प्रत्येक प्रश्न के बाद व्याख्या</div>
+        </header>
         
-        <div class="quiz-info">
-            <p>इस प्रश्नोत्तरी में मराठा साम्राज्य और छत्रपति शिवाजी महाराज से संबंधित 20 प्रश्न हैं। प्रत्येक प्रश्न के लिए सही उत्तर चुनें और अंत में "स्कोर दिखाएं" बटन पर क्लिक करें।</p>
-            <p><strong>निर्देश:</strong> प्रत्येक प्रश्न के लिए केवल एक उत्तर चुनें। सबमिट करने के बाद, गलत उत्तर लाल रंग में और सही उत्तर हरे रंग में दिखाई देंगे।</p>
+        <div class="progress-text">प्रश्न <span id="current-question">1</span> / <span id="total-questions">20</span></div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
         </div>
         
-        <div id="quizContainer">
-            <!-- Questions will be dynamically inserted here -->
-        </div>
+        <div id="question-area"></div>
         
         <div class="controls">
-            <button id="submitBtn">स्कोर दिखाएं</button>
-            <button id="resetBtn">पुनः प्रारंभ करें</button>
+            <button id="prevBtn">पिछला प्रश्न</button>
+            <div>
+                <button id="nextBtn">अगला प्रश्न</button>
+                <button id="submitBtn" style="display: none;">परिणाम देखें</button>
+            </div>
         </div>
         
-        <div class="result-container" id="resultContainer">
-            <h2 class="result-header">आपका परिणाम</h2>
-            <div class="score-display" id="scoreDisplay">0/20</div>
-            <div class="score-text" id="scoreText">आपने 0 में से 0 अंक प्राप्त किए</div>
-            <div class="feedback" id="feedback"></div>
+        <div class="result-container" id="result-container">
+            <h2>आपका परिणाम</h2>
+            <div class="score" id="score">0/20</div>
+            <div class="score-message" id="score-message"></div>
             
-            <div class="result-details">
-                <h3>प्रश्नों का विवरण:</h3>
-                <div id="resultDetails"></div>
+            <div class="correct-answers">
+                <h3>सही उत्तर:</h3>
+                <div id="answers-list"></div>
             </div>
+            
+            <button id="restartBtn" style="margin-top: 20px;">पुनः प्रयास करें</button>
         </div>
     </div>
 
     <script>
-        // Quiz questions data
-        const quizQuestions = [
+        // Maratha Empire quiz data
+        const quizData = [
             {
-                question: "मराठा साम्राज्य का संस्थापक कौन था?",
-                options: ["सम्भाजी", "राजाराम", "छत्रपति शिवाजी महाराज", "शाहजी भोंसले"],
+                question: "मराठा साम्राज्य की प्रारंभिक राजधानी कहां थी?",
+                options: ["पुणे", "सतारा", "रायगढ़", "कोल्हापुर"],
                 correctAnswer: 2,
-                explanation: "छत्रपति शिवाजी महाराज ने 1674 में मराठा साम्राज्य की स्थापना की और स्वतंत्र राज्य का शासन शुरू किया।"
+                explanation: "छत्रपति शिवाजी महाराज ने 1674 ईस्वी में रायगढ़ को मराठा साम्राज्य की राजधानी बनाया था। यह किला समुद्र तल से 820 मीटर की ऊंचाई पर स्थित है और इसे 'दक्षिण का जिब्राल्टर' भी कहा जाता है।"
             },
             {
-                question: "शिवाजी का जन्म कब हुआ?",
-                options: ["19 फरवरी 1630", "15 अप्रैल 1640", "10 मार्च 1625", "5 जून 1635"],
-                correctAnswer: 0,
-                explanation: "शिवाजी महाराज का जन्म 19 फरवरी 1630 को शिवनेरी दुर्ग में हुआ था।"
-            },
-            {
-                question: "शिवाजी के पिता का नाम क्या था?",
-                options: ["मलोजी भोंसले", "शाहजी भोंसले", "दादाजी कोंडदेव", "संभाजी भोंसले"],
+                question: "राजाराम ने मराठा साम्राज्य की दूसरी राजधानी कहां बनाई?",
+                options: ["पन्हाला", "जिंजी (गिंगी)", "विजयदुर्ग", "महाड"],
                 correctAnswer: 1,
-                explanation: "शिवाजी के पिता शाहजी भोंसले थे, जो बीजापुर सल्तनत में एक सेनापति थे।"
+                explanation: "1689 ईस्वी में औरंगजेब के आक्रमण के बाद, छत्रपति राजाराम ने जिंजी (वर्तमान तमिलनाडु में) को मराठा साम्राज्य की दूसरी राजधानी बनाया। यह किला 9 वर्षों तक मुगलों के आक्रमणों का सामना करने में सफल रहा।"
             },
             {
-                question: "शिवाजी के माता का नाम क्या था?",
-                options: ["तुकाबाई", "सखुबाई", "जीजाबाई", "सोयराबाई"],
+                question: "खेड़ा का युद्ध कब हुआ?",
+                options: ["1699 ई.", "1707 ई.", "1720 ई.", "1731 ई."],
+                correctAnswer: 1,
+                explanation: "खेड़ा का युद्ध 12 अक्टूबर 1707 ईस्वी को मराठा साम्राज्य और मुगल साम्राज्य के बीच लड़ा गया था। इस युद्ध में मराठों की जीत हुई और इसने मराठा शक्ति के पुनरुत्थान की शुरुआत को चिह्नित किया।"
+            },
+            {
+                question: "1708 ई. में शाहू ने अपना राज्याभिषेक कहां किया?",
+                options: ["पुणे", "सतारा", "रायगढ़", "औरंगाबाद"],
+                correctAnswer: 1,
+                explanation: "छत्रपति शाहू महाराज का राज्याभिषेक 1708 ईस्वी में सतारा में हुआ था। उन्होंने 1707 से 1749 तक शासन किया और उनके शासनकाल में पेशवा प्रणाली का विकास हुआ।"
+            },
+            {
+                question: "दिल्ली पर आक्रमण करने वाला प्रथम पेशवा कौन था?",
+                options: ["बालाजी विश्वनाथ", "बाजीराव प्रथम (बालाजी बाजीराव)", "बालाजी बाजीराव (नानासाहेब)", "माधवराव प्रथम"],
+                correctAnswer: 1,
+                explanation: "बाजीराव प्रथम (1720-1740) पहले पेशवा थे जिन्होंने 1737 ईस्वी में दिल्ली पर आक्रमण किया था। उन्होंने मुगल सेना को हराया और मराठा साम्राज्य का विस्तार किया।"
+            },
+            {
+                question: "बाजीराव प्रथम के बाद मराठा साम्राज्य का पेशवा कौन बना?",
+                options: ["माधवराव प्रथम", "विश्वास राव", "बालाजी बाजीराव (नानासाहेब)", "रघुनाथ राव"],
                 correctAnswer: 2,
-                explanation: "जीजाबाई (जिजाऊ) शिवाजी की माता थीं, जो एक धार्मिक और प्रबल महिला थीं जिन्होंने शिवाजी के चरित्र निर्माण में महत्वपूर्ण भूमिका निभाई।"
+                explanation: "बाजीराव प्रथम की मृत्यु के बाद उनके पुत्र बालाजी बाजीराव (जिन्हें नानासाहेब भी कहा जाता है) 1740 में पेशवा बने। उन्होंने 1740 से 1761 तक शासन किया।"
             },
             {
-                question: "शाहजी भोंसले की दूसरी पत्नी कौन थी?",
-                options: ["जीजाबाई", "तुकाबाई मोहिते", "येसूबाई", "सखुबाई निम्बालकर"],
-                correctAnswer: 1,
-                explanation: "शाहजी भोंसले की दूसरी पत्नी तुकाबाई मोहिते थीं, जिनसे उनके दूसरे पुत्र एकोजी का जन्म हुआ।"
-            },
-            {
-                question: "छत्रपति शिवाजी के गुरु कौन थे?",
-                options: ["स्वामी रामदास", "समर्थ रामदास", "तुकाराम", "एकनाथ"],
-                correctAnswer: 1,
-                explanation: "समर्थ रामदास शिवाजी महाराज के गुरु और आध्यात्मिक मार्गदर्शक थे।"
-            },
-            {
-                question: "शिवाजी का विवाह किससे हुआ?",
-                options: ["जीजाबाई", "सईबाई निम्बालकर", "पुतलाबाई", "सखुबाई"],
-                correctAnswer: 1,
-                explanation: "शिवाजी का विवाह 14 मई 1640 को सईबाई निम्बालकर से हुआ था।"
-            },
-            {
-                question: "शिवाजी ने किसे अपनी राजधानी बनाया?",
-                options: ["पुरंदर", "सिंहगढ़", "पन्हाला", "रायगढ़"],
-                correctAnswer: 3,
-                explanation: "शिवाजी ने 1674 में रायगढ़ को अपनी राजधानी बनाया और यहीं पर उनका राज्याभिषेक हुआ।"
-            },
-            {
-                question: "शिवाजी को राजा की उपाधि किसने दी?",
-                options: ["औरंगजेब", "मुगल दरबार", "काशी के पंडितों ने राज्याभिषेक में", "शाहजहाँ"],
+                question: "बालाजी बाजीराव को किस नाम से जाना जाता है?",
+                options: ["नाना फड़नवीस", "सवाई माधवराव", "नानासाहेब पेशवा", "महादजी शिंदे"],
                 correctAnswer: 2,
-                explanation: "6 जून 1674 को रायगढ़ में काशी के पंडित गंगाभट्ट द्वारा शिवाजी का राज्याभिषेक किया गया और उन्हें 'छत्रपति' की उपाधि दी गई।"
+                explanation: "बालाजी बाजीराव को 'नानासाहेब पेशवा' के नाम से जाना जाता है। उनके शासनकाल में पानीपत की तीसरी लड़ाई (1761) हुई थी, जिसमें मराठों को भारी हार का सामना करना पड़ा था।"
             },
             {
-                question: "पुरंदर की संधि किसके बीच हुई?",
-                options: ["शिवाजी और औरंगजेब", "शिवाजी और मुगल सूबेदार राजा जयसिंह", "शिवाजी और बीजापुर सुल्तान", "संभाजी और मुगल"],
+                question: "झलकी की संधि किसके बीच हुई थी?",
+                options: ["मराठे और हैदराबाद", "मराठे और पुर्तगाली", "मराठे और अंग्रेज", "मराठे और फ्रांसीसी"],
                 correctAnswer: 1,
-                explanation: "पुरंदर की संधि 1665 में शिवाजी और मुगल सूबेदार राजा जयसिंह के बीच हुई थी।"
+                explanation: "झलकी की संधि 2 जनवरी 1779 को मराठा साम्राज्य और पुर्तगालियों के बीच हुई थी। इस संधि के तहत पुर्तगालियों ने मराठों को कुछ क्षेत्रों पर नियंत्रण दिया था।"
+            },
+            {
+                question: "पानीपत की तृतीय युद्ध कब हुआ था?",
+                options: ["1757 ई.", "1760 ई.", "1761 ई.", "1771 ई."],
+                correctAnswer: 2,
+                explanation: "पानीपत की तीसरी लड़ाई 14 जनवरी 1761 को अफगान शासक अहमद शाह अब्दाली और मराठा साम्राज्य के बीच लड़ी गई थी। यह 18वीं सदी की सबसे भीषण लड़ाइयों में से एक थी।"
+            },
+            {
+                question: "पानीपत की तृतीय युद्ध किसके बीच हुई थी?",
+                options: ["मराठे और अंग्रेज", "मराठे और अफगान-रोहिला सेना (अहमद शाह अब्दाली)", "मराठे और मुगल", "मराठे और फ्रांसीसी"],
+                correctAnswer: 1,
+                explanation: "पानीपत की तीसरी लड़ाई अहमद शाह अब्दाली के नेतृत्व में अफगान-रोहिला संयुक्त सेना और सदाशिवराव भाऊ के नेतृत्व में मराठा सेना के बीच लड़ी गई थी। इसमें मराठों की भारी हार हुई थी।"
+            },
+            {
+                question: "मराठों का 'मैकियावेली' किसे कहा जाता है?",
+                options: ["बाजीराव प्रथम", "नाना फड़नवीस", "महादजी शिंदे", "बालाजी बाजीराव"],
+                correctAnswer: 1,
+                explanation: "नाना फड़नवीस को मराठों का 'मैकियावेली' कहा जाता है क्योंकि उन्होंने कुशल राजनीतिक चालों और कूटनीति के माध्यम से मराठा संघ को मजबूत किया। वह एक बुद्धिमान और चतुर राजनेता थे।"
+            },
+            {
+                question: "अंतिम पेशवा कौन था?",
+                options: ["रघुनाथ राव", "बाजीराव द्वितीय", "बाजीराव तृतीय (नानासाहेब पेशवा द्वितीय)", "माधवराव द्वितीय"],
+                correctAnswer: 2,
+                explanation: "बाजीराव द्वितीय (1795-1818) मराठा साम्राज्य के अंतिम पेशवा थे। 1818 में तीसरे आंग्ल-मराठा युद्ध के बाद, अंग्रेजों ने उन्हें हराया और पेशवाई प्रणाली को समाप्त कर दिया।"
             },
             {
                 question: "पुरंदर की संधि कब हुई?",
-                options: ["1659", "1665", "1674", "1680"],
+                options: ["1750 ई.", "1776 ई.", "1782 ई.", "1790 ई."],
                 correctAnswer: 1,
-                explanation: "पुरंदर की संधि जून 1665 में हुई थी, जिसके तहत शिवाजी ने 23 किले मुगलों को दे दिए थे।"
+                explanation: "पुरंदर की संधि 1 मार्च 1776 को मराठा साम्राज्य और ब्रिटिश ईस्ट इंडिया कंपनी के बीच हुई थी। इस संधि ने प्रथम आंग्ल-मराठा युद्ध को समाप्त किया था।"
             },
             {
-                question: "औरंगजेब ने शिवाजी को कब कैद किया था?",
-                options: ["1655", "1666", "1670", "1675"],
+                question: "प्रथम आंग्ल-मराठा युद्ध कब हुआ?",
+                options: ["1757-1761 ई.", "1775-1782 ई.", "1803-1805 ई.", "1817-1818 ई."],
                 correctAnswer: 1,
-                explanation: "मई 1666 में शिवाजी को औरंगजेब ने आगरा में कैद किया था, लेकिन वे चतुराई से भाग निकले।"
+                explanation: "प्रथम आंग्ल-मराठा युद्ध 1775 से 1782 तक चला था। इस युद्ध का कारण मराठा सिंहासन के उत्तराधिकार को लेकर विवाद था और इसका अंत सालबाई की संधि (1782) से हुआ था।"
             },
             {
-                question: "शिवाजी ने कब पन्हाला दुर्ग को बीजापुर से छीना था?",
-                options: ["1645", "1656", "1660", "1664"],
+                question: "द्वितीय आंग्ल-मराठा युद्ध कब हुआ?",
+                options: ["1775-1782 ई.", "1803-1805 ई.", "1817-1818 ई.", "1799-1800 ई."],
                 correctAnswer: 1,
-                explanation: "शिवाजी ने 1656 में पन्हाला दुर्ग को बीजापुर से जीता था।"
+                explanation: "द्वितीय आंग्ल-मराठा युद्ध 1803 से 1805 तक चला था। इस युद्ध में मराठों की हार हुई और इसके परिणामस्वरूप देवगांव और सुर्जी-अंजनगांव की संधियाँ हुईं।"
             },
             {
-                question: "शिवाजी ने अपना राज्याभिषेक कब करवाया?",
-                options: ["6 जून 1664", "6 जून 1674", "12 मई 1680", "15 अगस्त 1670"],
+                question: "देवगांव की संधि कब हुई?",
+                options: ["1776 ई.", "1782 ई.", "1803 ई.", "1805 ई."],
+                correctAnswer: 2,
+                explanation: "देवगांव की संधि 17 दिसंबर 1803 को रघुजी भोंसले द्वितीय और ब्रिटिश ईस्ट इंडिया कंपनी के बीच हुई थी। इस संधि के तहत भोंसले ने कटक प्रांत ब्रिटिश को सौंप दिया था।"
+            },
+            {
+                question: "मंदसौर की संधि कब हुई?",
+                options: ["1803 ई.", "1818 ई.", "1805 ई.", "1782 ई."],
                 correctAnswer: 1,
-                explanation: "शिवाजी महाराज ने 6 जून 1674 को रायगढ़ में अपना राज्याभिषेक करवाया था।"
+                explanation: "मंदसौर की संधि 6 जनवरी 1818 को होल्कर वंश और ब्रिटिश ईस्ट इंडिया कंपनी के बीच हुई थी। इस संधि ने तीसरे आंग्ल-मराठा युद्ध को समाप्त किया और होल्कर शासकों को ब्रिटिश संरक्षण स्वीकार करना पड़ा।"
             },
             {
-                question: "कौन सा अभियान शिवाजी का अंतिम अभियान था?",
-                options: ["सूरत अभियान", "कर्नाटक अभियान (1680)", "जिंजी अभियान", "मुगल दक्षिण अभियान"],
+                question: "तृतीय आंग्ल-मराठा युद्ध कब हुआ?",
+                options: ["1799-1800 ई.", "1803-1805 ई.", "1817-1818 ई.", "1820-1821 ई."],
+                correctAnswer: 2,
+                explanation: "तृतीय आंग्ल-मराठा युद्ध 1817 से 1818 तक चला था। इस युद्ध के बाद मराठा साम्राज्य पूरी तरह से समाप्त हो गया और भारत में ब्रिटिश शक्ति का वर्चस्व स्थापित हुआ।"
+            },
+            {
+                question: "मराठा साम्राज्य में 'चौथ' किससे संबंधित था?",
+                options: ["कृषि कर", "सुरक्षा शुल्क / लगान (मुगल क्षेत्रों से वसूली)", "व्यापार कर", "न्यायिक शुल्क"],
                 correctAnswer: 1,
-                explanation: "शिवाजी का अंतिम सैन्य अभियान 1680 का कर्नाटक अभियान था, जिसके तुरंत बाद उनका निधन हो गया।"
+                explanation: "'चौथ' एक प्रकार का सुरक्षा शुल्क था जो मराठे मुगल क्षेत्रों से वसूलते थे। यह भू-राजस्व का एक चौथाई हिस्सा होता था और इसके बदले में मराठे उस क्षेत्र की सुरक्षा की गारंटी देते थे।"
             },
             {
-                question: "शिवाजी की मृत्यु कब हुई?",
-                options: ["3 अप्रैल 1680", "5 अप्रैल 1680", "12 मार्च 1678", "15 दिसंबर 1681"],
-                correctAnswer: 0,
-                explanation: "शिवाजी महाराज का निधन 3 अप्रैल 1680 (कुछ स्रोत 5 अप्रैल भी बताते हैं) को रायगढ़ में हुआ था।"
-            },
-            {
-                question: "शिवाजी के मंत्रिमंडल को क्या कहा जाता था?",
-                options: ["सचिव मंडल", "अष्टप्रधान", "मंत्रि परिषद", "दरबारी समिति"],
+                question: "बाजीराव प्रथम का प्रसिद्ध नारा क्या था?",
+                options: ["जय शिवाजी", "हिंदू पद पादशाही", "स्वराज्य हमारा जन्मसिद्ध अधिकार है", "दिल्ली चलो"],
                 correctAnswer: 1,
-                explanation: "शिवाजी के मंत्रिमंडल को 'अष्टप्रधान' कहा जाता था, जिसमें आठ मंत्री होते थे।"
-            },
-            {
-                question: "शिवाजी के दरबार में कौन सी भाषा बोली जाती थी?",
-                options: ["मराठी", "फारसी", "संस्कृत", "हिंदी"],
-                correctAnswer: 0,
-                explanation: "शिवाजी के दरबार में मराठी भाषा का प्रयोग किया जाता था, हालांकि फारसी का भी प्रशासनिक भाषा के रूप में प्रयोग होता था।"
-            },
-            {
-                question: "शिवाजी के उत्तराधिकारी कौन थे?",
-                options: ["राजाराम", "संभाजी", "शाहू", "शिवाजी द्वितीय"],
-                correctAnswer: 1,
-                explanation: "शिवाजी के बाद उनके बड़े पुत्र संभाजी उत्तराधिकारी बने और 1681 से 1689 तक शासन किया।"
-            },
-            {
-                question: "संभाजी के बाद किसे छत्रपति के रूप में राज्याभिषेक कराया गया?",
-                options: ["शिवाजी द्वितीय", "राजाराम", "शाहू", "ताराबाई"],
-                correctAnswer: 1,
-                explanation: "संभाजी की मृत्यु के बाद 1689 में उनके छोटे भाई राजाराम को छत्रपति के रूप में राज्याभिषेक कराया गया।"
+                explanation: "बाजीराव प्रथम का प्रसिद्ध नारा 'हिंदू पद पादशाही' (हिंदू साम्राज्य) था। उनका उद्देश्य हिंदू साम्राज्य की स्थापना करना था और उन्होंने मराठा साम्राज्य का काफी विस्तार किया।"
             }
         ];
 
-        // Initialize the quiz
-        document.addEventListener('DOMContentLoaded', function() {
-            const quizContainer = document.getElementById('quizContainer');
-            const submitBtn = document.getElementById('submitBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const resultContainer = document.getElementById('resultContainer');
-            const scoreDisplay = document.getElementById('scoreDisplay');
-            const scoreText = document.getElementById('scoreText');
-            const feedback = document.getElementById('feedback');
-            const resultDetails = document.getElementById('resultDetails');
+        // Initialize variables
+        let currentQuestion = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        let quizCompleted = false;
+
+        // DOM elements
+        const questionArea = document.getElementById('question-area');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultContainer = document.getElementById('result-container');
+        const scoreElement = document.getElementById('score');
+        const scoreMessageElement = document.getElementById('score-message');
+        const answersListElement = document.getElementById('answers-list');
+        const restartBtn = document.getElementById('restartBtn');
+        const progressBar = document.getElementById('progress');
+        const currentQuestionElement = document.getElementById('current-question');
+        const totalQuestionsElement = document.getElementById('total-questions');
+
+        // Initialize quiz
+        function initQuiz() {
+            totalQuestionsElement.textContent = quizData.length;
+            loadQuestion();
+            updateButtons();
+            updateProgressBar();
+        }
+
+        // Load current question
+        function loadQuestion() {
+            currentQuestionElement.textContent = currentQuestion + 1;
+            const question = quizData[currentQuestion];
             
-            let userAnswers = new Array(quizQuestions.length).fill(null);
-            
-            // Create quiz questions dynamically
-            quizQuestions.forEach((q, index) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question';
-                questionDiv.id = `question-${index}`;
-                
-                let optionsHtml = '';
-                q.options.forEach((option, optIndex) => {
-                    optionsHtml += `
-                        <div class="option">
-                            <input type="radio" id="q${index}opt${optIndex}" name="question${index}" value="${optIndex}">
-                            <label for="q${index}opt${optIndex}">${option}</label>
-                        </div>
-                    `;
-                });
-                
-                questionDiv.innerHTML = `
-                    <div class="question-number">${index + 1}</div>
-                    <div class="question-text">${q.question}</div>
-                    <div class="options">${optionsHtml}</div>
-                `;
-                
-                quizContainer.appendChild(questionDiv);
-                
-                // Add event listeners to options
-                const optionInputs = questionDiv.querySelectorAll('input[type="radio"]');
-                optionInputs.forEach(input => {
-                    input.addEventListener('change', function() {
-                        userAnswers[index] = parseInt(this.value);
-                    });
-                });
-            });
-            
-            // Submit button click event
-            submitBtn.addEventListener('click', function() {
-                let score = 0;
-                let resultHtml = '';
-                
-                // Calculate score and show results
-                quizQuestions.forEach((q, index) => {
-                    const questionDiv = document.getElementById(`question-${index}`);
-                    const options = questionDiv.querySelectorAll('.option');
-                    const userAnswer = userAnswers[index];
-                    
-                    // Reset styling
-                    options.forEach(option => {
-                        option.classList.remove('correct', 'incorrect');
-                    });
-                    
-                    // Mark correct answer
-                    options[q.correctAnswer].classList.add('correct');
-                    
-                    // Mark incorrect user answer if wrong
-                    if (userAnswer !== null && userAnswer !== q.correctAnswer) {
-                        options[userAnswer].classList.add('incorrect');
+            let optionsHTML = '';
+            question.options.forEach((option, index) => {
+                let optionClass = 'option';
+                if (userAnswers[currentQuestion] === index) {
+                    optionClass += ' selected';
+                }
+                if (quizCompleted) {
+                    if (index === question.correctAnswer) {
+                        optionClass += ' correct';
+                    } else if (userAnswers[currentQuestion] === index && userAnswers[currentQuestion] !== question.correctAnswer) {
+                        optionClass += ' incorrect';
                     }
-                    
-                    // Calculate score
-                    if (userAnswer === q.correctAnswer) {
-                        score++;
-                    }
-                    
-                    // Build result details
-                    const userSelected = userAnswer !== null ? q.options[userAnswer] : "कोई उत्तर नहीं चुना";
-                    const isCorrect = userAnswer === q.correctAnswer;
-                    
-                    resultHtml += `
-                        <div class="question-result">
-                            <p><strong>प्रश्न ${index + 1}:</strong> ${q.question}</p>
-                            <p>आपका उत्तर: <span class="${isCorrect ? 'correct' : 'incorrect'}">${userSelected}</span></p>
-                            <p>सही उत्तर: <span class="correct">${q.options[q.correctAnswer]}</span></p>
-                            <div class="answer-explanation">${q.explanation}</div>
-                            <hr>
-                        </div>
-                    `;
-                });
-                
-                // Display score
-                scoreDisplay.textContent = `${score}/${quizQuestions.length}`;
-                scoreText.textContent = `आपने ${quizQuestions.length} में से ${score} अंक प्राप्त किए`;
-                
-                // Display feedback based on score
-                let feedbackText = '';
-                let feedbackClass = '';
-                
-                if (score >= 18) {
-                    feedbackText = 'उत्कृष्ट! आपको मराठा इतिहास का अच्छा ज्ञान है।';
-                    feedbackClass = 'excellent';
-                } else if (score >= 14) {
-                    feedbackText = 'बहुत अच्छा! आपका ज्ञान अच्छा है, लेकिन और सुधार संभव है।';
-                    feedbackClass = 'good';
-                } else if (score >= 10) {
-                    feedbackText = 'संतोषजनक! आपको मराठा इतिहास की मूल बातें पता हैं।';
-                    feedbackClass = 'average';
-                } else {
-                    feedbackText = 'और अध्ययन की आवश्यकता है। मराठा इतिहास के बारे में और जानें।';
-                    feedbackClass = 'average';
                 }
                 
-                feedback.textContent = feedbackText;
-                feedback.className = `feedback ${feedbackClass}`;
-                
-                // Display result details
-                resultDetails.innerHTML = resultHtml;
-                
-                // Show result container
-                resultContainer.style.display = 'block';
-                
-                // Scroll to results
-                resultContainer.scrollIntoView({ behavior: 'smooth' });
+                optionsHTML += `
+                    <div class="${optionClass}" data-index="${index}">
+                        ${String.fromCharCode(65 + index)}. ${option}
+                    </div>
+                `;
             });
             
-            // Reset button click event
-            resetBtn.addEventListener('click', function() {
-                // Reset user answers
-                userAnswers = new Array(quizQuestions.length).fill(null);
-                
-                // Reset all selections and styling
-                quizQuestions.forEach((q, index) => {
-                    const questionDiv = document.getElementById(`question-${index}`);
-                    const options = questionDiv.querySelectorAll('.option');
-                    const inputs = questionDiv.querySelectorAll('input[type="radio"]');
-                    
-                    // Remove styling
-                    options.forEach(option => {
-                        option.classList.remove('correct', 'incorrect');
-                    });
-                    
-                    // Uncheck radio buttons
-                    inputs.forEach(input => {
-                        input.checked = false;
-                    });
-                });
-                
-                // Hide result container
-                resultContainer.style.display = 'none';
-                
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            let explanationClass = 'explanation';
+            if (quizCompleted) {
+                explanationClass += ' show';
+            }
+            
+            questionArea.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">प्रश्न ${currentQuestion + 1}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-container">${optionsHTML}</div>
+                    <div class="${explanationClass}" id="explanation">
+                        <strong>व्याख्या:</strong> ${question.explanation}
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners to options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
             });
+            
+            // Show explanation if quiz is completed
+            if (quizCompleted) {
+                document.getElementById('explanation').classList.add('show');
+            }
+        }
+
+        // Select an option
+        function selectOption(e) {
+            if (quizCompleted) return;
+            
+            const selectedIndex = parseInt(e.currentTarget.getAttribute('data-index'));
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            // Update UI
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            e.currentTarget.classList.add('selected');
+            
+            // Enable submit button if all questions answered
+            if (userAnswers.every(answer => answer !== null)) {
+                submitBtn.style.display = 'inline-block';
+            }
+        }
+
+        // Update navigation buttons
+        function updateButtons() {
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.style.display = currentQuestion === quizData.length - 1 ? 'none' : 'inline-block';
+            submitBtn.style.display = currentQuestion === quizData.length - 1 && !userAnswers.includes(null) ? 'inline-block' : 'none';
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progressPercentage = ((currentQuestion + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+
+        // Go to next question
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+                updateButtons();
+                updateProgressBar();
+            }
         });
+
+        // Go to previous question
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+                updateButtons();
+                updateProgressBar();
+            }
+        });
+
+        // Submit quiz and show results
+        submitBtn.addEventListener('click', () => {
+            quizCompleted = true;
+            
+            // Calculate score
+            let score = 0;
+            quizData.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    score++;
+                }
+            });
+            
+            // Display score
+            scoreElement.textContent = `${score}/${quizData.length}`;
+            
+            // Display score message
+            let message = "";
+            if (score === quizData.length) {
+                message = "बहुत बढ़िया! आपने सभी प्रश्नों के सही उत्तर दिए!";
+            } else if (score >= quizData.length * 0.7) {
+                message = "अच्छा प्रदर्शन! आपको मराठा इतिहास की अच्छी समझ है।";
+            } else if (score >= quizData.length * 0.5) {
+                message = "साधारण प्रदर्शन। आपको मराठा इतिहास का और अध्ययन करना चाहिए।";
+            } else {
+                message = "आपको मराठा इतिहास का और अध्ययन करने की आवश्यकता है।";
+            }
+            scoreMessageElement.textContent = message;
+            
+            // Display correct answers
+            answersListElement.innerHTML = "";
+            quizData.forEach((question, index) => {
+                const userAnswerIndex = userAnswers[index];
+                const isCorrect = userAnswerIndex === question.correctAnswer;
+                
+                const answerItem = document.createElement('div');
+                answerItem.className = 'answer-item';
+                
+                let answerHTML = `
+                    <strong>प्रश्न ${index + 1}:</strong> ${question.question}<br>
+                    <strong>आपका उत्तर:</strong> ${userAnswerIndex !== null ? question.options[userAnswerIndex] : 'कोई उत्तर नहीं'} 
+                    ${isCorrect ? '✅' : '❌'}<br>
+                    <strong>सही उत्तर:</strong> ${question.options[question.correctAnswer]}<br>
+                    <em>${question.explanation}</em>
+                `;
+                
+                answerItem.innerHTML = answerHTML;
+                answersListElement.appendChild(answerItem);
+            });
+            
+            // Show result container
+            resultContainer.classList.add('show');
+            
+            // Reload current question to show correct/incorrect colors
+            loadQuestion();
+        });
+
+        // Restart quiz
+        restartBtn.addEventListener('click', () => {
+            currentQuestion = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            quizCompleted = false;
+            
+            resultContainer.classList.remove('show');
+            submitBtn.style.display = 'none';
+            
+            loadQuestion();
+            updateButtons();
+            updateProgressBar();
+        });
+
+        // Start the quiz
+        initQuiz();
     </script>
 </body>
 </html>
