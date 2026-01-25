@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Nirmala UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -19,57 +19,92 @@
             line-height: 1.6;
             padding: 20px;
             background-image: linear-gradient(to bottom, #f9f7f0, #e8e6e1);
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
         }
         
         header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 20px;
+            padding: 25px;
             background-color: #2c3e50;
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             margin-bottom: 10px;
             color: #f1c40f;
         }
         
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.9;
+            margin-top: 10px;
         }
         
         .instructions {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            border-left: 5px solid #3498db;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid #3498db;
         }
         
         .instructions h3 {
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
         .instructions ul {
-            padding-left: 20px;
+            padding-left: 22px;
         }
         
         .instructions li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .progress-container {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            flex-grow: 1;
+            height: 12px;
+            background-color: #ecf0f1;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 0 15px;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #2ecc71;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+            white-space: nowrap;
         }
         
         .quiz-container {
@@ -80,51 +115,53 @@
         
         .question-card {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
             border-top: 4px solid #3498db;
         }
         
         .question-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
         
         .question-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
         
         .question-number {
             background-color: #2c3e50;
             color: white;
             font-weight: bold;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            flex-shrink: 0;
         }
         
         .question-text {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: #2c3e50;
             flex: 1;
-            margin-left: 15px;
+            margin-left: 18px;
+            line-height: 1.5;
         }
         
         .options-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 14px;
+            margin-bottom: 25px;
         }
         
         @media (min-width: 768px) {
@@ -134,12 +171,12 @@
         }
         
         .option {
-            padding: 15px;
+            padding: 16px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 1rem;
+            transition: all 0.25s;
+            font-size: 1.05rem;
             display: flex;
             align-items: center;
         }
@@ -169,22 +206,39 @@
         
         .option-letter {
             display: inline-block;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             background-color: #ecf0f1;
             border-radius: 50%;
             text-align: center;
-            line-height: 28px;
-            margin-right: 12px;
+            line-height: 32px;
+            margin-right: 14px;
             font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .selected .option-letter {
+            background-color: #2196f3;
+            color: white;
+        }
+        
+        .correct .option-letter {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .incorrect .option-letter {
+            background-color: #dc3545;
+            color: white;
         }
         
         .answer-section {
             margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 18px;
+            border-radius: 10px;
             background-color: #f8f9fa;
             display: none;
+            border-left: 4px solid #17a2b8;
         }
         
         .answer-section.show {
@@ -200,16 +254,16 @@
         .correct-answer {
             color: #28a745;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
         .explanation {
             color: #555;
-            font-size: 0.95rem;
-            padding-left: 10px;
+            font-size: 1rem;
+            padding-left: 12px;
             border-left: 3px solid #6c757d;
         }
         
@@ -219,19 +273,21 @@
             margin-top: 25px;
             padding-top: 20px;
             border-top: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         
         .btn {
-            padding: 12px 24px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         
         .check-btn {
@@ -241,6 +297,7 @@
         
         .check-btn:hover {
             background-color: #2980b9;
+            transform: translateY(-3px);
         }
         
         .show-answer-btn {
@@ -250,6 +307,7 @@
         
         .show-answer-btn:hover {
             background-color: #138496;
+            transform: translateY(-3px);
         }
         
         .next-btn {
@@ -259,6 +317,17 @@
         
         .next-btn:hover {
             background-color: #218838;
+            transform: translateY(-3px);
+        }
+        
+        .submit-btn {
+            background-color: #9b59b6;
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            background-color: #8e44ad;
+            transform: translateY(-3px);
         }
         
         .reset-btn {
@@ -268,13 +337,24 @@
         
         .reset-btn:hover {
             background-color: #5a6268;
+            transform: translateY(-3px);
+        }
+        
+        .review-btn {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .review-btn:hover {
+            background-color: #e67e22;
+            transform: translateY(-3px);
         }
         
         .score-card {
             background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
             margin-top: 30px;
             display: none;
@@ -282,39 +362,106 @@
         
         .score-card.show {
             display: block;
+            animation: slideIn 0.6s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         .score-title {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .score-value {
-            font-size: 3rem;
+            font-size: 4rem;
             font-weight: bold;
             color: #e74c3c;
-            margin: 20px 0;
+            margin: 25px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .score-message {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #555;
+            margin-bottom: 25px;
+            padding: 0 20px;
+        }
+        
+        .review-container {
+            margin-top: 40px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+            display: none;
+        }
+        
+        .review-container.show {
+            display: block;
+        }
+        
+        .review-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .review-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
             margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #3498db;
+        }
+        
+        .review-question {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .review-answer {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+        
+        .user-answer {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .correct-answer-review {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .result-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
         }
         
         footer {
             text-align: center;
             margin-top: 40px;
-            padding-top: 20px;
+            padding-top: 25px;
             color: #7f8c8d;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             border-top: 1px solid #ddd;
         }
         
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.8rem;
+                font-size: 1.9rem;
             }
             
             .question-card {
@@ -323,12 +470,21 @@
             
             .action-buttons {
                 flex-direction: column;
-                gap: 10px;
             }
             
             .btn {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .progress-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .progress-bar {
+                width: 100%;
+                margin: 10px 0;
             }
         }
     </style>
@@ -337,7 +493,7 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-landmark"></i> मुगल काल एवं अंग्रेजी काल</h1>
-            <p class="subtitle">इतिहास के महत्वपूर्ण बहुविकल्पीय प्रश्न (MCQ)</p>
+            <p class="subtitle">इतिहास के महत्वपूर्ण बहुविकल्पीय प्रश्न (MCQ) - फाइनल सबमिशन पर स्कोर</p>
         </header>
         
         <div class="instructions">
@@ -345,11 +501,19 @@
             <ul>
                 <li>नीचे दिए गए 25 प्रश्नों के उत्तर दें</li>
                 <li>प्रत्येक प्रश्न के लिए एक विकल्प चुनें</li>
-                <li>"उत्तर जांचें" बटन पर क्लिक करके अपने उत्तर की जांच करें</li>
-                <li>"सही उत्तर दिखाएं" बटन पर क्लिक करके सही उत्तर देखें</li>
-                <li>अगले प्रश्न पर जाने के लिए "अगला प्रश्न" बटन का उपयोग करें</li>
-                <li>सभी प्रश्न पूरे करने के बाद आपका स्कोर देखने को मिलेगा</li>
+                <li>प्रत्येक प्रश्न का उत्तर देने के बाद "उत्तर जांचें" बटन पर क्लिक करें (वैकल्पिक)</li>
+                <li>सभी प्रश्न पूरे करने के बाद "क्विज़ समाप्त करें" बटन पर क्लिक करें</li>
+                <li>फाइनल सबमिशन के बाद आपका स्कोर और सभी प्रश्नों के सही उत्तर दिखाए जाएंगे</li>
+                <li>"उत्तर समीक्षा" बटन पर क्लिक करके आप सभी प्रश्नों और अपने उत्तरों की समीक्षा कर सकते हैं</li>
             </ul>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-text" id="progressText">प्रश्न 1/25</div>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <div class="progress-text">स्कोर: <span id="currentScore">0</span>/25</div>
         </div>
         
         <div class="quiz-container" id="quizContainer">
@@ -360,9 +524,19 @@
             <h2 class="score-title">आपका क्विज़ स्कोर</h2>
             <div class="score-value" id="finalScore">0/25</div>
             <p class="score-message" id="scoreMessage"></p>
-            <button class="btn reset-btn" id="resetQuizBtn">
-                <i class="fas fa-redo"></i> क्विज़ दोबारा शुरू करें
-            </button>
+            
+            <div class="action-buttons" style="justify-content: center; border-top: none; margin-top: 30px;">
+                <button class="btn review-btn" id="reviewBtn">
+                    <i class="fas fa-clipboard-check"></i> उत्तर समीक्षा
+                </button>
+                <button class="btn reset-btn" id="resetQuizBtn">
+                    <i class="fas fa-redo"></i> क्विज़ दोबारा शुरू करें
+                </button>
+            </div>
+        </div>
+        
+        <div class="review-container" id="reviewContainer">
+            <!-- समीक्षा यहाँ जावास्क्रिप्ट द्वारा डाली जाएगी -->
         </div>
         
         <footer>
@@ -459,253 +633,3 @@
                 explanation: "गुप्त सम्राट समुद्रगुप्त को उनकी सैन्य विजयों के कारण 'भारत का नेपोलियन' कहा जाता है।"
             },
             {
-                question: "तख़्त-ए-ताऊस (मयूर सिंहासन) पर बैठने वाला अंतिम मुगल शासक कौन था?",
-                options: ["अकबर द्वितीय", "बहादुर शाह प्रथम", "मुहम्मद शाह", "शाह आलम द्वितीय"],
-                correctAnswer: 2,
-                explanation: "मुहम्मद शाह तख़्त-ए-ताऊस (मयूर सिंहासन) पर बैठने वाले अंतिम मुगल शासक थे। नादिरशाह ने 1739 में इसे लूटकर ईरान ले गया था।"
-            },
-            {
-                question: "1757 का प्लासी युद्ध किस मुगल शासक के समय हुआ?",
-                options: ["मुहम्मद शाह", "आलमगीर द्वितीय", "शाह आलम द्वितीय", "बहादुर शाह ज़फ़र"],
-                correctAnswer: 1,
-                explanation: "1757 का प्लासी युद्ध आलमगीर द्वितीय के शासनकाल में हुआ था।"
-            },
-            {
-                question: "1761 का पानीपत का तीसरा युद्ध और 1764 का बक्सर युद्ध किस मुगल शासक के समय हुआ?",
-                options: ["अकबर द्वितीय", "आलमगीर द्वितीय", "शाह आलम द्वितीय", "बहादुर शाह ज़फ़र"],
-                correctAnswer: 2,
-                explanation: "1761 का पानीपत का तीसरा युद्ध और 1764 का बक्सर युद्ध शाह आलम द्वितीय के शासनकाल में हुए थे।"
-            },
-            {
-                question: "पानीपत का तीसरा युद्ध किसके बीच लड़ा गया था?",
-                options: ["अंग्रेज–मराठा", "मराठा–अहमद शाह अब्दाली", "मुगल–मराठा", "सिख–मराठा"],
-                correctAnswer: 1,
-                explanation: "पानीपत का तीसरा युद्ध (1761) मराठों और अहमद शाह अब्दाली की अफगान सेना के बीच लड़ा गया था।"
-            },
-            {
-                question: "बक्सर का युद्ध किसके बीच हुआ था?",
-                options: ["अंग्रेज–मराठा", "अंग्रेज और मीर कासिम, शुजाउद्दौला व शाह आलम द्वितीय", "अंग्रेज–सिख", "मुगल–मराठा"],
-                correctAnswer: 1,
-                explanation: "बक्सर का युद्ध (1764) अंग्रेजों और मीर कासिम, शुजाउद्दौला (अवध के नवाब) व शाह आलम द्वितीय (मुगल बादशाह) की संयुक्त सेना के बीच हुआ था।"
-            },
-            {
-                question: "इलाहाबाद की संधि कब हुई थी?",
-                options: ["1764", "1765", "1772", "1757"],
-                correctAnswer: 1,
-                explanation: "इलाहाबाद की संधि 1765 ई. में हुई थी।"
-            },
-            {
-                question: "इलाहाबाद की संधि किनके बीच हुई थी?",
-                options: ["अंग्रेज और हैदर अली", "अंग्रेज और मराठा", "अंग्रेज (ईस्ट इंडिया कंपनी) और शाह आलम द्वितीय", "अंग्रेज और सिख"],
-                correctAnswer: 2,
-                explanation: "इलाहाबाद की संधि अंग्रेजों (ईस्ट इंडिया कंपनी) और मुगल बादशाह शाह आलम द्वितीय के बीच हुई थी।"
-            },
-            {
-                question: "इलाहाबाद की संधि का सबसे बड़ा परिणाम क्या था?",
-                options: ["बंगाल पर अंग्रेजी शासन समाप्त", "अंग्रेजों को बंगाल, बिहार, उड़ीसा की दीवानी", "मराठा शक्ति बढ़ी", "मुगल सत्ता मजबूत"],
-                correctAnswer: 1,
-                explanation: "इलाहाबाद की संधि का सबसे बड़ा परिणाम यह था कि अंग्रेजों को बंगाल, बिहार और उड़ीसा की दीवानी (राजस्व वसूली का अधिकार) मिल गया।"
-            },
-            {
-                question: "दीवानी अधिकार का अर्थ क्या है?",
-                options: ["सेना पर अधिकार", "न्याय पर अधिकार", "राजस्व वसूली का अधिकार", "व्यापार पर अधिकार"],
-                correctAnswer: 2,
-                explanation: "दीवानी अधिकार का अर्थ है राजस्व वसूली का अधिकार। इसके तहत ईस्ट इंडिया कंपनी को बंगाल, बिहार और उड़ीसा से राजस्व वसूलने का अधिकार मिला।"
-            },
-            {
-                question: "बहादुर शाह ज़फ़र का शासनकाल कब तक रहा?",
-                options: ["1837–1847", "1840–1857", "1837–1858", "1857–1865"],
-                correctAnswer: 2,
-                explanation: "बहादुर शाह ज़फ़र का शासनकाल 1837 से 1858 तक रहा। 1857 के विद्रोह के बाद अंग्रेजों ने उन्हें गिरफ्तार कर लिया और रंगून भेज दिया।"
-            },
-            {
-                question: "बहादुर शाह ज़फ़र मुगल वंश के कौन से शासक थे?",
-                options: ["पहले", "दसवें", "अंतिम", "सबसे शक्तिशाली"],
-                correctAnswer: 2,
-                explanation: "बहादुर शाह ज़फ़र मुगल वंश के अंतिम शासक थे। उनके बाद मुगल साम्राज्य समाप्त हो गया।"
-            }
-        ];
-
-        // वैश्विक चर
-        let currentQuestionIndex = 0;
-        let userAnswers = new Array(questions.length).fill(null);
-        let score = 0;
-
-        // DOM तत्व
-        const quizContainer = document.getElementById('quizContainer');
-        const scoreCard = document.getElementById('scoreCard');
-        const finalScore = document.getElementById('finalScore');
-        const scoreMessage = document.getElementById('scoreMessage');
-        const resetQuizBtn = document.getElementById('resetQuizBtn');
-
-        // प्रश्न लोड करें
-        function loadQuestion() {
-            const question = questions[currentQuestionIndex];
-            
-            const questionCard = document.createElement('div');
-            questionCard.className = 'question-card';
-            questionCard.id = `question-${currentQuestionIndex}`;
-            
-            const optionsHTML = question.options.map((option, index) => {
-                const isSelected = userAnswers[currentQuestionIndex] === index;
-                return `
-                    <div class="option ${isSelected ? 'selected' : ''}" data-index="${index}">
-                        <span class="option-letter">${String.fromCharCode(65 + index)}</span>
-                        ${option}
-                    </div>
-                `;
-            }).join('');
-            
-            questionCard.innerHTML = `
-                <div class="question-header">
-                    <div class="question-number">${currentQuestionIndex + 1}</div>
-                    <div class="question-text">${question.question}</div>
-                </div>
-                
-                <div class="options-container">
-                    ${optionsHTML}
-                </div>
-                
-                <div class="answer-section" id="answer-${currentQuestionIndex}">
-                    <div class="correct-answer">
-                        <i class="fas fa-check-circle"></i>
-                        सही उत्तर: ${String.fromCharCode(65 + question.correctAnswer)}. ${question.options[question.correctAnswer]}
-                    </div>
-                    <div class="explanation">${question.explanation}</div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button class="btn check-btn" id="checkBtn-${currentQuestionIndex}">
-                        <i class="fas fa-check-square"></i> उत्तर जांचें
-                    </button>
-                    <button class="btn show-answer-btn" id="showAnswerBtn-${currentQuestionIndex}">
-                        <i class="fas fa-eye"></i> सही उत्तर दिखाएं
-                    </button>
-                    ${currentQuestionIndex < questions.length - 1 ? 
-                        `<button class="btn next-btn" id="nextBtn-${currentQuestionIndex}">
-                            <i class="fas fa-arrow-right"></i> अगला प्रश्न
-                        </button>` : 
-                        `<button class="btn next-btn" id="finishBtn-${currentQuestionIndex}">
-                            <i class="fas fa-flag-checkered"></i> क्विज़ समाप्त करें
-                        </button>`
-                    }
-                </div>
-            `;
-            
-            quizContainer.innerHTML = '';
-            quizContainer.appendChild(questionCard);
-            
-            // विकल्पों पर क्लिक इवेंट जोड़ें
-            const options = questionCard.querySelectorAll('.option');
-            options.forEach(option => {
-                option.addEventListener('click', () => selectOption(option, currentQuestionIndex));
-            });
-            
-            // बटन इवेंट जोड़ें
-            document.getElementById(`checkBtn-${currentQuestionIndex}`).addEventListener('click', checkAnswer);
-            document.getElementById(`showAnswerBtn-${currentQuestionIndex}`).addEventListener('click', showAnswer);
-            
-            if (currentQuestionIndex < questions.length - 1) {
-                document.getElementById(`nextBtn-${currentQuestionIndex}`).addEventListener('click', nextQuestion);
-            } else {
-                document.getElementById(`finishBtn-${currentQuestionIndex}`).addEventListener('click', finishQuiz);
-            }
-        }
-
-        // विकल्प चुनें
-        function selectOption(optionElement, questionIndex) {
-            const options = document.querySelectorAll(`#question-${questionIndex} .option`);
-            options.forEach(opt => opt.classList.remove('selected'));
-            
-            optionElement.classList.add('selected');
-            
-            const selectedIndex = parseInt(optionElement.getAttribute('data-index'));
-            userAnswers[questionIndex] = selectedIndex;
-        }
-
-        // उत्तर जांचें
-        function checkAnswer() {
-            const question = questions[currentQuestionIndex];
-            const options = document.querySelectorAll(`#question-${currentQuestionIndex} .option`);
-            
-            options.forEach(option => {
-                option.classList.remove('correct', 'incorrect');
-                
-                const optionIndex = parseInt(option.getAttribute('data-index'));
-                
-                if (optionIndex === question.correctAnswer) {
-                    option.classList.add('correct');
-                } else if (option.classList.contains('selected') && optionIndex !== question.correctAnswer) {
-                    option.classList.add('incorrect');
-                }
-            });
-            
-            // स्कोर अपडेट करें
-            if (userAnswers[currentQuestionIndex] === question.correctAnswer) {
-                score++;
-            }
-        }
-
-        // सही उत्तर दिखाएं
-        function showAnswer() {
-            document.getElementById(`answer-${currentQuestionIndex}`).classList.add('show');
-            
-            const question = questions[currentQuestionIndex];
-            const options = document.querySelectorAll(`#question-${currentQuestionIndex} .option`);
-            
-            options.forEach(option => {
-                const optionIndex = parseInt(option.getAttribute('data-index'));
-                
-                if (optionIndex === question.correctAnswer) {
-                    option.classList.add('correct');
-                }
-            });
-        }
-
-        // अगला प्रश्न
-        function nextQuestion() {
-            currentQuestionIndex++;
-            loadQuestion();
-        }
-
-        // क्विज़ समाप्त करें
-        function finishQuiz() {
-            // अंतिम प्रश्न का उत्तर जांचें
-            checkAnswer();
-            
-            // स्कोर कार्ड दिखाएं
-            finalScore.textContent = `${score}/${questions.length}`;
-            
-            // स्कोर के अनुसार संदेश
-            let message = "";
-            if (score === questions.length) {
-                message = "बहुत बढ़िया! आपने सभी प्रश्नों के सही उत्तर दिए। आप मुगल काल के विशेषज्ञ हैं!";
-            } else if (score >= questions.length * 0.7) {
-                message = "अच्छा प्रदर्शन! आप मुगल काल और अंग्रेजी शासन के बारे में अच्छी जानकारी रखते हैं।";
-            } else if (score >= questions.length * 0.5) {
-                message = "ठीक-ठाक प्रदर्शन! आप मुगल काल के बारे में बुनियादी जानकारी रखते हैं।";
-            } else {
-                message = "आपको मुगल काल और अंग्रेजी शासन के बारे में और अध्ययन की आवश्यकता है।";
-            }
-            
-            scoreMessage.textContent = message;
-            scoreCard.classList.add('show');
-            quizContainer.style.display = 'none';
-        }
-
-        // क्विज़ रीसेट करें
-        resetQuizBtn.addEventListener('click', () => {
-            currentQuestionIndex = 0;
-            userAnswers = new Array(questions.length).fill(null);
-            score = 0;
-            
-            scoreCard.classList.remove('show');
-            quizContainer.style.display = 'flex';
-            loadQuestion();
-        });
-
-        // पहला प्रश्न लोड करें
-        loadQuestion();
-    </script>
-</body>
-</html>
