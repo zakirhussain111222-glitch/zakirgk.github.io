@@ -14,12 +14,24 @@ body{
   min-height:100vh;
 }
 .card{
-  background:#fff;
-  width:95%;
+  background:#ffffff;
+  width:92vw;
   max-width:420px;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  min-height:90vh;
+  border-radius:28px;
+  padding:22px 18px;
+  box-shadow:0 20px 45px rgba(0,0,0,0.25);
+  border:4px solid transparent;
+  background-clip:padding-box;
+  position:relative;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:30px;
+  background:linear-gradient(135deg,#6a85ff,#9b5cff,#4facfe);
+  z-index:-1;
 }
 .header{
   text-align:center;
