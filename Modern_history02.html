@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>यूरोपीय शक्तियाँ भारत में - MCQ टेस्ट</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 25px 15px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid #2a5298;
+        }
+        
+        .instructions h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .question-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s;
+        }
+        
+        .question-container:hover {
+            transform: translateY(-3px);
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .question-number::before {
+            content: "Q";
+            background-color: #1e3c72;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .question-text {
+            font-size: 17px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #222;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option {
+            padding: 14px 18px;
+            background-color: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            border-color: #c0c0c0;
+        }
+        
+        .option.selected {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(to right, #28a745, #20c997);
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            background: linear-gradient(to right, #218838, #1e9c7a);
+            transform: scale(1.05);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(to right, #007bff, #17a2b8);
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: linear-gradient(to right, #0056b3, #138496);
+            transform: scale(1.05);
+        }
+        
+        .result-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .score {
+            font-size: 42px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin: 15px 0;
+        }
+        
+        .score-text {
+            font-size: 20px;
+            color: #555;
+        }
+        
+        .result-details {
+            margin-top: 20px;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .result-value {
+            color: #1e3c72;
+            font-weight: 600;
+        }
+        
+        .correct-answer {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .incorrect-answer {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        .review-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .review-title {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .review-item {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .review-item.correct {
+            border-left-color: #28a745;
+        }
+        
+        .review-item.incorrect {
+            border-left-color: #dc3545;
+        }
+        
+        .revision-box {
+            background: linear-gradient(135deg, #fff9c4, #ffecb3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 6px solid #ff9800;
+        }
+        
+        .revision-title {
+            color: #e65100;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .revision-line {
+            font-size: 17px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .highlight {
+            background-color: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .timer {
+                position: static;
+                margin: 0 auto 20px;
+                width: fit-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📘 यूरोपीय शक्तियाँ भारत में – MCQ टेस्ट</h1>
+        <div class="subtitle">SSC / Railway / State Exams के लिए बिल्कुल तैयार 📚✅</div>
+        <div style="margin-top: 10px; font-size: 16px; opacity: 0.9;">25 प्रश्न | स्वचालित स्कोरिंग | त्वरित रिवीजन</div>
+    </header>
+    
+    <div class="instructions">
+        <h3>📋 परीक्षा निर्देश:</h3>
+        <ol>
+            <li>सभी 25 प्रश्नों के उत्तर दें (प्रत्येक प्रश्न के लिए एक विकल्प चुनें)</li>
+            <li>उत्तर देने के लिए विकल्प पर क्लिक करें (हरा रंग चयनित उत्तर दिखाएगा)</li>
+            <li>सभी प्रश्नों के उत्तर देने के बाद <strong>"स्कोर चेक करें"</strong> बटन पर क्लिक करें</li>
+            <li>टेस्ट दोबारा देने के लिए <strong>"रीसेट टेस्ट"</strong> बटन का उपयोग करें</li>
+        </ol>
+    </div>
+    
+    <div class="revision-box">
+        <div class="revision-title">🧠 Super Revision Line:</div>
+        <div class="revision-line">👉 1498 Vasco-da-Gama → 1600 EIC → 1605 Dutch → 1759 Bedara → 1760 Wandiwash</div>
+    </div>
+    
+    <div class="timer" id="timer">⏰ समय: 25:00</div>
+    
+    <div id="questions-container">
+        <!-- प्रश्न यहाँ जोड़े जाएंगे -->
+    </div>
+    
+    <div class="controls">
+        <button class="btn btn-submit" id="submit-btn">
+            <span>✅ स्कोर चेक करें</span>
+        </button>
+        <button class="btn btn-reset" id="reset-btn">
+            <span>🔄 रीसेट टेस्ट</span>
+        </button>
+    </div>
+    
+    <div class="result-container" id="result-container">
+        <div class="result-header">
+            <h2>🎯 आपका परिणाम</h2>
+            <div class="score" id="score">0/25</div>
+            <div class="score-text" id="score-text">आपने 0 प्रश्न सही किए (0%)</div>
+        </div>
+        
+        <div class="result-details">
+            <div class="result-row">
+                <span class="result-label">कुल प्रश्न:</span>
+                <span class="result-value">25</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">सही उत्तर:</span>
+                <span class="correct-answer" id="correct-count">0</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">गलत उत्तर:</span>
+                <span class="incorrect-answer" id="incorrect-count">0</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">अनुत्तरित:</span>
+                <span class="result-value" id="unanswered-count">25</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">प्रतिशत:</span>
+                <span class="result-value" id="percentage">0%</span>
+            </div>
+        </div>
+        
+        <div class="review-section">
+            <h3 class="review-title">📊 प्रश्न-वार समीक्षा:</h3>
+            <div id="review-container">
+                <!-- समीक्षा यहाँ जोड़ी जाएगी -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 SSC/Railway Exam Prep | यूरोपीय शक्तियाँ भारत में MCQ टेस्ट</p>
+        <p style="margin-top: 5px; font-size: 13px;">टेस्ट सफलतापूर्वक पूरा करने के लिए शुभकामनाएँ! 🚀</p>
+    </footer>
+
+    <script>
+        // प्रश्न डेटा
+        const questions = [
+            {
+                id: 1,
+                question: "वास्को-डि-गामा भारत कब आया?",
+                options: ["1492", "1498", "1500", "1510"],
+                correct: 1
+            },
+            {
+                id: 2,
+                question: "भारत आने वाला प्रथम पुर्तगाली वायसराय कौन था?",
+                options: ["वास्को-डि-गामा", "फ्रांसिस्को डी अल्मेडा", "अल्फांसो डी अल्बुकर्क", "नूनो-दा-कुन्हा"],
+                correct: 1
+            },
+            {
+                id: 3,
+                question: "अल्फांसो डी अल्बुकर्क पुर्तगालियों का वायसराय कब बना?",
+                options: ["1500", "1509", "1515", "1520"],
+                correct: 1
+            },
+            {
+                id: 4,
+                question: "अल्फांसो डी अल्बुकर्क ने गोवा किससे जीता?",
+                options: ["बहादुर शाह", "बीजापुर के यूसुफ़ आदिल शाह", "कृष्णदेव राय", "हुमायूँ"],
+                correct: 1
+            },
+            {
+                id: 5,
+                question: "पुर्तगालियों ने अपनी पहली व्यापारिक कोठी कहाँ खोली?",
+                options: ["गोवा", "कोचीन", "कालीकट", "दमन"],
+                correct: 2
+            },
+            {
+                id: 6,
+                question: "पुर्तगालियों के बाद भारत में कौन आए?",
+                options: ["अंग्रेज", "फ्रांसीसी", "डच", "डेनिश"],
+                correct: 2
+            },
+            {
+                id: 7,
+                question: "पहला डच यात्री कौन था?",
+                options: ["जेम्स लैंकेस्टर", "कॉर्नेलियस हाउटमैन", "विलियम हॉकिन्स", "थॉमस रो"],
+                correct: 1
+            },
+            {
+                id: 8,
+                question: "कॉर्नेलियस हाउटमैन भारत कब आया?",
+                options: ["1498", "1509", "1596", "1605"],
+                correct: 2
+            },
+            {
+                id: 9,
+                question: "डच भारत कब आए?",
+                options: ["1596", "1602", "1605", "1610"],
+                correct: 2
+            },
+            {
+                id: 10,
+                question: "डच ईस्ट इंडिया कंपनी की स्थापना कब हुई?",
+                options: ["1600", "1602", "1605", "1608"],
+                correct: 1
+            },
+            {
+                id: 11,
+                question: "डचों ने अपनी पहली फैक्ट्री कहाँ स्थापित की?",
+                options: ["पुलीकट", "नागपट्टनम", "मसूलीपट्टनम", "सूरत"],
+                correct: 2
+            },
+            {
+                id: 12,
+                question: "अंग्रेज भारत में किसके बाद आए?",
+                options: ["पुर्तगाली", "फ्रांसीसी", "डच", "डेनिश"],
+                correct: 2
+            },
+            {
+                id: 13,
+                question: "भारत में आने का सही क्रम क्या है?",
+                options: [
+                    "अंग्रेज → डच → पुर्तगाली → फ्रांसीसी",
+                    "डच → पुर्तगाली → फ्रांसीसी → अंग्रेज",
+                    "पुर्तगाली → डच → अंग्रेज → फ्रांसीसी",
+                    "फ्रांसीसी → अंग्रेज → डच → पुर्तगाली"
+                ],
+                correct: 2
+            },
+            {
+                id: 14,
+                question: "डचों ने अपनी दूसरी व्यापारिक कोठी कहाँ स्थापित की?",
+                options: ["सूरत", "पुलीकट", "मद्रास", "बंबई"],
+                correct: 1
+            },
+            {
+                id: 15,
+                question: "भारत में डचों की शक्ति का अंत किस युद्ध से माना जाता है?",
+                options: ["प्लासी", "बक्सर", "वांडीवाश", "वेदर (बिदारा)"],
+                correct: 3
+            },
+            {
+                id: 16,
+                question: "वेदर (बिदारा) का युद्ध कब लड़ा गया?",
+                options: ["1757", "1764", "1759", "1761"],
+                correct: 2
+            },
+            {
+                id: 17,
+                question: "वेदर (बिदारा) का युद्ध किनके बीच हुआ?",
+                options: ["अंग्रेज – फ्रांसीसी", "फ्रांसीसी – डच", "अंग्रेज – डच", "अंग्रेज – पुर्तगाली"],
+                correct: 2
+            },
+            {
+                id: 18,
+                question: "वेदर युद्ध के बाद भारत में प्रमुख यूरोपीय शक्ति कौन बन गई?",
+                options: ["डच", "फ्रांसीसी", "अंग्रेज", "पुर्तगाली"],
+                correct: 2
+            },
+            {
+                id: 19,
+                question: "अंग्रेजी ईस्ट इंडिया कंपनी की स्थापना कब हुई?",
+                options: ["1599", "1600", "1602", "1608"],
+                correct: 1
+            },
+            {
+                id: 20,
+                question: "ईस्ट इंडिया कंपनी का शासन भारत में औपचारिक रूप से कब समाप्त हुआ?",
+                options: ["1857", "1858", "1861", "1877"],
+                correct: 1
+            },
+            {
+                id: 21,
+                question: "मुग़ल दरबार में जाने वाला प्रथम अंग्रेज कौन था?",
+                options: ["जेम्स लैंकेस्टर", "विलियम हॉकिन्स", "थॉमस रो", "जोसाया चाइल्ड"],
+                correct: 1
+            },
+            {
+                id: 22,
+                question: "सर थॉमस रो किस मुगल सम्राट के दरबार में आए?",
+                options: ["अकबर", "जहाँगीर", "शाहजहाँ", "औरंगज़ेब"],
+                correct: 1
+            },
+            {
+                id: 23,
+                question: "गोलकुंडा के शासक ने अंग्रेजों को सुनहरा फ़रमान कब दिया?",
+                options: ["1615", "1628", "1632", "1717"],
+                correct: 2
+            },
+            {
+                id: 24,
+                question: "1661 ई. में पुर्तगाल की राजकुमारी कैथरीना ऑफ ब्रेगांज़ा ने किससे विवाह किया?",
+                options: ["जेम्स प्रथम", "चार्ल्स द्वितीय", "जॉर्ज प्रथम", "हेनरी अष्टम"],
+                correct: 1
+            },
+            {
+                id: 25,
+                question: "वंदीवाश का युद्ध किनके बीच हुआ था?",
+                options: ["अंग्रेज – डच", "डच – फ्रांसीसी", "अंग्रेज – फ्रांसीसी", "अंग्रेज – पुर्तगाली"],
+                correct: 2
+            }
+        ];
+
+        // उपयोगकर्ता के उत्तर स्टोर करें
+        let userAnswers = new Array(questions.length).fill(null);
+        
+        // DOM elements
+        const questionsContainer = document.getElementById('questions-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const resultContainer = document.getElementById('result-container');
+        const scoreElement = document.getElementById('score');
+        const scoreTextElement = document.getElementById('score-text');
+        const correctCountElement = document.getElementById('correct-count');
+        const incorrectCountElement = document.getElementById('incorrect-count');
+        const unansweredCountElement = document.getElementById('unanswered-count');
+        const percentageElement = document.getElementById('percentage');
+        const reviewContainer = document.getElementById('review-container');
+        const timerElement = document.getElementById('timer');
+        
+        // टाइमर वेरिएबल्स
+        let timerInterval;
+        let timeLeft = 25 * 60; // 25 मिनट सेकंड में
+        
+        // प्रश्नों को डिस्प्ले करें
+        function renderQuestions() {
+            questionsContainer.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question-container';
+                
+                let optionsHTML = '';
+                q.options.forEach((option, optIndex) => {
+                    const isSelected = userAnswers[index] === optIndex;
+                    optionsHTML += `
+                        <div class="option ${isSelected ? 'selected' : ''}" data-question="${index}" data-option="${optIndex}">
+                            ${String.fromCharCode(65 + optIndex)}. ${option}
+                        </div>
+                    `;
+                });
+                
+                questionElement.innerHTML = `
+                    <div class="question-number">प्रश्न ${index + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">
+                        ${optionsHTML}
+                    </div>
+                `;
+                
+                questionsContainer.appendChild(questionElement);
+            });
+            
+            // विकल्पों पर क्लिक इवेंट जोड़ें
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionIndex = parseInt(this.getAttribute('data-question'));
+                    const optionIndex = parseInt(this.getAttribute('data-option'));
+                    
+                    // पहले से चयनित विकल्प को रिसेट करें
+                    document.querySelectorAll(`.option[data-question="${questionIndex}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // नया विकल्प चुनें
+                    this.classList.add('selected');
+                    userAnswers[questionIndex] = optionIndex;
+                    
+                    // अनुत्तरित प्रश्नों की गिनती अपडेट करें
+                    updateUnansweredCount();
+                });
+            });
+        }
+        
+        // अनुत्तरित प्रश्नों की गिनती अपडेट करें
+        function updateUnansweredCount() {
+            const unanswered = userAnswers.filter(answer => answer === null).length;
+            if (unanswered === 0) {
+                submitBtn.innerHTML = '<span>✅ सभी उत्तर दिए गए - स्कोर चेक करें</span>';
+            } else {
+                submitBtn.innerHTML = `<span>✅ स्कोर चेक करें (${unanswered} अनुत्तरित)</span>`;
+            }
+        }
+        
+        // टाइमर शुरू करें
+        function startTimer() {
+            timerElement.style.display = 'block';
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+        
+        // टाइमर डिस्प्ले अपडेट करें
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏰ समय: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // 5 मिनट से कम समय बचा है तो रेड कलर करें
+            if (timeLeft < 5 * 60) {
+                timerElement.style.background = 'linear-gradient(135deg, #ff416c, #ff4b2b)';
+            }
+        }
+        
+        // टेस्ट जमा करें
+        function submitTest() {
+            clearInterval(timerInterval);
+            
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let unansweredCount = 0;
+            
+            // सही/गलत उत्तर चेक करें और UI अपडेट करें
+            questions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = q.correct;
+                
+                if (userAnswer === null) {
+                    unansweredCount++;
+                } else if (userAnswer === correctAnswer) {
+                    correctCount++;
+                    // सही उत्तर हरे रंग में दिखाएं
+                    document.querySelectorAll(`.option[data-question="${index}"]`).forEach((opt, optIndex) => {
+                        if (optIndex === correctAnswer) {
+                            opt.classList.add('correct');
+                        }
+                    });
+                } else {
+                    incorrectCount++;
+                    // गलत उत्तर लाल रंग में और सही उत्तर हरे रंग में दिखाएं
+                    document.querySelectorAll(`.option[data-question="${index}"]`).forEach((opt, optIndex) => {
+                        if (optIndex === userAnswer) {
+                            opt.classList.add('incorrect');
+                        }
+                        if (optIndex === correctAnswer) {
+                            opt.classList.add('correct');
+                        }
+                    });
+                }
+            });
+            
+            // परिणाम कैलकुलेट करें
+            const totalQuestions = questions.length;
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+            
+            // परिणाम दिखाएं
+            scoreElement.textContent = `${correctCount}/${totalQuestions}`;
+            scoreTextElement.textContent = `आपने ${correctCount} प्रश्न सही किए (${percentage}%)`;
+            correctCountElement.textContent = correctCount;
+            incorrectCountElement.textContent = incorrectCount;
+            unansweredCountElement.textContent = unansweredCount;
+            percentageElement.textContent = `${percentage}%`;
+            
+            // समीक्षा सेक्शन भरें
+            generateReviewSection(correctCount, incorrectCount, unansweredCount);
+            
+            // परिणाम दिखाएं
+            resultContainer.style.display = 'block';
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+            
+            // सबमिट बटन डिसेबल करें
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.6';
+            submitBtn.textContent = 'टेस्ट पूर्ण ✅';
+        }
+        
+        // समीक्षा सेक्शन जनरेट करें
+        function generateReviewSection(correctCount, incorrectCount, unansweredCount) {
+            reviewContainer.innerHTML = '';
+            
+            // स्टेटस बार
+            const statusBar = document.createElement('div');
+            statusBar.style.display = 'flex';
+            statusBar.style.height = '20px';
+            statusBar.style.marginBottom = '20px';
+            statusBar.style.borderRadius = '10px';
+            statusBar.style.overflow = 'hidden';
+            
+            const correctWidth = (correctCount / questions.length) * 100;
+            const incorrectWidth = (incorrectCount / questions.length) * 100;
+            const unansweredWidth = (unansweredCount / questions.length) * 100;
+            
+            statusBar.innerHTML = `
+                <div style="width:${correctWidth}%; background-color:#28a745;"></div>
+                <div style="width:${incorrectWidth}%; background-color:#dc3545;"></div>
+                <div style="width:${unansweredWidth}%; background-color:#6c757d;"></div>
+            `;
+            
+            reviewContainer.appendChild(statusBar);
+            
+            // लीजेंड
+            const legend = document.createElement('div');
+            legend.style.display = 'flex';
+            legend.style.justifyContent = 'center';
+            legend.style.gap = '20px';
+            legend.style.marginBottom = '20px';
+            legend.style.fontSize = '14px';
+            legend.innerHTML = `
+                <div><span style="display:inline-block; width:12px; height:12px; background-color:#28a745; margin-right:5px;"></span> सही (${correctCount})</div>
+                <div><span style="display:inline-block; width:12px; height:12px; background-color:#dc3545; margin-right:5px;"></span> गलत (${incorrectCount})</div>
+                <div><span style="display:inline-block; width:12px; height:12px; background-color:#6c757d; margin-right:5px;"></span> अनुत्तरित (${unansweredCount})</div>
+            `;
+            reviewContainer.appendChild(legend);
+            
+            // प्रश्न-वार समीक्षा
+            questions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === q.correct;
+                const isUnanswered = userAnswer === null;
+                
+                const reviewItem = document.createElement('div');
+                reviewItem.className = `review-item ${isCorrect ? 'correct' : isUnanswered ? '' : 'incorrect'}`;
+                
+                let statusText = '';
+                let answerText = '';
+                
+                if (isUnanswered) {
+                    statusText = '<span style="color:#6c757d;">⏺ अनुत्तरित</span>';
+                    answerText = `<strong>सही उत्तर:</strong> ${String.fromCharCode(65 + q.correct)}. ${q.options[q.correct]}`;
+                } else if (isCorrect) {
+                    statusText = '<span style="color:#28a745;">✅ सही</span>';
+                    answerText = `<strong>आपका उत्तर:</strong> ${String.fromCharCode(65 + userAnswer)}. ${q.options[userAnswer]}`;
+                } else {
+                    statusText = '<span style="color:#dc3545;">❌ गलत</span>';
+                    answerText = `
+                        <div><strong>आपका उत्तर:</strong> ${String.fromCharCode(65 + userAnswer)}. ${q.options[userAnswer]}</div>
+                        <div><strong>सही उत्तर:</strong> ${String.fromCharCode(65 + q.correct)}. ${q.options[q.correct]}</div>
+                    `;
+                }
+                
+                reviewItem.innerHTML = `
+                    <div style="margin-bottom: 8px;"><strong>प्रश्न ${index + 1}:</strong> ${q.question}</div>
+                    <div style="margin-bottom: 8px;">${statusText}</div>
+                    <div>${answerText}</div>
+                `;
+                
+                reviewContainer.appendChild(reviewItem);
+            });
+        }
+        
+        // टेस्ट रीसेट करें
+        function resetTest() {
+            userAnswers = new Array(questions.length).fill(null);
+            renderQuestions();
+            updateUnansweredCount();
+            
+            // रिजल्ट कंटेनर हाइड करें
+            resultContainer.style.display = 'none';
+            
+            // सबमिट बटन एनेबल करें
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.innerHTML = '<span>✅ स्कोर चेक करें</span>';
+            
+            // टाइमर रीसेट करें
+            clearInterval(timerInterval);
+            timeLeft = 25 * 60;
+            startTimer();
+            
+            // पेज के शीर्ष पर स्क्रॉल करें
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // इवेंट लिसनर्स
+        submitBtn.addEventListener('click', submitTest);
+        resetBtn.addEventListener('click', resetTest);
+        
+        // पेज लोड होने पर प्रश्न रेंडर करें और टाइमर शुरू करें
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuestions();
+            updateUnansweredCount();
+            startTimer();
+        });
+        
+        // कीबोर्ड शॉर्टकट
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + Enter: टेस्ट सबमिट करें
+            if (e.ctrlKey && e.key === 'Enter') {
+                submitTest();
+            }
+            
+            // Ctrl + R: टेस्ट रीसेट करें
+            if (e.ctrlKey && e.key === 'r') {
+                resetTest();
+            }
+        });
+    </script>
+</body>
+</html>
