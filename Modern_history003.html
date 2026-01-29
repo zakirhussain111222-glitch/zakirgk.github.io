@@ -17,7 +17,6 @@
             color: #333;
             line-height: 1.6;
             padding: 20px;
-            direction: ltr;
         }
         
         .container {
@@ -68,6 +67,10 @@
         .instructions ul {
             padding-left: 20px;
             margin-top: 10px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
         }
         
         .quiz-container {
@@ -196,7 +199,6 @@
             border-radius: 10px;
             padding: 30px;
             margin-top: 30px;
-            text-align: center;
         }
         
         .score-card {
@@ -205,6 +207,7 @@
             padding: 30px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
+            text-align: center;
         }
         
         .score-title {
@@ -239,10 +242,10 @@
             background: linear-gradient(90deg, #28a745, #4cd964);
             border-radius: 10px;
             transition: width 1s ease;
+            width: 0%;
         }
         
         .result-details {
-            text-align: left;
             margin-top: 30px;
         }
         
@@ -281,6 +284,7 @@
             background: #17a2b8;
             color: white;
             margin-top: 20px;
+            width: 100%;
         }
         
         .footer {
@@ -579,12 +583,20 @@
         
         // पेज लोड होने पर क्विज़ प्रश्न डिस्प्ले करें
         document.addEventListener('DOMContentLoaded', function() {
+            console.log("Page loaded, loading questions...");
             loadQuizQuestions();
         });
         
         // क्विज़ प्रश्न लोड करें
         function loadQuizQuestions() {
             const quizContainer = document.getElementById('quizContainer');
+            console.log("Quiz container:", quizContainer);
+            
+            if (!quizContainer) {
+                console.error("Quiz container not found!");
+                return;
+            }
+            
             quizContainer.innerHTML = '';
             
             quizQuestions.forEach((q, index) => {
@@ -595,4 +607,289 @@
                 let optionsHTML = '';
                 q.options.forEach((option, optIndex) => {
                     optionsHTML += `
-                        <div class="option" data-index="${optIndex}" on
+                        <div class="option" data-index="${optIndex}" onclick="selectOption(${index}, ${optIndex})">
+                            ${String.fromCharCode(65 + optIndex)}. ${option}
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <div class="question-number">${index + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">${optionsHTML}</div>
+                `;
+                
+                quizContainer.appendChild(questionDiv);
+            });
+            
+            // पहले से सेव किए गए उत्तरों को लोड करें
+            loadSavedAnswers();
+            console.log("Questions loaded successfully");
+        }
+        
+        // विकल्प चुनने का फंक्शन
+        function selectOption(questionIndex, optionIndex) {
+            if (quizSubmitted) {
+                alert("टेस्ट पहले ही सबमिट किया जा चुका है। रीसेट करके नया टेस्ट शुरू करें।");
+                return;
+            }
+            
+            const questionDiv = document.getElementById(`question-${questionIndex}`);
+            const options = questionDiv.querySelectorAll('.option');
+            
+            // पिछले चयन को हटाएं
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // नया चयन करें
+            options[optionIndex].classList.add('selected');
+            
+            // उत्तर सेव करें
+            userAnswers[questionIndex] = optionIndex;
+            saveAnswers();
+        }
+        
+        // उत्तर सेव करें (localStorage में)
+        function saveAnswers() {
+            localStorage.setItem('angloFrenchQuizAnswers', JSON.stringify(userAnswers));
+        }
+        
+        // सेव किए गए उत्तर लोड करें
+        function loadSavedAnswers() {
+            const savedAnswers = localStorage.getItem('angloFrenchQuizAnswers');
+            if (savedAnswers) {
+                try {
+                    userAnswers = JSON.parse(savedAnswers);
+                    
+                    // सेव किए गए उत्तरों को दिखाएं
+                    userAnswers.forEach((answer, index) => {
+                        if (answer !== -1 && answer !== null) {
+                            const questionDiv = document.getElementById(`question-${index}`);
+                            if (questionDiv) {
+                                const options = questionDiv.querySelectorAll('.option');
+                                if (options[answer]) {
+                                    options[answer].classList.add('selected');
+                                }
+                            }
+                        }
+                    });
+                } catch (e) {
+                    console.error("Error loading saved answers:", e);
+                }
+            }
+        }
+        
+        // क्विज़ सबमिट करें
+        function submitQuiz() {
+            // सभी प्रश्नों के उत्तर दिए गए हैं या नहीं जांचें
+            const unanswered = userAnswers.filter(answer => answer === -1).length;
+            
+            if (unanswered > 0) {
+                if (!confirm(`${unanswered} प्रश्न अनुत्तरित हैं। क्या आप फिर भी सबमिट करना चाहते हैं?`)) {
+                    return;
+                }
+            }
+            
+            quizSubmitted = true;
+            
+            // स्कोर कैलकुलेट करें
+            let score = 0;
+            quizQuestions.forEach((q, index) => {
+                if (userAnswers[index] === q.correct) {
+                    score++;
+                }
+            });
+            
+            // परिणाम दिखाएं
+            showResult(score);
+            
+            // सही/गलत उत्तर हाइलाइट करें
+            highlightAnswers();
+        }
+        
+        // परिणाम दिखाएं
+        function showResult(score) {
+            const resultContainer = document.getElementById('resultContainer');
+            const scoreValue = document.getElementById('scoreValue');
+            const scoreText = document.getElementById('scoreText');
+            const correctCount = document.getElementById('correctCount');
+            const incorrectCount = document.getElementById('incorrectCount');
+            const percentage = document.getElementById('percentage');
+            const performanceFill = document.getElementById('performanceFill');
+            
+            // स्कोर सेट करें
+            scoreValue.textContent = `${score}/${quizQuestions.length}`;
+            correctCount.textContent = score;
+            incorrectCount.textContent = quizQuestions.length - score;
+            
+            // प्रतिशत कैलकुलेट करें
+            const percent = Math.round((score / quizQuestions.length) * 100);
+            percentage.textContent = `${percent}%`;
+            
+            // परफॉर्मेंस बार अपडेट करें
+            setTimeout(() => {
+                performanceFill.style.width = `${percent}%`;
+            }, 100);
+            
+            // स्कोर टेक्स्ट सेट करें
+            if (percent >= 90) {
+                scoreText.textContent = "शानदार! आपने उत्कृष्ट प्रदर्शन किया है।";
+                performanceFill.style.background = "linear-gradient(90deg, #28a745, #4cd964)";
+            } else if (percent >= 70) {
+                scoreText.textContent = "बहुत अच्छा! आपकी तैयारी अच्छी है।";
+                performanceFill.style.background = "linear-gradient(90deg, #17a2b8, #5bc0de)";
+            } else if (percent >= 50) {
+                scoreText.textContent = "ठीक है, लेकिन और अभ्यास की आवश्यकता है।";
+                performanceFill.style.background = "linear-gradient(90deg, #ffc107, #ffdb6d)";
+            } else {
+                scoreText.textContent = "कृपया विषय का पुनः अध्ययन करें।";
+                performanceFill.style.background = "linear-gradient(90deg, #dc3545, #e4606d)";
+            }
+            
+            // परिणाम कंटेनर दिखाएं
+            resultContainer.style.display = 'block';
+            
+            // समीक्षा सेक्शन लोड करें
+            loadReviewSection();
+            
+            // परिणाम तक स्क्रॉल करें
+            setTimeout(() => {
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 500);
+        }
+        
+        // उत्तर हाइलाइट करें
+        function highlightAnswers() {
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.getElementById(`question-${index}`);
+                if (!questionDiv) return;
+                
+                const options = questionDiv.querySelectorAll('.option');
+                
+                // सभी विकल्पों से selected क्लास हटाएं
+                options.forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // उपयोगकर्ता के चुने हुए उत्तर को हाइलाइट करें
+                if (userAnswers[index] !== -1) {
+                    const userOption = options[userAnswers[index]];
+                    
+                    if (userAnswers[index] === q.correct) {
+                        userOption.classList.add('correct');
+                    } else {
+                        userOption.classList.add('incorrect');
+                    }
+                }
+                
+                // सही उत्तर हाइलाइट करें (यदि उपयोगकर्ता ने गलत उत्तर दिया है)
+                if (userAnswers[index] !== q.correct) {
+                    const correctOption = options[q.correct];
+                    correctOption.classList.add('correct');
+                }
+            });
+        }
+        
+        // समीक्षा सेक्शन लोड करें
+        function loadReviewSection() {
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = '';
+            
+            quizQuestions.forEach((q, index) => {
+                const reviewDiv = document.createElement('div');
+                reviewDiv.className = 'question';
+                reviewDiv.style.marginBottom = '15px';
+                reviewDiv.style.padding = '15px';
+                
+                let optionsHTML = '';
+                q.options.forEach((option, optIndex) => {
+                    let optionClass = 'option';
+                    
+                    if (optIndex === q.correct) {
+                        optionClass += ' correct';
+                    } else if (userAnswers[index] === optIndex && userAnswers[index] !== q.correct) {
+                        optionClass += ' incorrect';
+                    }
+                    
+                    optionsHTML += `<div class="${optionClass}">${String.fromCharCode(65 + optIndex)}. ${option}</div>`;
+                });
+                
+                const userAnswerText = userAnswers[index] !== -1 ? 
+                    `आपका उत्तर: ${String.fromCharCode(65 + userAnswers[index])}` : 
+                    'आपने उत्तर नहीं दिया';
+                
+                const isCorrect = userAnswers[index] === q.correct;
+                
+                reviewDiv.innerHTML = `
+                    <div class="question-text"><strong>प्रश्न ${index + 1}:</strong> ${q.question}</div>
+                    <div class="options" style="margin-top:10px;">${optionsHTML}</div>
+                    <div style="margin-top:10px; padding:10px; background:#f8f9fa; border-radius:5px;">
+                        <strong>${userAnswerText}</strong> | 
+                        <strong style="color:${isCorrect ? 'green' : 'red'}">${isCorrect ? 'सही ✓' : 'गलत ✗'}</strong><br>
+                        <em>${q.explanation}</em>
+                    </div>
+                `;
+                
+                reviewContainer.appendChild(reviewDiv);
+            });
+            
+            // शुरू में समीक्षा छिपाएं
+            reviewContainer.style.display = 'none';
+        }
+        
+        // समीक्षा दिखाएं/छिपाएं
+        function toggleReview() {
+            const reviewContainer = document.getElementById('reviewContainer');
+            const reviewBtn = document.querySelector('.review-btn');
+            
+            if (reviewContainer.style.display === 'none') {
+                reviewContainer.style.display = 'block';
+                reviewBtn.textContent = 'समीक्षा छिपाएं';
+            } else {
+                reviewContainer.style.display = 'none';
+                reviewBtn.textContent = 'समीक्षा दिखाएं';
+            }
+        }
+        
+        // क्विज़ रीसेट करें
+        function resetQuiz() {
+            if (confirm("क्या आप वाकई क्विज़ रीसेट करना चाहते हैं? सभी उत्तर हट जाएंगे।")) {
+                userAnswers = new Array(quizQuestions.length).fill(-1);
+                quizSubmitted = false;
+                
+                // localStorage से उत्तर हटाएं
+                localStorage.removeItem('angloFrenchQuizAnswers');
+                
+                // क्विज़ रीलोड करें
+                loadQuizQuestions();
+                
+                // परिणाम छिपाएं
+                document.getElementById('resultContainer').style.display = 'none';
+                
+                // सभी प्रश्नों से हाइलाइट हटाएं
+                quizQuestions.forEach((q, index) => {
+                    const questionDiv = document.getElementById(`question-${index}`);
+                    if (questionDiv) {
+                        const options = questionDiv.querySelectorAll('.option');
+                        options.forEach(option => {
+                            option.classList.remove('correct', 'incorrect', 'selected');
+                        });
+                    }
+                });
+                
+                // शीर्ष पर स्क्रॉल करें
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                alert("क्विज़ रीसेट हो गया है। नया टेस्ट शुरू करें।");
+            }
+        }
+        
+        // ग्लोबल फंक्शन्स को विंडो ऑब्जेक्ट से जोड़ें
+        window.selectOption = selectOption;
+        window.submitQuiz = submitQuiz;
+        window.resetQuiz = resetQuiz;
+        window.toggleReview = toggleReview;
+    </script>
+</body>
+</html>
