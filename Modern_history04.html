@@ -536,7 +536,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -546,6 +546,7 @@
         }
         
         .modal.active {
+            display: flex;
             opacity: 1;
             visibility: visible;
         }
@@ -742,4 +743,737 @@
             <!-- Score Card -->
             <div class="score-card">
                 <div class="score-circle" id="scoreCircle">
-                    <div c
+                    <div class="score-inner">
+                        <div class="score-main" id="currentScore">0</div>
+                        <div class="score-total">/15</div>
+                    </div>
+                </div>
+                <div class="score-label">Current Score</div>
+                <div class="score-percent" id="scorePercent">0%</div>
+            </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn btn-primary" id="submitBtn" onclick="submitTest()">
+                <i class="fas fa-paper-plane"></i> Submit Test
+            </button>
+            <button class="btn btn-success" id="checkBtn" onclick="checkAnswers()">
+                <i class="fas fa-check-circle"></i> Check Answers
+            </button>
+            <button class="btn btn-warning" onclick="showSolutions()">
+                <i class="fas fa-lightbulb"></i> Show Solutions
+            </button>
+            <button class="btn btn-outline" onclick="resetTest()">
+                <i class="fas fa-redo"></i> Reset Test
+            </button>
+            <button class="btn btn-danger" onclick="exitTest()">
+                <i class="fas fa-sign-out-alt"></i> Exit Test
+            </button>
+        </div>
+        
+        <!-- Quiz Container -->
+        <div class="quiz-container">
+            <!-- Questions Section -->
+            <div class="questions-section">
+                <div class="question-nav">
+                    <div class="question-counter" id="questionCounter">Question 1 of 15</div>
+                    <div class="nav-buttons">
+                        <button class="btn btn-outline" onclick="prevQuestion()">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button class="btn btn-outline" onclick="nextQuestion()">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button class="btn btn-warning" onclick="markForReview()">
+                            <i class="fas fa-flag"></i> Review
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="questionsContainer">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-title">
+                    <i class="fas fa-th"></i> Question Palette
+                </div>
+                
+                <div class="question-palette" id="questionPalette">
+                    <!-- Palette buttons will be dynamically inserted here -->
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-answered"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-current"></div>
+                        <span>Current</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-review"></div>
+                        <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-unanswered"></div>
+                        <span>Not Answered</span>
+                    </div>
+                </div>
+                
+                <div class="sidebar-title">
+                    <i class="fas fa-chart-bar"></i> Test Summary
+                </div>
+                
+                <div class="stats" style="grid-template-columns: repeat(2, 1fr); margin-top: 15px;">
+                    <div class="stat-card">
+                        <div class="stat-value" id="sidebarAnswered">0</div>
+                        <div class="stat-label">Answered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sidebarCorrect">0</div>
+                        <div class="stat-label">Correct</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sidebarIncorrect">0</div>
+                        <div class="stat-label">Incorrect</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sidebarReview">0</div>
+                        <div class="stat-label">For Review</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2024 HistoryMaster Pro | Designed for Competitive Exam Preparation | बंगाल पर अंग्रेज़ों का आधिपत्य</p>
+            <p style="margin-top: 5px;"><i class="fas fa-laptop"></i> Fully Responsive | <i class="fas fa-mobile-alt"></i> Mobile Friendly | <i class="fas fa-print"></i> Printable</p>
+        </div>
+    </div>
+    
+    <!-- Result Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-trophy"></i> Test Completed!</div>
+                <div class="modal-subtitle">Comprehensive Analysis of Your Performance</div>
+            </div>
+            
+            <div class="result-stats">
+                <div class="result-stat">
+                    <div class="result-value" id="finalScore">0</div>
+                    <div class="result-label">Total Score</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-value" id="finalPercent">0%</div>
+                    <div class="result-label">Accuracy</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-value" id="timeTaken">00:00</div>
+                    <div class="result-label">Time Taken</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-value" id="rank">--</div>
+                    <div class="result-label">Estimated Rank</div>
+                </div>
+            </div>
+            
+            <div class="performance">
+                <div class="performance-title" id="performanceTitle">Let's Get Started!</div>
+                <div class="performance-message" id="performanceMessage">Complete the test to see your detailed performance analysis</div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="reviewTest()">
+                    <i class="fas fa-search"></i> Review Answers
+                </button>
+                <button class="btn btn-success" onclick="showAllSolutions()">
+                    <i class="fas fa-lightbulb"></i> View Solutions
+                </button>
+                <button class="btn btn-outline" onclick="closeModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Solutions Modal -->
+    <div class="modal" id="solutionsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-lightbulb"></i> Detailed Solutions</div>
+                <div class="modal-subtitle">Learn from explanations and historical context</div>
+            </div>
+            
+            <div id="solutionsContent" style="max-height: 400px; overflow-y: auto; margin-bottom: 30px;">
+                <!-- Solutions will be inserted here -->
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeSolutions()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Questions Data
+        const questions = [
+            {
+                id: 1,
+                question: "मुर्शिद कुली ख़ाँ किस काल में बंगाल का नवाब था?",
+                options: [
+                    {id: 'A', text: "1700–1710"},
+                    {id: 'B', text: "1713–1727"},
+                    {id: 'C', text: "1727–1739"},
+                    {id: 'D', text: "1739–1740"}
+                ],
+                correct: 'B',
+                explanation: "मुर्शिद कुली ख़ाँ 1717 से 1727 ई. तक बंगाल का नवाब रहा। उसने मुगल सम्राट फर्रूखसियर से स्वतंत्र शासक की मान्यता प्राप्त की और बंगाल में स्वायत्त शासन की स्थापना की।"
+            },
+            {
+                id: 2,
+                question: "मुर्शिद कुली ख़ाँ ने राजधानी ढाका से बदलकर कहाँ की?",
+                options: [
+                    {id: 'A', text: "पटना"},
+                    {id: 'B', text: "मुंगेर"},
+                    {id: 'C', text: "मुर्शिदाबाद"},
+                    {id: 'D', text: "कलकत्ता"}
+                ],
+                correct: 'C',
+                explanation: "मुर्शिद कुली ख़ाँ ने 1704 ई. में राजधानी ढाका से मुखसूसाबाद स्थानांतरित की, जिसका नाम बदलकर बाद में मुर्शिदाबाद रखा गया। यह गंगा नदी के किनारे स्थित था।"
+            },
+            {
+                id: 3,
+                question: "मुर्शिद कुली ख़ाँ ने कौन-सी राजस्व व्यवस्था शुरू की?",
+                options: [
+                    {id: 'A', text: "स्थायी बंदोबस्त"},
+                    {id: 'B', text: "रैयतवाड़ी"},
+                    {id: 'C', text: "इजारेदारी प्रथा"},
+                    {id: 'D', text: "महालवाड़ी"}
+                ],
+                correct: 'C',
+                explanation: "मुर्शिद कुली ख़ाँ ने इजारेदारी प्रथा शुरू की, जिसमें राजस्व वसूली का ठेका इजारेदारों को दिया जाता था। यह व्यवस्था बाद में ब्रिटिश काल में भी जारी रही।"
+            },
+            {
+                id: 4,
+                question: "मुर्शिद कुली ख़ाँ के बाद बंगाल का नवाब कौन बना?",
+                options: [
+                    {id: 'A', text: "सरफराज़ ख़ाँ"},
+                    {id: 'B', text: "शुजाउद्दीन"},
+                    {id: 'C', text: "अलीवर्दी ख़ाँ"},
+                    {id: 'D', text: "सिराजुद्दौला"}
+                ],
+                correct: 'B',
+                explanation: "मुर्शिद कुली ख़ाँ के बाद उसका दामाद शुजाउद्दीन मुहम्मद ख़ाँ 1727 से 1739 ई. तक बंगाल का नवाब बना। उसने शासन व्यवस्था को मजबूत किया और व्यापार को प्रोत्साहित किया।"
+            },
+            {
+                id: 5,
+                question: "अलीवर्दी ख़ाँ का शासनकाल क्या था?",
+                options: [
+                    {id: 'A', text: "1727–1739"},
+                    {id: 'B', text: "1739–1740"},
+                    {id: 'C', text: "1740–1756"},
+                    {id: 'D', text: "1756–1757"}
+                ],
+                correct: 'C',
+                explanation: "अलीवर्दी ख़ाँ 1740 से 1756 ई. तक बंगाल का नवाब रहा। उसने मराठा आक्रमणों का सफलतापूर्वक सामना किया और बंगाल को 'भारत का स्वर्ण' कहा जाने लगा।"
+            },
+            {
+                id: 6,
+                question: "अलीवर्दी ख़ाँ के समय बंगाल को क्या कहा जाने लगा?",
+                options: [
+                    {id: 'A', text: "भारत का हृदय"},
+                    {id: 'B', text: "भारत का स्वर्ग"},
+                    {id: 'C', text: "भारत का स्वर्ण"},
+                    {id: 'D', text: "भारत का द्वार"}
+                ],
+                correct: 'C',
+                explanation: "अलीवर्दी ख़ाँ के कुशल शासन में बंगाल की आर्थिक समृद्धि चरम पर थी, जिसके कारण इसे 'भारत का स्वर्ण' (Paradise of India) कहा जाने लगा।"
+            },
+            {
+                id: 7,
+                question: "1756 ई. में बंगाल का नवाब कौन बना?",
+                options: [
+                    {id: 'A', text: "अलीवर्दी ख़ाँ"},
+                    {id: 'B', text: "मीर जाफ़र"},
+                    {id: 'C', text: "सिराजुद्दौला"},
+                    {id: 'D', text: "मीर कासिम"}
+                ],
+                correct: 'C',
+                explanation: "अलीवर्दी ख़ाँ की मृत्यु के बाद उसका पोता सिराजुद्दौला 1756 ई. में बंगाल का नवाब बना। उसकी उम्र मात्र 23 वर्ष थी जब वह सत्ता में आया।"
+            },
+            {
+                id: 8,
+                question: "'ब्लैक होल त्रासदी' किस वर्ष हुई?",
+                options: [
+                    {id: 'A', text: "1754"},
+                    {id: 'B', text: "1755"},
+                    {id: 'C', text: "1756"},
+                    {id: 'D', text: "1757"}
+                ],
+                correct: 'C',
+                explanation: "ब्लैक होल त्रासदी 20 जून 1756 को हुई, जब सिराजुद्दौला ने कलकत्ता पर कब्जा किया और 146 ब्रिटिश कैदियों को एक छोटे कमरे में बंद कर दिया, जिसमें अधिकांश की मृत्यु हो गई।"
+            },
+            {
+                id: 9,
+                question: "ब्लैक होल त्रासदी किस स्थान से संबंधित है?",
+                options: [
+                    {id: 'A', text: "मुर्शिदाबाद"},
+                    {id: 'B', text: "प्लासी"},
+                    {id: 'C', text: "कलकत्ता"},
+                    {id: 'D', text: "पटना"}
+                ],
+                correct: 'C',
+                explanation: "यह घटना कलकत्ता (अब कोलकाता) के फोर्ट विलियम में घटी। इस स्थान पर आज भी एक स्मारक बना हुआ है जो इस घटना की याद दिलाता है।"
+            },
+            {
+                id: 10,
+                question: "प्लासी का युद्ध कब हुआ?",
+                options: [
+                    {id: 'A', text: "1756"},
+                    {id: 'B', text: "23 जून 1757"},
+                    {id: 'C', text: "1760"},
+                    {id: 'D', text: "1764"}
+                ],
+                correct: 'B',
+                explanation: "प्लासी का युद्ध 23 जून 1757 को हुआ। यह युद्ध नदिया जिले में भागीरथी नदी के किनारे प्लासी नामक स्थान पर लड़ा गया।"
+            },
+            {
+                id: 11,
+                question: "प्लासी के युद्ध में अंग्रेज़ों की ओर से सेनापति कौन था?",
+                options: [
+                    {id: 'A', text: "वॉरेन हेस्टिंग्स"},
+                    {id: 'B', text: "रॉबर्ट क्लाइव"},
+                    {id: 'C', text: "डलहौज़ी"},
+                    {id: 'D', text: "कर्नवालिस"}
+                ],
+                correct: 'B',
+                explanation: "रॉबर्ट क्लाइव ने केवल 3,000 सैनिकों के साथ सिराजुद्दौला की 50,000 सैनिकों वाली सेना को हराया। इस जीत ने भारत में ब्रिटिश साम्राज्य की नींव रखी।"
+            },
+            {
+                id: 12,
+                question: "प्लासी के युद्ध में सिराजुद्दौला की ओर से विश्वासघात किसने किया?",
+                options: [
+                    {id: 'A', text: "मीर कासिम"},
+                    {id: 'B', text: "मीर जाफ़र"},
+                    {id: 'C', text: "शुजाउद्दीन"},
+                    {id: 'D', text: "अलीवर्दी ख़ाँ"}
+                ],
+                correct: 'B',
+                explanation: "मीर जाफ़र, जो सिराजुद्दौला का सेनापति था, ने रॉबर्ट क्लाइव से गुप्त समझौता कर लिया था। युद्ध के दौरान उसने अपने सैनिकों को युद्ध न करने का आदेश दिया।"
+            },
+            {
+                id: 13,
+                question: "प्लासी के युद्ध के बाद बंगाल का नवाब किसे बनाया गया?",
+                options: [
+                    {id: 'A', text: "सिराजुद्दौला"},
+                    {id: 'B', text: "मीर कासिम"},
+                    {id: 'C', text: "मीर जाफ़र"},
+                    {id: 'D', text: "शुजाउद्दौला"}
+                ],
+                correct: 'C',
+                explanation: "प्लासी की जीत के बाद अंग्रेजों ने मीर जाफ़र को बंगाल का नवाब बनाया। बदले में मीर जाफ़र ने अंग्रेजों को भारी मात्रा में धन और व्यापारिक सुविधाएं दीं।"
+            },
+            {
+                id: 14,
+                question: "मीर जाफ़र को हटाकर बंगाल का नवाब किसे बनाया गया?",
+                options: [
+                    {id: 'A', text: "सिराजुद्दौला"},
+                    {id: 'B', text: "मीर कासिम"},
+                    {id: 'C', text: "शुजाउद्दौला"},
+                    {id: 'D', text: "मुबारक-उद्दौला"}
+                ],
+                correct: 'B',
+                explanation: "मीर जाफ़र की अक्षमता से असंतुष्ट होकर अंग्रेजों ने 1760 में उसे हटाकर उसके दामाद मीर कासिम को बंगाल का नवाब बनाया।"
+            },
+            {
+                id: 15,
+                question: "बक्सर का युद्ध कब हुआ?",
+                options: [
+                    {id: 'A', text: "1757"},
+                    {id: 'B', text: "1760"},
+                    {id: 'C', text: "1764"},
+                    {id: 'D', text: "1770"}
+                ],
+                correct: 'C',
+                explanation: "बक्सर का युद्ध 22 अक्टूबर 1764 को हुआ। इस युद्ध में अंग्रेजों ने मीर कासिम, शुजाउद्दौला (अवध का नवाब) और शाह आलम द्वितीय (मुगल सम्राट) की संयुक्त सेना को हराया।"
+            }
+        ];
+
+        // Quiz State
+        let currentQuestion = 1;
+        let userAnswers = {};
+        let reviewQuestions = new Set();
+        let score = 0;
+        let timer = 30 * 60; // 30 minutes in seconds
+        let timerInterval;
+        let testSubmitted = false;
+        let startTime;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuestions();
+            renderQuestionPalette();
+            updateStats();
+            startTimer();
+            startTime = Date.now();
+        });
+
+        // Render Questions
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionHTML = `
+                    <div class="question-card" id="question-${q.id}" style="${q.id !== currentQuestion ? 'display: none;' : ''}">
+                        <div class="question-text">${q.id}. ${q.question}</div>
+                        <div class="options-grid">
+                            ${q.options.map(opt => {
+                                const isSelected = userAnswers[q.id] === opt.id;
+                                const isCorrect = testSubmitted && opt.id === q.correct;
+                                const isIncorrect = testSubmitted && isSelected && opt.id !== q.correct;
+                                
+                                let optionClass = 'option';
+                                if (isSelected) optionClass += ' selected';
+                                if (isCorrect) optionClass += ' correct';
+                                if (isIncorrect) optionClass += ' incorrect';
+                                
+                                return `
+                                    <div class="${optionClass}" onclick="selectAnswer(${q.id}, '${opt.id}')">
+                                        <div class="option-label">${opt.id}</div>
+                                        <div class="option-text">${opt.text}</div>
+                                        ${isCorrect ? '<div class="option-icon"><i class="fas fa-check"></i></div>' : ''}
+                                        ${isIncorrect ? '<div class="option-icon"><i class="fas fa-times"></i></div>' : ''}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += questionHTML;
+            });
+            
+            updateQuestionCounter();
+        }
+
+        // Render Question Palette
+        function renderQuestionPalette() {
+            const palette = document.getElementById('questionPalette');
+            palette.innerHTML = '';
+            
+            questions.forEach(q => {
+                let btnClass = 'palette-btn';
+                if (userAnswers[q.id]) btnClass += ' answered';
+                if (q.id === currentQuestion) btnClass += ' current';
+                if (reviewQuestions.has(q.id)) btnClass += ' review';
+                
+                palette.innerHTML += `
+                    <button class="${btnClass}" onclick="goToQuestion(${q.id})">
+                        ${q.id}
+                    </button>
+                `;
+            });
+        }
+
+        // Select Answer
+        function selectAnswer(questionId, optionId) {
+            if (testSubmitted) return;
+            
+            userAnswers[questionId] = optionId;
+            
+            // Update current question display
+            const questionElement = document.getElementById(`question-${questionId}`);
+            const options = questionElement.querySelectorAll('.option');
+            
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+                const optId = opt.querySelector('.option-label').textContent;
+                if (optId === optionId) {
+                    opt.classList.add('selected');
+                }
+            });
+            
+            updateStats();
+            renderQuestionPalette();
+        }
+
+        // Go to Question
+        function goToQuestion(questionId) {
+            // Hide current question
+            document.getElementById(`question-${currentQuestion}`).style.display = 'none';
+            
+            // Show selected question
+            currentQuestion = questionId;
+            document.getElementById(`question-${currentQuestion}`).style.display = 'block';
+            
+            updateQuestionCounter();
+            renderQuestionPalette();
+        }
+
+        // Next Question
+        function nextQuestion() {
+            if (currentQuestion < questions.length) {
+                goToQuestion(currentQuestion + 1);
+            }
+        }
+
+        // Previous Question
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                goToQuestion(currentQuestion - 1);
+            }
+        }
+
+        // Mark for Review
+        function markForReview() {
+            if (reviewQuestions.has(currentQuestion)) {
+                reviewQuestions.delete(currentQuestion);
+            } else {
+                reviewQuestions.add(currentQuestion);
+            }
+            renderQuestionPalette();
+            updateStats();
+        }
+
+        // Update Stats
+        function updateStats() {
+            const answered = Object.keys(userAnswers).length;
+            const correct = calculateCorrectAnswers();
+            const incorrect = answered - correct;
+            const remaining = questions.length - answered;
+            const progressPercent = Math.round((answered / questions.length) * 100);
+            
+            // Update progress bar
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+            document.getElementById('progressText').textContent = `${answered}/${questions.length} Questions`;
+            document.getElementById('progressPercent').textContent = `${progressPercent}%`;
+            
+            // Update stats
+            document.getElementById('answeredCount').textContent = answered;
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('incorrectCount').textContent = incorrect;
+            document.getElementById('remainingCount').textContent = remaining;
+            
+            // Update score
+            document.getElementById('currentScore').textContent = correct;
+            const scorePercent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            document.getElementById('scorePercent').textContent = `${scorePercent}%`;
+            
+            // Update score circle
+            const scoreCircle = document.getElementById('scoreCircle');
+            const totalPercent = Math.round((correct / questions.length) * 100);
+            scoreCircle.style.background = `conic-gradient(var(--success) 0% ${totalPercent}%, var(--border) ${totalPercent}% 100%)`;
+            
+            // Update sidebar
+            document.getElementById('sidebarAnswered').textContent = answered;
+            document.getElementById('sidebarCorrect').textContent = correct;
+            document.getElementById('sidebarIncorrect').textContent = incorrect;
+            document.getElementById('sidebarReview').textContent = reviewQuestions.size;
+        }
+
+        // Calculate Correct Answers
+        function calculateCorrectAnswers() {
+            let correct = 0;
+            Object.keys(userAnswers).forEach(qId => {
+                const question = questions.find(q => q.id == qId);
+                if (question && userAnswers[qId] === question.correct) {
+                    correct++;
+                }
+            });
+            score = correct;
+            return correct;
+        }
+
+        // Update Question Counter
+        function updateQuestionCounter() {
+            document.getElementById('questionCounter').textContent = 
+                `Question ${currentQuestion} of ${questions.length}`;
+        }
+
+        // Timer
+        function startTimer() {
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                if (timer > 0) {
+                    timer--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timer / 60);
+            const seconds = timer % 60;
+            document.getElementById('time').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Check Answers
+        function checkAnswers() {
+            testSubmitted = true;
+            calculateCorrectAnswers();
+            renderQuestions();
+            updateStats();
+            
+            // Show modal with results
+            showResultModal();
+        }
+
+        // Submit Test
+        function submitTest() {
+            clearInterval(timerInterval);
+            testSubmitted = true;
+            calculateCorrectAnswers();
+            renderQuestions();
+            updateStats();
+            showResultModal();
+        }
+
+        // Show Result Modal
+        function showResultModal() {
+            const totalCorrect = calculateCorrectAnswers();
+            const finalPercent = Math.round((totalCorrect / questions.length) * 100);
+            
+            // Calculate time taken
+            const timeTaken = 30 * 60 - timer;
+            const minutesTaken = Math.floor(timeTaken / 60);
+            const secondsTaken = timeTaken % 60;
+            const timeTakenStr = `${minutesTaken.toString().padStart(2, '0')}:${secondsTaken.toString().padStart(2, '0')}`;
+            
+            document.getElementById('finalScore').textContent = `${totalCorrect}/${questions.length}`;
+            document.getElementById('finalPercent').textContent = `${finalPercent}%`;
+            document.getElementById('timeTaken').textContent = timeTakenStr;
+            
+            // Calculate estimated rank
+            let rank = '--';
+            if (finalPercent >= 90) rank = 'Top 5%';
+            else if (finalPercent >= 80) rank = 'Top 15%';
+            else if (finalPercent >= 70) rank = 'Top 30%';
+            else if (finalPercent >= 60) rank = 'Top 50%';
+            else rank = 'Needs Improvement';
+            document.getElementById('rank').textContent = rank;
+            
+            // Set performance message
+            const performanceTitle = document.getElementById('performanceTitle');
+            const performanceMessage = document.getElementById('performanceMessage');
+            
+            if (finalPercent >= 90) {
+                performanceTitle.innerHTML = '<i class="fas fa-trophy"></i> Outstanding!';
+                performanceMessage.textContent = 'Excellent performance! You have mastered this topic completely.';
+            } else if (finalPercent >= 75) {
+                performanceTitle.innerHTML = '<i class="fas fa-medal"></i> Very Good!';
+                performanceMessage.textContent = 'Strong understanding of the topic. Keep practicing to achieve perfection.';
+            } else if (finalPercent >= 60) {
+                performanceTitle.innerHTML = '<i class="fas fa-star"></i> Good Effort';
+                performanceMessage.textContent = 'You have a good grasp but need to focus on some areas.';
+            } else if (finalPercent >= 40) {
+                performanceTitle.innerHTML = '<i class="fas fa-book"></i> Needs Practice';
+                performanceMessage.textContent = 'Review the concepts thoroughly and try again.';
+            } else {
+                performanceTitle.innerHTML = '<i class="fas fa-graduation-cap"></i> Requires Study';
+                performanceMessage.textContent = 'Please study the topic carefully before attempting again.';
+            }
+            
+            document.getElementById('resultModal').classList.add('active');
+        }
+
+        // Show Solutions
+        function showSolutions() {
+            const solutionsContent = document.getElementById('solutionsContent');
+            solutionsContent.innerHTML = '';
+            
+            questions.forEach(q => {
+                const userAnswer = userAnswers[q.id];
+                const isCorrect = userAnswer === q.correct;
+                const userAnswerText = userAnswer ? 
+                    `${userAnswer}. ${q.options.find(o => o.id === userAnswer)?.text || 'Not found'}` : 
+                    'Not Attempted';
+                
+                solutionsContent.innerHTML += `
+                    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+                        <div style="font-weight: 600; margin-bottom: 10px; color: var(--dark);">
+                            ${q.id}. ${q.question}
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>Your Answer:</strong> 
+                            ${userAnswerText}
+                            ${userAnswer ? (isCorrect ? ' ✅' : ' ❌') : ''}
+                        </div>
+                        <div style="margin-bottom: 8px; color: var(--success);">
+                            <strong>Correct Answer:</strong> ${q.correct}. ${q.options.find(o => o.id === q.correct).text}
+                        </div>
+                        <div style="background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 14px;">
+                            <strong>Explanation:</strong> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('solutionsModal').classList.add('active');
+        }
+
+        // Show All Solutions
+        function showAllSolutions() {
+            closeModal();
+            setTimeout(() => showSolutions(), 300);
+        }
+
+        // Review Test
+        function reviewTest() {
+            closeModal();
+            testSubmitted = true;
+            renderQuestions();
+        }
+
+        // Reset Test
+        function resetTest() {
+            if (confirm("Are you sure you want to reset the test? All progress will be lost.")) {
+                currentQuestion = 1;
+                userAnswers = {};
+                reviewQuestions = new Set();
+                score = 0;
+                timer = 30 * 60;
+                testSubmitted = false;
+                
+                clearInterval(timerInterval);
+                startTimer();
+                renderQuestions();
+                renderQuestionPalette();
+                updateStats();
+                closeModal();
+                document.getElementById('solutionsModal').classList.remove('active');
+            }
+        }
+
+        // Exit Test
+        function exitTest() {
+            if (confirm("Are you sure you want to exit the test?")) {
+                // In a real application, this would redirect to another page
+                alert("Test exited. In a real application, this would redirect to the dashboard.");
+            }
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('resultModal').classList.remove('active');
+        }
+
+        // Close Solutions
+        function closeSolutions() {
+            document.getElementById('solutionsModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
