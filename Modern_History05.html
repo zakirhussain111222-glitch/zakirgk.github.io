@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अंग्रेज़ों-मैसूर संबंध MCQ प्रश्नोत्तरी</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            background-image: linear-gradient(to bottom right, #f0f8ff, #e6f7ff);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #2c5aa0;
+        }
+        
+        h1 {
+            color: #1a365d;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #4a5568;
+            font-size: 18px;
+        }
+        
+        .instructions {
+            background-color: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .instructions h3 {
+            color: #234e52;
+            margin-bottom: 8px;
+        }
+        
+        .question-card {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f7fafc;
+            border-left: 4px solid #4299e1;
+            transition: all 0.3s ease;
+        }
+        
+        .question-card:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #2b6cb0;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .question-text {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            background-color: white;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            background-color: #edf2f7;
+            border-color: #a0aec0;
+        }
+        
+        .option.selected {
+            background-color: #bee3f8;
+            border-color: #3182ce;
+            font-weight: bold;
+        }
+        
+        .option.correct {
+            background-color: #c6f6d5;
+            border-color: #38a169;
+        }
+        
+        .option.incorrect {
+            background-color: #fed7d7;
+            border-color: #e53e3e;
+        }
+        
+        .option-letter {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background-color: #e2e8f0;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 12px;
+            font-weight: bold;
+            color: #4a5568;
+        }
+        
+        .selected .option-letter {
+            background-color: #3182ce;
+            color: white;
+        }
+        
+        .correct .option-letter {
+            background-color: #38a169;
+            color: white;
+        }
+        
+        .incorrect .option-letter {
+            background-color: #e53e3e;
+            color: white;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background-color: #2b6cb0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #2c5282;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        #check-btn {
+            background-color: #38a169;
+        }
+        
+        #check-btn:hover {
+            background-color: #2f855a;
+        }
+        
+        #reset-btn {
+            background-color: #718096;
+        }
+        
+        #reset-btn:hover {
+            background-color: #4a5568;
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            background-color: #f0fff4;
+            border: 2px solid #68d391;
+            display: none;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        #score {
+            font-size: 28px;
+            font-weight: bold;
+            color: #22543d;
+        }
+        
+        #message {
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .answer-key {
+            margin-top: 20px;
+        }
+        
+        .answer-key h3 {
+            color: #234e52;
+            margin-bottom: 10px;
+        }
+        
+        .answer-list {
+            list-style-type: none;
+        }
+        
+        .answer-item {
+            padding: 10px;
+            border-bottom: 1px solid #c6f6d5;
+        }
+        
+        .answer-item:last-child {
+            border-bottom: none;
+        }
+        
+        .answer-correct {
+            color: #22543d;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #718096;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>अंग्रेज़ों-मैसूर संबंध MCQ प्रश्नोत्तरी</h1>
+            <div class="subtitle">परीक्षा-उपयोगी 10 महत्वपूर्ण बहुविकल्पीय प्रश्न</div>
+        </div>
+        
+        <div class="instructions">
+            <h3>निर्देश:</h3>
+            <p>1. नीचे दिए गए प्रत्येक प्रश्न के लिए एक सही विकल्प चुनें।</p>
+            <p>2. सभी प्रश्नों के उत्तर देने के बाद "उत्तर जाँचें" बटन पर क्लिक करें।</p>
+            <p>3. सही उत्तर हरे रंग में और गलत उत्तर लाल रंग में दिखाए जाएंगे।</p>
+        </div>
+        
+        <div id="quiz-container">
+            <!-- प्रश्न यहाँ जावास्क्रिप्ट द्वारा डाले जाएंगे -->
+        </div>
+        
+        <div class="controls">
+            <button id="check-btn">उत्तर जाँचें</button>
+            <button id="reset-btn">पुनः आरंभ करें</button>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <div class="result-header">
+                <h2>आपका परिणाम:</h2>
+                <div id="score">0/10</div>
+            </div>
+            <div id="message"></div>
+            
+            <div class="answer-key">
+                <h3>सही उत्तर:</h3>
+                <ul class="answer-list" id="answer-list">
+                    <!-- उत्तर यहाँ जावास्क्रिप्ट द्वारा डाले जाएंगे -->
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>इतिहास प्रश्नोत्तरी - अंग्रेज़ों और मैसूर के संबंधों पर आधारित</p>
+            <p>© 2023 इतिहास शिक्षण सामग्री</p>
+        </div>
+    </div>
+
+    <script>
+        // प्रश्न डेटा
+        const questions = [
+            {
+                question: "हैदर अली मैसूर का शासक कब बना?",
+                options: ["1757 ई.", "1761 ई.", "1769 ई.", "1780 ई."],
+                correctAnswer: 1
+            },
+            {
+                question: "हैदर अली की मृत्यु किस वर्ष हुई?",
+                options: ["1769 ई.", "1775 ई.", "1782 ई.", "1792 ई."],
+                correctAnswer: 2
+            },
+            {
+                question: "हैदर अली की मृत्यु किस युद्ध के दौरान हुई?",
+                options: ["प्रथम आंग्ल–मैसूर युद्ध", "द्वितीय आंग्ल–मैसूर युद्ध", "तृतीय आंग्ल–मैसूर युद्ध", "चतुर्थ आंग्ल–मैसूर युद्ध"],
+                correctAnswer: 1
+            },
+            {
+                question: "हैदर अली का उत्तराधिकारी कौन बना?",
+                options: ["मीर जाफर", "नवाब सिराजुद्दौला", "टीपू सुल्तान", "निज़ाम"],
+                correctAnswer: 2
+            },
+            {
+                question: "टीपू सुल्तान ने ‘बादशाह’ की उपाधि कब धारण की?",
+                options: ["1782 ई.", "1787 ई.", "1790 ई.", "1799 ई."],
+                correctAnswer: 1
+            },
+            {
+                question: "प्रथम आंग्ल–मैसूर युद्ध कब हुआ?",
+                options: ["1761–63 ई.", "1767–69 ई.", "1770–72 ई.", "1780–82 ई."],
+                correctAnswer: 1
+            },
+            {
+                question: "द्वितीय आंग्ल–मैसूर युद्ध के समय गवर्नर जनरल कौन था?",
+                options: ["लॉर्ड वेलेजली", "कॉर्नवालिस", "वारेन हेस्टिंग्स", "लॉर्ड डलहौजी"],
+                correctAnswer: 2
+            },
+            {
+                question: "तृतीय आंग्ल–मैसूर युद्ध कब हुआ?",
+                options: ["1780–84 ई.", "1790–92 ई.", "1795–97 ई.", "1799 ई."],
+                correctAnswer: 1
+            },
+            {
+                question: "टीपू सुल्तान की मृत्यु किस युद्ध में हुई?",
+                options: ["तृतीय आंग्ल–मैसूर युद्ध", "चतुर्थ आंग्ल–मैसूर युद्ध", "द्वितीय आंग्ल–मैसूर युद्ध", "बक्सर का युद्ध"],
+                correctAnswer: 1
+            },
+            {
+                question: "तृतीय आंग्ल–मैसूर युद्ध के बाद कौन-सी संधि हुई?",
+                options: ["मद्रास की संधि", "मंगलौर की संधि", "श्रीरंगपट्टनम की संधि", "इलाहाबाद की संधि"],
+                correctAnswer: 2
+            }
+        ];
+
+        // विकल्पों के अक्षर
+        const optionLetters = ['A', 'B', 'C', 'D'];
+        
+        // चयनित उत्तरों को स्टोर करने के लिए ऐरे
+        let selectedAnswers = new Array(questions.length).fill(null);
+        
+        // DOM तत्व
+        const quizContainer = document.getElementById('quiz-container');
+        const checkBtn = document.getElementById('check-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const resultContainer = document.getElementById('result-container');
+        const scoreElement = document.getElementById('score');
+        const messageElement = document.getElementById('message');
+        const answerListElement = document.getElementById('answer-list');
+        
+        // प्रश्न डिस्प्ले करें
+        function renderQuestions() {
+            quizContainer.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = `प्रश्न ${index + 1}:`;
+                
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = question.question;
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options';
+                
+                // विकल्प बनाएं
+                question.options.forEach((option, optionIndex) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'option';
+                    if (selectedAnswers[index] === optionIndex) {
+                        optionElement.classList.add('selected');
+                    }
+                    
+                    const optionLetter = document.createElement('div');
+                    optionLetter.className = 'option-letter';
+                    optionLetter.textContent = optionLetters[optionIndex];
+                    
+                    const optionText = document.createElement('div');
+                    optionText.className = 'option-text';
+                    optionText.textContent = option;
+                    
+                    optionElement.appendChild(optionLetter);
+                    optionElement.appendChild(optionText);
+                    
+                    // विकल्प चुनने की घटना
+                    optionElement.addEventListener('click', () => {
+                        selectAnswer(index, optionIndex);
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
+                });
+                
+                questionCard.appendChild(questionNumber);
+                questionCard.appendChild(questionText);
+                questionCard.appendChild(optionsContainer);
+                
+                quizContainer.appendChild(questionCard);
+            });
+        }
+        
+        // उत्तर चुनना
+        function selectAnswer(questionIndex, optionIndex) {
+            selectedAnswers[questionIndex] = optionIndex;
+            renderQuestions();
+        }
+        
+        // उत्तर जाँचना
+        function checkAnswers() {
+            let score = 0;
+            
+            // सभी प्रश्नों के उत्तर चुने गए हैं या नहीं
+            const allAnswered = selectedAnswers.every(answer => answer !== null);
+            
+            if (!allAnswered) {
+                alert("कृपया सभी प्रश्नों के उत्तर दें!");
+                return;
+            }
+            
+            // प्रत्येक प्रश्न के विकल्पों को अपडेट करें
+            const optionElements = document.querySelectorAll('.option');
+            let currentQuestionIndex = 0;
+            let currentOptionIndex = 0;
+            
+            optionElements.forEach((optionElement, index) => {
+                currentOptionIndex = index % 4;
+                if (currentOptionIndex === 0 && index !== 0) {
+                    currentQuestionIndex++;
+                }
+                
+                const question = questions[currentQuestionIndex];
+                
+                // सही उत्तर
+                if (currentOptionIndex === question.correctAnswer) {
+                    optionElement.classList.add('correct');
+                }
+                // गलत उत्तर (यदि चुना गया है)
+                else if (selectedAnswers[currentQuestionIndex] === currentOptionIndex) {
+                    optionElement.classList.add('incorrect');
+                }
+                
+                // स्कोर गणना
+                if (currentOptionIndex === 0) {
+                    if (selectedAnswers[currentQuestionIndex] === question.correctAnswer) {
+                        score++;
+                    }
+                }
+            });
+            
+            // परिणाम दिखाएं
+            showResult(score);
+        }
+        
+        // परिणाम दिखाएं
+        function showResult(score) {
+            scoreElement.textContent = `${score}/${questions.length}`;
+            
+            // संदेश सेट करें
+            let message = "";
+            if (score === questions.length) {
+                message = "बहुत बढ़िया! आपने सभी प्रश्नों के सही उत्तर दिए।";
+            } else if (score >= questions.length * 0.7) {
+                message = "अच्छा प्रदर्शन! आपको इस विषय की अच्छी समझ है।";
+            } else if (score >= questions.length * 0.5) {
+                message = "साधारण प्रदर्शन। कुछ और अध्ययन की आवश्यकता है।";
+            } else {
+                message = "आपको इस विषय पर और अध्ययन करने की आवश्यकता है।";
+            }
+            
+            messageElement.textContent = message;
+            
+            // उत्तर कुंजी दिखाएं
+            answerListElement.innerHTML = '';
+            questions.forEach((question, index) => {
+                const answerItem = document.createElement('li');
+                answerItem.className = 'answer-item';
+                
+                const correctAnswerText = question.options[question.correctAnswer];
+                const userAnswerIndex = selectedAnswers[index];
+                const userAnswerText = userAnswerIndex !== null ? question.options[userAnswerIndex] : "उत्तर नहीं दिया";
+                
+                let answerStatus = "";
+                if (userAnswerIndex === question.correctAnswer) {
+                    answerStatus = " (सही)";
+                } else if (userAnswerIndex !== null) {
+                    answerStatus = " (गलत)";
+                } else {
+                    answerStatus = " (उत्तर नहीं दिया)";
+                }
+                
+                answerItem.innerHTML = `<strong>प्रश्न ${index + 1}:</strong> ${correctAnswerText} <span class="answer-correct">${answerStatus}</span>`;
+                answerListElement.appendChild(answerItem);
+            });
+            
+            // परिणाम कंटेनर दिखाएं
+            resultContainer.style.display = 'block';
+            
+            // परिणाम तक स्क्रॉल करें
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // रीसेट करें
+        function resetQuiz() {
+            selectedAnswers = new Array(questions.length).fill(null);
+            resultContainer.style.display = 'none';
+            renderQuestions();
+        }
+        
+        // इवेंट लिसनर्स
+        checkBtn.addEventListener('click', checkAnswers);
+        resetBtn.addEventListener('click', resetQuiz);
+        
+        // आरंभिक रेंडर
+        renderQuestions();
+    </script>
+</body>
+</html>
