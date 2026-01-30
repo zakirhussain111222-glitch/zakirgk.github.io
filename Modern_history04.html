@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>बंगाल पर अंग्रेज़ों का आधिपत्य - 15 MCQ with Score</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Nirmala UI', Arial, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-left: 6px solid #1a5fb4;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #ccc;
+        }
+        h1 {
+            color: #1a5fb4;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .exam-badge {
+            display: inline-block;
+            background: linear-gradient(to right, #1a5fb4, #26a269);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        /* Score Panel */
+        .score-panel {
+            background: linear-gradient(135deg, #1a5fb4, #3584e4);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(26, 95, 180, 0.3);
+        }
+        .score-display {
+            text-align: center;
+        }
+        .score-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .score-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background-color: #26a269;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #208c5a;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #1a5fb4;
+            border: 2px solid #1a5fb4;
+        }
+        .btn-secondary:hover {
+            background-color: #f0f7ff;
+        }
+        
+        /* MCQ Cards */
+        .mcq-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid #26a269;
+            transition: transform 0.2s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+        .mcq-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+        }
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1e1e1e;
+        }
+        .question-number {
+            background-color: #1a5fb4;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .options {
+            margin-left: 40px;
+        }
+        .option {
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+        .option:hover {
+            background-color: #e9ecef;
+            border-color: #1a5fb4;
+        }
+        .option.selected {
+            background-color: #e0f2fe;
+            border-color: #1a5fb4;
+        }
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+        .option-label {
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 30px;
+            color: #1a5fb4;
+        }
+        .option-text {
+            flex-grow: 1;
+        }
+        .result-icon {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+        
+        /* Result Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: modalFade 0.3s;
+        }
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal h2 {
+            color: #1a5fb4;
+            margin-top: 0;
+        }
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+        }
+        .score-excellent {
+            background: linear-gradient(135deg, #26a269, #2ec27e);
+        }
+        .score-good {
+            background: linear-gradient(135deg, #1a5fb4, #3584e4);
+        }
+        .score-average {
+            background: linear-gradient(135deg, #e5a50a, #f5c211);
+        }
+        .score-poor {
+            background: linear-gradient(135deg, #c01c28, #e66161);
+        }
+        .performance-text {
+            font-size: 20px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .details {
+            text-align: left;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; max-width: 100%; }
+            .score-panel, .btn, .modal { display: none; }
+            .mcq-card { break-inside: avoid; }
+        }
+        @media (max-width: 768px) {
+            .score-panel { flex-direction: column; gap: 15px; }
+            .options { margin-left: 20px; }
+            .container { padding: 15px; }
+            .controls { flex-wrap: wrap; justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 24px; }
+            .option { padding: 10px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📘 बंगाल पर अंग्रेज़ों का आधिपत्य</h1>
+            <p class="subtitle">Interactive MCQ Test with Score</p>
+            <div class="exam-badge">UPSC • SSC • State PCS • Competitive Exams</div>
+        </div>
+        
+        <!-- Score Panel -->
+        <div class="score-panel">
+            <div class="score-display">
+                <div class="score-label">Your Score</div>
+                <div class="score-value" id="currentScore">0/15</div>
+                <div class="score-label" id="percentage">0%</div>
+            </div>
+            <div class="controls">
+                <button class="btn btn-primary" onclick="checkAnswers()">✅ Submit Answers</button>
+                <button class="btn btn-secondary" onclick="resetQuiz()">🔄 Reset Quiz</button>
+                <button class="btn btn-secondary" onclick="showAnswers()">📖 Show Answers</button>
+            </div>
+        </div>
+        
+        <!-- Questions -->
+        <form id="quizForm">
+            <!-- Question 1 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">1</span>
+                    मुर्शिद कुली ख़ाँ किस काल में बंगाल का नवाब था?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="1" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">1700–1710</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="1" data-opt="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text">1713–1727</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="1" data-opt="C">
+                        <span class="option-label">C</span>
+                        <span class="option-text">1727–1739</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="1" data-opt="D">
+                        <span class="option-label">D</span>
+                        <span class="option-text">1739–1740</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">2</span>
+                    मुर्शिद कुली ख़ाँ ने राजधानी ढाका से बदलकर कहाँ की?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="2" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">पटना</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="2" data-opt="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text">मुंगेर</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="2" data-opt="C">
+                        <span class="option-label">C</span>
+                        <span class="option-text">मुर्शिदाबाद</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="2" data-opt="D">
+                        <span class="option-label">D</span>
+                        <span class="option-text">कलकत्ता</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">3</span>
+                    मुर्शिद कुली ख़ाँ ने कौन-सी राजस्व व्यवस्था शुरू की?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="3" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">स्थायी बंदोबस्त</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="3" data-opt="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text">रैयतवाड़ी</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="3" data-opt="C">
+                        <span class="option-label">C</span>
+                        <span class="option-text">इजारेदारी प्रथा</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="3" data-opt="D">
+                        <span class="option-label">D</span>
+                        <span class="option-text">महालवाड़ी</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">4</span>
+                    मुर्शिद कुली ख़ाँ के बाद बंगाल का नवाब कौन बना?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="4" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">सरफराज़ ख़ाँ</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="4" data-opt="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text">शुजाउद्दीन</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="4" data-opt="C">
+                        <span class="option-label">C</span>
+                        <span class="option-text">अलीवर्दी ख़ाँ</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="4" data-opt="D">
+                        <span class="option-label">D</span>
+                        <span class="option-text">सिराजुद्दौला</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">5</span>
+                    अलीवर्दी ख़ाँ का शासनकाल क्या था?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="5" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">1727–1739</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="5" data-opt="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text">1739–1740</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="5" data-opt="C">
+                        <span class="option-label">C</span>
+                        <span class="option-text">1740–1756</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="5" data-opt="D">
+                        <span class="option-label">D</span>
+                        <span class="option-text">1756–1757</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">6</span>
+                    अलीवर्दी ख़ाँ के समय बंगाल को क्या कहा जाने लगा?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="6" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">भारत का हृदय</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="6" data-opt="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text">भारत का स्वर्ग</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="6" data-opt="C">
+                        <span class="option-label">C</span>
+                        <span class="option-text">भारत का स्वर्ण</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="6" data-opt="D">
+                        <span class="option-label">D</span>
+                        <span class="option-text">भारत का द्वार</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">7</span>
+                    1756 ई. में बंगाल का नवाब कौन बना?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="7" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">अलीवर्दी ख़ाँ</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="7" data-opt="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text">मीर जाफ़र</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="7" data-opt="C">
+                        <span class="option-label">C</span>
+                        <span class="option-text">सिराजुद्दौला</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="7" data-opt="D">
+                        <span class="option-label">D</span>
+                        <span class="option-text">मीर कासिम</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">8</span>
+                    'ब्लैक होल त्रासदी' किस वर्ष हुई?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="8" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">1754</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="8" data-opt="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text">1755</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="8" data-opt="C">
+                        <span class="option-label">C</span>
+                        <span class="option-text">1756</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="8" data-opt="D">
+                        <span class="option-label">D</span>
+                        <span class="option-text">1757</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="mcq-card">
+                <div class="question">
+                    <span class="question-number">9</span>
+                    ब्लैक होल त्रासदी किस स्थान से संबंधित है?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)" data-q="9" data-opt="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text">मुर्शिदाबाद</span>
+                    </div>
+                    <div class="option" onclick="selectOption(this)" data-q="9" da
