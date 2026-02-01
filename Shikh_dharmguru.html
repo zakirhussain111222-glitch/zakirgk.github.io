@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सिख एवं अंग्रेज - MCQ टेस्ट</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Noto Sans Devanagari', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            background-image: linear-gradient(120deg, #fdfcfb 0%, #e2d1c3 100%);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+        
+        header {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.2;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            position: relative;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .test-info {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f9fa;
+            padding: 15px 30px;
+            border-bottom: 2px solid #e9ecef;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .instructions {
+            background-color: #fff9db;
+            border-left: 5px solid #ffd43b;
+            padding: 18px 25px;
+            margin: 20px 30px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .instructions h3 {
+            color: #e67700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .question-container {
+            padding: 0 30px 20px;
+        }
+        
+        .question-box {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid #2a5298;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question-box:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background-color: #2a5298;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.15rem;
+            margin-bottom: 18px;
+            color: #212529;
+            font-weight: 500;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option {
+            background-color: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .option:hover {
+            background-color: #f1f3f4;
+            border-color: #adb5bd;
+        }
+        
+        .option.selected {
+            background-color: #e7f4ff;
+            border-color: #2a5298;
+            color: #1e3c72;
+            font-weight: 500;
+        }
+        
+        .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .selected .option-letter {
+            background-color: #2a5298;
+            color: white;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding: 25px 30px;
+            gap: 20px;
+            border-top: 2px solid #e9ecef;
+            background-color: #f8f9fa;
+        }
+        
+        button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        #submitBtn {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+        }
+        
+        #submitBtn:hover {
+            background: linear-gradient(to right, #2a5298, #3a6bc5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+        }
+        
+        #resetBtn {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        
+        #resetBtn:hover {
+            background-color: #dee2e6;
+            transform: translateY(-2px);
+        }
+        
+        .result-container {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(30, 60, 114, 0.2);
+        }
+        
+        .score-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .score-value {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .score-total {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .percentage {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .answers-review h3 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-question {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #dee2e6;
+        }
+        
+        .correct-answer {
+            background-color: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .wrong-answer {
+            background-color: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        
+        .answer-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .correct-status {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .wrong-status {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .user-answer, .correct-answer-text {
+            margin-top: 8px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .user-answer {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .correct-answer-text {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+        }
+        
+        .icon {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-graduation-cap icon"></i> सिख एवं अंग्रेज - MCQ टेस्ट</h1>
+            <p class="subtitle">25 प्रश्नों का इंटरैक्टिव टेस्ट - अपने ज्ञान का परीक्षण करें</p>
+        </header>
+        
+        <div class="test-info">
+            <div><i class="far fa-clock icon"></i> अनुमानित समय: 30 मिनट</div>
+            <div><i class="fas fa-question-circle icon"></i> कुल प्रश्न: 25</div>
+            <div><i class="fas fa-star icon"></i> प्रत्येक सही उत्तर: 1 अंक</div>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> परीक्षा निर्देश</h3>
+            <p>1. सभी 25 प्रश्नों के उत्तर देना अनिवार्य है।</p>
+            <p>2. प्रत्येक प्रश्न के लिए एक ही उत्तर चुनें।</p>
+            <p>3. उत्तर चुनने के लिए विकल्प पर क्लिक करें।</p>
+            <p>4. सभी उत्तर देने के बाद "परिणाम देखें" बटन पर क्लिक करें।</p>
+            <p>5. परिणाम स्क्रीन पर आपका स्कोर और सही उत्तर दिखाई देंगे।</p>
+        </div>
+        
+        <form id="quizForm">
+            <div class="question-container" id="questionsContainer">
+                <!-- प्रश्न यहाँ जावास्क्रिप्ट द्वारा जोड़े जाएँगे -->
+            </div>
+            
+            <div class="controls">
+                <button type="button" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> परिणाम देखें
+                </button>
+                <button type="button" id="resetBtn">
+                    <i class="fas fa-redo"></i> टेस्ट रीसेट करें
+                </button>
+            </div>
+        </form>
+        
+        <div class="result-container" id="resultContainer">
+            <div class="score-card">
+                <h2 class="score-title">आपका स्कोर</h2>
+                <div class="score-value" id="scoreValue">0</div>
+                <div class="score-total">25 में से</div>
+                <div class="percentage" id="percentage">0%</div>
+            </div>
+            
+            <div class="answers-review">
+                <h3><i class="fas fa-chart-bar"></i> उत्तरों की समीक्षा</h3>
+                <div id="answersReview">
+                    <!-- उत्तरों की समीक्षा यहाँ जोड़ी जाएगी -->
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button type="button" id="backToTestBtn">
+                    <i class="fas fa-arrow-left"></i> टेस्ट पर वापस जाएँ
+                </button>
+                <button type="button" id="resetAfterResultBtn">
+                    <i class="fas fa-redo"></i> नया टेस्ट शुरू करें
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 इतिहास MCQ टेस्ट | सिख एवं अंग्रेज इतिहास पर आधारित</p>
+            <p>सभी प्रश्न शैक्षिक उद्देश्यों के लिए हैं</p>
+        </div>
+    </div>
+
+    <script>
+        // प्रश्न डेटा
+        const questions = [
+            {
+                question: "सिख धर्म के संस्थापक कौन थे?",
+                options: ["गुरु अंगद", "गुरु नानक", "गुरु अमरदास", "गुरु रामदास"],
+                correctAnswer: 1
+            },
+            {
+                question: "गुरु नानक का जन्म कब हुआ था?",
+                options: ["1469", "1475", "1490", "1500"],
+                correctAnswer: 0
+            },
+            {
+                question: "गुरु नानक की मृत्यु कहाँ हुई?",
+                options: ["अमृतसर", "करतारपुर", "लाहौर", "दिल्ली"],
+                correctAnswer: 1
+            },
+            {
+                question: "सिखों के दूसरे गुरु कौन थे?",
+                options: ["गुरु अमरदास", "गुरु अंगद", "गुरु रामदास", "गुरु अर्जुन"],
+                correctAnswer: 1
+            },
+            {
+                question: "गुरुमुखी लिपि का प्रारम्भ किसने किया?",
+                options: ["गुरु नानक", "गुरु अंगद", "गुरु अमरदास", "गुरु रामदास"],
+                correctAnswer: 1
+            },
+            {
+                question: "सिखों के तीसरे गुरु कौन थे?",
+                options: ["गुरु अमरदास", "गुरु अर्जुन", "गुरु हरगोविंद", "गुरु हरराय"],
+                correctAnswer: 0
+            },
+            {
+                question: "गुरु अमरदास से मिलने कौन सा मुगल सम्राट गया?",
+                options: ["बाबर", "हुमायूँ", "अकबर", "जहाँगीर"],
+                correctAnswer: 2
+            },
+            {
+                question: "सिखों के चौथे गुरु कौन थे?",
+                options: ["गुरु रामदास", "गुरु अर्जुन", "गुरु हरगोविंद", "गुरु हरराय"],
+                correctAnswer: 0
+            },
+            {
+                question: "अमृतसर नगर की स्थापना किसने की?",
+                options: ["गुरु अर्जुन", "गुरु रामदास", "गुरु हरगोविंद", "गुरु तेगबहादुर"],
+                correctAnswer: 1
+            },
+            {
+                question: "गुरु अर्जुन को किसने मरवाया?",
+                options: ["अकबर", "शाहजहाँ", "जहाँगीर", "औरंगज़ेब"],
+                correctAnswer: 2
+            },
+            {
+                question: "सिखों के छठे गुरु कौन थे?",
+                options: ["गुरु हरगोविंद", "गुरु हरराय", "गुरु हरकिशन", "गुरु तेगबहादुर"],
+                correctAnswer: 0
+            },
+            {
+                question: "सिखों को सैनिक रूप किसने दिया?",
+                options: ["गुरु अर्जुन", "गुरु हरगोविंद", "गुरु हरराय", "गुरु गोविंद सिंह"],
+                correctAnswer: 1
+            },
+            {
+                question: "सिखों के नौवें गुरु कौन थे?",
+                options: ["गुरु हरकिशन", "गुरु तेगबहादुर", "गुरु गोविंद सिंह", "गुरु रामदास"],
+                correctAnswer: 1
+            },
+            {
+                question: "गुरु तेगबहादुर को किसने मरवाया?",
+                options: ["जहाँगीर", "शाहजहाँ", "औरंगज़ेब", "बहादुरशाह"],
+                correctAnswer: 2
+            },
+            {
+                question: "सिखों के अंतिम गुरु कौन थे?",
+                options: ["गुरु हरगोविंद", "गुरु तेगबहादुर", "गुरु गोविंद सिंह", "गुरु अर्जुन"],
+                correctAnswer: 2
+            },
+            {
+                question: "खालसा पंथ की स्थापना कब हुई?",
+                options: ["1690", "1695", "1699", "1705"],
+                correctAnswer: 2
+            },
+            {
+                question: "पाँच ककार की व्यवस्था किसने शुरू की?",
+                options: ["गुरु हरगोविंद", "गुरु तेगबहादुर", "गुरु गोविंद सिंह", "गुरु अर्जुन"],
+                correctAnswer: 2
+            },
+            {
+                question: "गुरु गोविंद सिंह की मृत्यु कहाँ हुई?",
+                options: ["दिल्ली", "अमृतसर", "नांदेड़", "लाहौर"],
+                correctAnswer: 2
+            },
+            {
+                question: "मिसल शब्द का अर्थ क्या है?",
+                options: ["सेना", "समान", "समूह", "संगठन"],
+                correctAnswer: 1
+            },
+            {
+                question: "महाराजा रणजीत सिंह का जन्म कब हुआ?",
+                options: ["1770", "1780", "1790", "1800"],
+                correctAnswer: 1
+            },
+            {
+                question: "रणजीत सिंह किस राज्य के शासक बने?",
+                options: ["पंजाब", "कश्मीर", "दिल्ली", "सिंध"],
+                correctAnswer: 0
+            },
+            {
+                question: "रणजीत सिंह की मृत्यु कब हुई?",
+                options: ["1835", "1839", "1845", "1850"],
+                correctAnswer: 1
+            },
+            {
+                question: "प्रथम आंग्ल-सिख युद्ध कब हुआ?",
+                options: ["1839", "1842", "1845-46", "1848"],
+                correctAnswer: 2
+            },
+            {
+                question: "द्वितीय आंग्ल-सिख युद्ध कब हुआ?",
+                options: ["1846", "1847", "1848-49", "1850"],
+                correctAnswer: 2
+            },
+            {
+                question: "पंजाब को अंग्रेजी राज्य में कब मिलाया गया?",
+                options: ["1846", "1847", "1848", "1849"],
+                correctAnswer: 3
+            }
+        ];
+
+        // DOM Elements
+        const questionsContainer = document.getElementById('questionsContainer');
+        const quizForm = document.getElementById('quizForm');
+        const resultContainer = document.getElementById('resultContainer');
+        const scoreValue = document.getElementById('scoreValue');
+        const percentage = document.getElementById('percentage');
+        const answersReview = document.getElementById('answersReview');
+        
+        // User answers array
+        let userAnswers = new Array(questions.length).fill(null);
+        
+        // Initialize the test
+        function initializeTest() {
+            // Clear containers
+            questionsContainer.innerHTML = '';
+            answersReview.innerHTML = '';
+            
+            // Reset user answers
+            userAnswers = new Array(questions.length).fill(null);
+            
+            // Create question elements
+            questions.forEach((q, index) => {
+                const questionBox = document.createElement('div');
+                questionBox.className = 'question-box';
+                questionBox.dataset.questionIndex = index;
+                
+                questionBox.innerHTML = `
+                    <div class="question-number">${index + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((option, optIndex) => `
+                            <div class="option" data-option-index="${optIndex}">
+                                <span class="option-letter">${String.fromCharCode(65 + optIndex)}</span>
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                questionsContainer.appendChild(questionBox);
+            });
+            
+            // Add event listeners to options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionBox = this.closest('.question-box');
+                    const questionIndex = parseInt(questionBox.dataset.questionIndex);
+                    const optionIndex = parseInt(this.dataset.optionIndex);
+                    
+                    // Deselect all options in this question
+                    questionBox.querySelectorAll('.option').forEach(opt => {
+                   
