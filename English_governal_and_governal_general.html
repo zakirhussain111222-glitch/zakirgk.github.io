@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कंपनी के अधीन गवर्नर-जनरल क्विज</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e63946;
+        }
+        
+        h1 {
+            color: #2a2a72;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e9f7ef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .score-box {
+            text-align: center;
+        }
+        
+        .score-label {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .score-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2a2a72;
+        }
+        
+        .quiz-container {
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2a2a72;
+            line-height: 1.4;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.05rem;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        .option.selected {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .correct-answer {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        #prev-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        #prev-btn:hover:not(:disabled) {
+            background-color: #5a6268;
+        }
+        
+        #next-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        #next-btn:hover:not(:disabled) {
+            background-color: #0069d9;
+        }
+        
+        #submit-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        #submit-btn:hover {
+            background-color: #218838;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .results-container {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .results-title {
+            color: #2a2a72;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .final-score {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin: 20px 0;
+        }
+        
+        .percentage {
+            font-size: 1.5rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        
+        #restart-btn {
+            background-color: #e63946;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        
+        #restart-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        .question-list {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .question-list h3 {
+            color: #2a2a72;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .question-summary {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #dee2e6;
+        }
+        
+        .question-summary.correct {
+            border-left-color: #28a745;
+        }
+        
+        .question-summary.incorrect {
+            border-left-color: #dc3545;
+        }
+        
+        .question-summary p {
+            margin-bottom: 5px;
+        }
+        
+        .status {
+            font-weight: bold;
+        }
+        
+        .correct-answer-text {
+            color: #28a745;
+        }
+        
+        .incorrect-answer-text {
+            color: #dc3545;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .question {
+                font-size: 1.2rem;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>कंपनी के अधीन गवर्नर-जनरल क्विज</h1>
+            <p class="subtitle">बंगाल के द्वैध शासन, रेगुलेटिंग एक्ट और वॉरेन हेस्टिंग्स के प्रशासन से संबंधित प्रश्न</p>
+        </header>
+        
+        <div class="score-container">
+            <div class="score-box">
+                <div class="score-label">स्कोर</div>
+                <div id="score" class="score-value">0</div>
+            </div>
+            <div class="score-box">
+                <div class="score-label">प्रश्न</div>
+                <div id="current-question" class="question-number">1/35</div>
+            </div>
+            <div class="score-box">
+                <div class="score-label">सही उत्तर</div>
+                <div id="correct-count" class="score-value">0</div>
+            </div>
+        </div>
+        
+        <div id="quiz-content">
+            <div class="quiz-container">
+                <div id="question" class="question">
+                    <!-- प्रश्न यहाँ लोड होगा -->
+                </div>
+                
+                <div id="options" class="options">
+                    <!-- विकल्प यहाँ लोड होंगे -->
+                </div>
+                
+                <div id="feedback" class="feedback">
+                    <!-- फीडबैक यहाँ दिखेगा -->
+                </div>
+                
+                <div class="navigation">
+                    <button id="prev-btn" disabled>पिछला प्रश्न</button>
+                    <button id="next-btn">अगला प्रश्न</button>
+                    <button id="submit-btn" style="display:none;">परिणाम देखें</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="results" class="results-container">
+            <h2 class="results-title">क्विज पूर्ण!</h2>
+            <div class="final-score" id="final-score">0/35</div>
+            <div class="percentage" id="percentage">0%</div>
+            <p id="result-message"></p>
+            <button id="restart-btn">फिर से प्रारंभ करें</button>
+            
+            <div class="question-list">
+                <h3>आपके उत्तरों का सारांश</h3>
+                <div id="question-summary">
+                    <!-- प्रश्न सारांश यहाँ दिखेगा -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // प्रश्न डेटा
+        const quizData = [
+            {
+                question: "1. बंगाल में द्वैध शासन व्यवस्था किसने लागू की?",
+                options: ["वॉरेन हेस्टिंग्स", "रॉबर्ट क्लाइव", "कॉर्नवालिस", "वेलेजली"],
+                correct: 1,
+                explanation: "सही उत्तर: रॉबर्ट क्लाइव ने 1765 ई. में बंगाल में द्वैध शासन व्यवस्था लागू की।"
+            },
+            {
+                question: "2. रॉबर्ट क्लाइव ने बंगाल में द्वैध शासन कब लागू किया?",
+                options: ["1757 ई.", "1765 ई.", "1773 ई.", "1784 ई."],
+                correct: 1,
+                explanation: "सही उत्तर: 1765 ई. में इलाहाबाद की संधि के बाद रॉबर्ट क्लाइव ने बंगाल में द्वैध शासन लागू किया।"
+            },
+            {
+                question: "3. इलाहाबाद की संधि किस वर्ष हुई थी?",
+                options: ["1757 ई.", "1764 ई.", "1765 ई.", "1773 ई."],
+                correct: 2,
+                explanation: "सही उत्तर: इलाहाबाद की संधि 1765 ई. में हुई थी।"
+            },
+            {
+                question: "4. इलाहाबाद की संधि किस मुगल सम्राट से हुई थी?",
+                options: ["बहादुर शाह प्रथम", "शाह आलम द्वितीय", "औरंगज़ेब", "फर्रुखसियर"],
+                correct: 1,
+                explanation: "सही उत्तर: इलाहाबाद की संधि मुगल सम्राट शाह आलम द्वितीय से हुई थी।"
+            },
+            {
+                question: "5. बंगाल के लिए उप-दीवान किसे नियुक्त किया गया?",
+                options: ["राजा शिताब राय", "मुहम्मद रज़ा खान", "मीर जाफर", "मीर कासिम"],
+                correct: 1,
+                explanation: "सही उत्तर: बंगाल के लिए उप-दीवान मुहम्मद रज़ा खान को नियुक्त किया गया था।"
+            },
+            {
+                question: "6. बिहार के लिए उप-दीवान किसे बनाया गया?",
+                options: ["मुहम्मद रज़ा खान", "राजा शिताब राय", "मीर जाफर", "हैदर अली"],
+                correct: 1,
+                explanation: "सही उत्तर: बिहार के लिए उप-दीवान राजा शिताब राय को बनाया गया था।"
+            },
+            {
+                question: "7. रेगुलेटिंग एक्ट कब पारित हुआ?",
+                options: ["1765 ई.", "1773 ई.", "1784 ई.", "1793 ई."],
+                correct: 1,
+                explanation: "सही उत्तर: रेगुलेटिंग एक्ट 1773 ई. में पारित हुआ था।"
+            },
+            {
+                question: "8. रेगुलेटिंग एक्ट के अनुसार बंगाल के गवर्नर को क्या पद दिया गया?",
+                options: ["वायसराय", "गवर्नर", "गवर्नर-जनरल", "कमांडर"],
+                correct: 2,
+                explanation: "सही उत्तर: रेगुलेटिंग एक्ट के अनुसार बंगाल के गवर्नर को गवर्नर-जनरल का पद दिया गया।"
+            },
+            {
+                question: "9. कंपनी के अधीन भारत का प्रथम गवर्नर-जनरल कौन बना?",
+                options: ["रॉबर्ट क्लाइव", "वॉरेन हेस्टिंग्स", "कॉर्नवालिस", "वेलेजली"],
+                correct: 1,
+                explanation: "सही उत्तर: वॉरेन हेस्टिंग्स कंपनी के अधीन भारत का प्रथम गवर्नर-जनरल बना।"
+            },
+            {
+                question: "10. वॉरेन हेस्टिंग्स का कार्यकाल कब था?",
+                options: ["1760–65", "1765–70", "1774–85", "1786–93"],
+                correct: 2,
+                explanation: "सही उत्तर: वॉरेन हेस्टिंग्स का कार्यकाल 1774–85 था।"
+            },
+            {
+                question: "11. वॉरेन हेस्टिंग्स ने कोषागार को मुर्शिदाबाद से कहाँ स्थानांतरित किया?",
+                options: ["पटना", "दिल्ली", "कलकत्ता", "ढाका"],
+                correct: 2,
+                explanation: "सही उत्तर: वॉरेन हेस्टिंग्स ने कोषागार को मुर्शिदाबाद से कलकत्ता स्थानांतरित किया।"
+            },
+            {
+                question: "12. 1772 में प्रत्येक जिले में किस प्रकार की अदालतें स्थापित की गईं?",
+                options: ["सैनिक अदालत", "दीवानी और फौजदारी अदालत", "पंचायत अदालत", "अपील अदालत"],
+                correct: 1,
+                explanation: "सही उत्तर: 1772 में प्रत्येक जिले में दीवानी और फौजदारी अदालतें स्थापित की गईं।"
+            },
+            {
+                question: "13. सदर दीवानी अदालत कहाँ स्थापित की गई?",
+                options: ["मद्रास", "दिल्ली", "कलकत्ता", "बंबई"],
+                correct: 2,
+                explanation: "सही उत्तर: सदर दीवानी अदालत कलकत्ता में स्थापित की गई।"
+            },
+            {
+                question: "14. सदर फौजदारी अदालत की स्थापना कहाँ हुई?",
+                options: ["पटना", "कलकत्ता", "लखनऊ", "बंबई"],
+                correct: 1,
+                explanation: "सही उत्तर: सदर फौजदारी अदालत की स्थापना कलकत्ता में हुई।"
+            },
+            {
+                question: "15. दीवानी मामलों में किस कानून का पालन किया जाता था?",
+                options: ["अंग्रेजी कानून", "मुस्लिम कानून", "जातीय कानून", "रोमन कानून"],
+                correct: 2,
+                explanation: "सही उत्तर: दीवानी मामलों में जातीय कानून (हिन्दू और मुस्लिम कानून) का पालन किया जाता था।"
+            },
+            {
+                question: "16. फौजदारी मामलों में कौन सा कानून लागू था?",
+                options: ["हिंदू कानून", "मुस्लिम कानून", "अंग्रेजी कानून", "फ्रांसीसी कानून"],
+                correct: 1,
+                explanation: "सही उत्तर: फौजदारी मामलों में मुस्लिम कानून लागू था।"
+            },
+            {
+                question: "17. 1772 में हेस्टिंग्स ने किस प्रणाली को समाप्त किया?",
+                options: ["स्थायी बंदोबस्त", "द्वैध शासन", "जमींदारी", "महालवाड़ी"],
+                correct: 1,
+                explanation: "सही उत्तर: 1772 में हेस्टिंग्स ने द्वैध शासन प्रणाली को समाप्त किया।"
+            },
+            {
+                question: "18. नई भू-राजस्व प्रणाली को क्या कहा गया?",
+                options: ["स्थायी बंदोबस्त", "रैयतवाड़ी", "इजारेदारी प्रथा", "महालवाड़ी"],
+                correct: 2,
+                explanation: "सही उत्तर: नई भू-राजस्व प्रणाली को इजारेदारी प्रथा कहा गया।"
+            },
+            {
+                question: "19. इजारेदारी प्रथा का उद्देश्य क्या था?",
+                options: ["व्यापार बढ़ाना", "अधिक भू-राजस्व वसूलना", "सेना बढ़ाना", "शिक्षा सुधार"],
+                correct: 1,
+                explanation: "सही उत्तर: इजारेदारी प्रथा का उद्देश्य अधिक भू-राजस्व वसूलना था।"
+            },
+            {
+                question: "20. भारत का पहला समाचार पत्र कौन सा था?",
+                options: ["अमृत बाजार पत्रिका", "बंगाल गजट", "हिन्दुस्तान टाइम्स", "केसरी"],
+                correct: 1,
+                explanation: "सही उत्तर: भारत का पहला समाचार पत्र बंगाल गजट था।"
+            },
+            {
+                question: "21. बंगाल गजट का प्रकाशन कब शुरू हुआ?",
+                options: ["1770", "1780", "1790", "1800"],
+                correct: 1,
+                explanation: "सही उत्तर: बंगाल गजट का प्रकाशन 1780 में शुरू हुआ।"
+            },
+            {
+                question: "22. कलकत्ता मदरसा की स्थापना कब हुई?",
+                options: ["1772", "1781", "1784", "1791"],
+                correct: 1,
+                explanation: "सही उत्तर: कलकत्ता मदरसा की स्थापना 1781 में हुई।"
+            },
+            {
+                question: "23. एशियाटिक सोसाइटी ऑफ बंगाल की स्थापना किसने की?",
+                options: ["वॉरेन हेस्टिंग्स", "विलियम जोन्स", "क्लाइव", "कॉर्नवालिस"],
+                correct: 1,
+                explanation: "सही उत्तर: एशियाटिक सोसाइटी ऑफ बंगाल की स्थापना विलियम जोन्स ने की।"
+            },
+            {
+                question: "24. एशियाटिक सोसाइटी की स्थापना कब हुई?",
+                options: ["1780", "1782", "1784", "1790"],
+                correct: 2,
+                explanation: "सही उत्तर: एशियाटिक सोसाइटी की स्थापना 1784 में हुई।"
+            },
+            {
+                question: "25. सुप्रीम कोर्ट की स्थापना कलकत्ता में कब हुई?",
+                options: ["1765", "1774", "1784", "1793"],
+                correct: 1,
+                explanation: "सही उत्तर: सुप्रीम कोर्ट की स्थापना कलकत्ता में 1774 में हुई।"
+            },
+            {
+                question: "26. सुप्रीम कोर्ट की स्थापना किस एक्ट के अंतर्गत हुई?",
+                options: ["पिट्स इंडिया एक्ट", "रेगुलेटिंग एक्ट", "चार्टर एक्ट", "स्थायी बंदोबस्त"],
+                correct: 1,
+                explanation: "सही उत्तर: सुप्रीम कोर्ट की स्थापना रेगुलेटिंग एक्ट के अंतर्गत हुई।"
+            },
+            {
+                question: "27. वॉरेन हेस्टिंग्स ने किस व्यवस्था को समाप्त कर सीधे प्रशासन संभाला?",
+                options: ["पंचायत व्यवस्था", "द्वैध शासन व्यवस्था", "जमींदारी", "सैन्य शासन"],
+                correct: 1,
+                explanation: "सही उत्तर: वॉरेन हेस्टिंग्स ने द्वैध शासन व्यवस्था को समाप्त कर सीधे प्रशासन संभाला।"
+            },
+            {
+                question: "28. प्रथम आंग्ल-मराठा युद्ध कब हुआ?",
+                options: ["1760–65", "1775–1782", "1780–84", "1790–92"],
+                correct: 1,
+                explanation: "सही उत्तर: प्रथम आंग्ल-मराठा युद्ध 1775–1782 में हुआ।"
+            },
+            {
+                question: "29. प्रथम आंग्ल-मराठा युद्ध किस संधि से समाप्त हुआ?",
+                options: ["सालबाई की संधि", "इलाहाबाद की संधि", "मंगलौर की संधि", "पुरंदर की संधि"],
+                correct: 0,
+                explanation: "सही उत्तर: प्रथम आंग्ल-मराठा युद्ध सालबाई की संधि से समाप्त हुआ।"
+            },
+            {
+                question: "30. द्वितीय आंग्ल-मैसूर युद्ध कब हुआ?",
+                options: ["1767–69", "1770–72", "1780–1784", "1790–92"],
+                correct: 2,
+                explanation: "सही उत्तर: द्वितीय आंग्ल-मैसूर युद्ध 1780–1784 में हुआ।"
+            },
+            {
+                question: "31. द्वितीय आंग्ल-मैसूर युद्ध किस संधि से समाप्त हुआ?",
+                options: ["सालबाई संधि", "मंगलौर संधि", "इलाहाबाद संधि", "लाहौर संधि"],
+                correct: 1,
+                explanation: "सही उत्तर: द्वितीय आंग्ल-मैसूर युद्ध मंगलौर संधि से समाप्त हुआ।"
+            },
+            {
+                question: "32. पिट्स इंडिया एक्ट कब पारित हुआ?",
+                options: ["1773", "1784", "1793", "1765"],
+                correct: 1,
+                explanation: "सही उत्तर: पिट्स इंडिया एक्ट 1784 में पारित हुआ।"
+            },
+            {
+                question: "33. बोर्ड ऑफ कंट्रोल की स्थापना कब हुई?",
+                options: ["1772", "1773", "1784", "1793"],
+                correct: 2,
+                explanation: "सही उत्तर: बोर्ड ऑफ कंट्रोल की स्थापना 1784 में हुई।"
+            },
+            {
+                question: "34. वॉरेन हेस्टिंग्स पर महाभियोग कब लगाया गया?",
+                options: ["1780", "1785", "1790", "1795"],
+                correct: 1,
+                explanation: "सही उत्तर: वॉरेन हेस्टिंग्स पर महाभियोग 1785 में लगाया गया।"
+            },
+            {
+                question: "35. वॉरेन हेस्टिंग्स को आरोपों से कब मुक्त किया गया?",
+                options: ["1786", "1790", "1795", "1800"],
+                correct: 2,
+                explanation: "सही उत्तर: वॉरेन हेस्टिंग्स को आरोपों से 1795 में मुक्त किया गया।"
+            }
+        ];
+
+        // क्विज स्टेट वेरिएबल्स
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        let answeredQuestions = 0;
+
+        // DOM एलिमेंट्स
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+        const scoreElement = document.getElementById('score');
+        const correctCountElement = document.getElementById('correct-count');
+        const currentQuestionElement = document.getElementById('current-question');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const quizContent = document.getElementById('quiz-content');
+        const resultsContainer = document.getElementById('results');
+        const finalScoreElement = document.getElementById('final-score');
+        const percentageElement = document.getElementById('percentage');
+        const resultMessageElement = document.getElementById('result-message');
+        const questionSummaryElement = document.getElementById('question-summary');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // क्विज शुरू करें
+        function initQuiz() {
+            loadQuestion();
+            updateScoreDisplay();
+            
+            // इवेंट लिसनर्स
+            prevBtn.addEventListener('click', goToPrevQuestion);
+            nextBtn.addEventListener('click', goToNextQuestion);
+            submitBtn.addEventListener('click', showResults);
+            restartBtn.addEventListener('click', restartQuiz);
+        }
+
+        // प्रश्न लोड करें
+        function loadQuestion() {
+            const question = quizData[currentQuestion];
+            questionElement.textContent = question.question;
+            currentQuestionElement.textContent = `${currentQuestion + 1}/${quizData.length}`;
+            
+            // विकल्प लोड करें
+            optionsElement.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                
+                // पहले से चुने गए उत्तर को चिह्नित करें
+                if (userAnswers[currentQuestion] === index) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionElement.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsElement.appendChild(optionElement);
+            });
+            
+            // फीडबैक छिपाएं
+            feedbackElement.style.display = 'none';
+            
+            // नेविगेशन बटन अपडेट करें
+            updateNavigationButtons();
+        }
+
+        // विकल्प चुनें
+        function selectOption(optionIndex) {
+            // यदि पहले से ही उत्तर दिया गया है, तो नए उत्तर की अनुमति न दें
+            if (userAnswers[currentQuestion] !== null) {
+                return;
+            }
+            
+            // सभी विकल्पों से चयन हटाएं
+            const allOptions = document.querySelectorAll('.option');
+            allOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // चुने गए विकल्प को चिह्नित करें
+            allOptions[optionIndex].classList.add('selected');
+            
+            // उत्तर स्टोर करें
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // उत्तर की जांच करें और फीडबैक दिखाएं
+            checkAnswer(optionIndex);
+            answeredQuestions++;
+            
+            // स्कोर अपडेट करें
+            updateScoreDisplay();
+            
+            // नेविगेशन बटन अपडेट करें
+            updateNavigationButtons();
+        }
+
+        // उत्तर की जांच करें
+        function checkAnswer(selectedIndex) {
+            const question = quizData[currentQuestion];
+            const allOptions = document.querySelectorAll('.option');
+            const correctIndex = question.correct;
+            
+            // सही उत्तर चिह्नित करें
+            allOptions[correctIndex].classList.add('correct');
+            
+            // यदि गलत उत्तर चुना गया है
+            if (selectedIndex !== correctIndex) {
+                allOptions[selectedIndex].classList.add('incorrect');
+                feedbackElement.textContent = `❌ गलत उत्तर! ${question.explanation}`;
+                feedbackElement.classList.remove('correct');
+                feedbackElement.classList.add('incorrect');
+            } else {
+                // सही उत्तर के लिए स्कोर बढ़ाएं
+                score++;
+                feedbackElement.textContent = `✅ सही उत्तर! ${question.explanation}`;
+                feedbackElement.classList.remove('incorrect');
+                feedbackElement.classList.add('correct');
+            }
+            
+            feedbackElement.style.display = 'block';
+        }
+
+        // स्कोर डिस्प्ले अपडेट करें
+        function updateScoreDisplay() {
+            scoreElement.textContent = score;
+            correctCountElement.textContent = score;
+        }
+
+        // नेविगेशन बटन अपडेट करें
+        function updateNavigationButtons() {
+            // पिछला बटन
+            prevBtn.disabled = currentQuestion === 0;
+            
+            // अगला/सबमिट बटन
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.style.display = 'none';
+                // सभी प्रश्नों के उत्तर दे दिए गए हैं तो सबमिट बटन दिखाएं
+                if (answeredQuestions === quizData.length) {
+                    submitBtn.style.display = 'inline-block';
+                }
+            } else {
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+                
+                // यदि अगले प्रश्न का उत्तर नहीं दिया गया है, तो अगला बटन डिसेबल करें
+                if (userAnswers[currentQuestion + 1] === null) {
+                    nextBtn.disabled = userAnswers[currentQuestion] === null;
+                } else {
+                    nextBtn.disabled = false;
+                }
+            }
+        }
+
+        // अगले प्रश्न पर जाएं
+        function goToNextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        // पिछले प्रश्न पर जाएं
+        function goToPrevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        // परिणाम दिखाएं
+        function showResults() {
+            // अंतिम स्कोर की गणना करें
+            const percentage = Math.round((score / quizData.length) * 100);
+            
+            // परिणाम अपडेट करें
+            finalScoreElement.textContent = `${score}/${quizData.length}`;
+            percentageElement.textContent = `${percentage}%`;
+            
+            // परिणाम संदेश
+            let message = "";
+            if (percentage >= 90) {
+                message = "अतुल्य! आपको इस विषय की बहुत अच्छी समझ है।";
+            } else if (percentage >= 70) {
+                message = "बहुत बढ़िया! आपका ज्ञान प्रभावशाली है।";
+            } else if (percentage >= 50) {
+                message = "अच्छा प्रयास! कुछ और अध्ययन से आप और सुधार कर सकते हैं।";
+            } else {
+                message = "चिंता न करें! इस विषय पर पुनः अध्ययन करें और फिर प्रयास करें।";
+            }
+            resultMessageElement.textContent = message;
+            
+            // प्रश्न सारांश बनाएं
+            questionSummaryElement.innerHTML = '';
+            quizData.forEach((question, index) => {
+                const summary = document.createElement('div');
+                summary.classList.add('question-summary');
+                
+                const userAnswerIndex = userAnswers[index];
+                const isCorrect = userAnswerIndex === question.correct;
+                
+                if (isCorrect) {
+                    summary.classList.add('correct');
+                } else {
+                    summary.classList.add('incorrect');
+                }
+                
+                let answerText = "उत्तर नहीं दिया गया";
+                let statusText = "";
+                
+                if (userAnswerIndex !== null) {
+                    answerText = `आपका उत्तर: ${question.options[userAnswerIndex]}`;
+                    statusText = isCorrect ? "✅ सही" : "❌ गलत";
+                }
+                
+                const correctAnswerText = `सही उत्तर: ${question.options[question.correct]}`;
+                
+                summary.innerHTML = `
+                    <p><strong>प्रश्न ${index + 1}:</strong> ${question.question}</p>
+                    <p>${answerText}</p>
+                    <p class="${isCorrect ? 'correct-answer-text' : 'incorrect-answer-text'}">${correctAnswerText}</p>
+                    <p class="status">${statusText}</p>
+                `;
+                
+                questionSummaryElement.appendChild(summary);
+            });
+            
+            // क्विज छिपाएं और परिणाम दिखाएं
+            quizContent.style.display = 'none';
+            resultsContainer.style.display = 'block';
+        }
+
+        // क्विज पुनः प्रारंभ करें
+        function restartQuiz() {
+            // स्टेट रीसेट करें
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            answeredQuestions = 0;
+            
+            // डिस्प्ले रीसेट करें
+            quizContent.style.display = 'block';
+            resultsContainer.style.display = 'none';
+            updateScoreDisplay();
+            
+            // पहला प्रश्न लोड करें
+            loadQuestion();
+        }
+
+        // पेज लोड होने पर क्विज शुरू करें
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
