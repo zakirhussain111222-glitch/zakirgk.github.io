@@ -53,6 +53,11 @@
             margin-bottom: 20px;
             color: #666;
             font-size: 1rem;
+            display: flex;
+            justify-content: space-around;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
         }
         
         .quiz-container {
@@ -65,7 +70,9 @@
             margin-bottom: 25px;
             color: #2a2a72;
             line-height: 1.4;
-            padding: 10px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
         }
         
         .options {
@@ -156,37 +163,40 @@
         
         .score-container {
             background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 10px;
             margin-bottom: 25px;
+            border: 2px solid #e63946;
         }
         
         .final-score {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: bold;
             color: #28a745;
-            margin: 10px 0;
+            margin: 15px 0;
         }
         
         .percentage {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: #555;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
         .score-message {
             background-color: #e7f1ff;
-            padding: 15px;
-            border-radius: 6px;
+            padding: 20px;
+            border-radius: 8px;
             margin-bottom: 25px;
+            border-left: 4px solid #007bff;
         }
         
         #restart-btn {
             background-color: #e63946;
             color: white;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            margin-top: 15px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 30px;
         }
         
         #restart-btn:hover {
@@ -194,21 +204,24 @@
         }
         
         .question-list {
-            margin-top: 25px;
-            padding-top: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
         }
         
         .question-list h3 {
             color: #2a2a72;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
         }
         
         .question-summary {
             background-color: #f8f9fa;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 3px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dee2e6;
         }
         
         .question-summary.correct {
@@ -220,15 +233,16 @@
         }
         
         .question-summary p {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
         
         .status {
             font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 3px;
+            padding: 6px 12px;
+            border-radius: 4px;
             display: inline-block;
-            margin-top: 5px;
+            margin-top: 10px;
+            font-size: 1rem;
         }
         
         .status-correct {
@@ -244,19 +258,29 @@
         .correct-answer-text {
             color: #28a745;
             font-weight: bold;
+            font-size: 1.1rem;
         }
         
         .your-answer-text {
-            margin-top: 8px;
+            margin-top: 10px;
+            font-size: 1.05rem;
         }
         
         .explanation {
             background-color: #e7f1ff;
-            padding: 8px;
-            border-radius: 3px;
-            margin-top: 8px;
-            font-size: 0.9rem;
+            padding: 12px;
+            border-radius: 5px;
+            margin-top: 12px;
+            font-size: 1rem;
             color: #004085;
+        }
+        
+        .result-heading {
+            color: #2a2a72;
+            font-size: 1.3rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-align: center;
         }
         
         @media (max-width: 768px) {
@@ -284,6 +308,11 @@
             button {
                 width: 100%;
             }
+            
+            .progress-info {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -310,35 +339,36 @@
                 </div>
                 
                 <div class="navigation">
-                    <button id="prev-btn" disabled>← पिछला</button>
-                    <button id="next-btn">अगला →</button>
-                    <button id="submit-btn" style="display:none;">परिणाम देखें</button>
+                    <button id="prev-btn" disabled>← पिछला प्रश्न</button>
+                    <button id="next-btn">अगला प्रश्न →</button>
+                    <button id="submit-btn" style="display:none;">✅ क्विज समाप्त करें और परिणाम देखें</button>
                 </div>
             </div>
         </div>
         
         <div id="results" class="results-container">
-            <h2 class="results-title">क्विज पूर्ण!</h2>
+            <h2 class="results-title">क्विज पूर्ण हो गया!</h2>
             
             <div class="score-container">
-                <h3>आपका स्कोर</h3>
+                <h3>आपका अंतिम स्कोर</h3>
                 <div class="final-score" id="final-score">0/35</div>
                 <div class="percentage" id="percentage">0%</div>
+                <p>35 में से <span id="correct-count">0</span> प्रश्न सही</p>
             </div>
             
             <div class="score-message">
                 <p id="result-message"></p>
-                <p>नीचे आप प्रत्येक प्रश्न का विस्तृत विश्लेषण देख सकते हैं:</p>
+                <p><strong>नोट:</strong> नीचे आप प्रत्येक प्रश्न का विस्तृत विश्लेषण देख सकते हैं जिसमें आपका उत्तर और सही उत्तर दिखाया गया है।</p>
             </div>
             
+            <h3 class="result-heading">📋 प्रश्न-वार विश्लेषण</h3>
             <div class="question-list">
-                <h3>आपके उत्तरों का सारांश</h3>
                 <div id="question-summary">
                     <!-- प्रश्न सारांश यहाँ दिखेगा -->
                 </div>
             </div>
             
-            <button id="restart-btn">फिर से प्रारंभ करें</button>
+            <button id="restart-btn">🔄 क्विज फिर से प्रारंभ करें</button>
         </div>
     </div>
 
@@ -574,6 +604,7 @@
         const resultsContainer = document.getElementById('results');
         const finalScoreElement = document.getElementById('final-score');
         const percentageElement = document.getElementById('percentage');
+        const correctCountElement = document.getElementById('correct-count');
         const resultMessageElement = document.getElementById('result-message');
         const questionSummaryElement = document.getElementById('question-summary');
         const restartBtn = document.getElementById('restart-btn');
@@ -597,6 +628,7 @@
         function loadQuestion() {
             if (currentQuestionIndex >= 0 && currentQuestionIndex < quizData.length) {
                 const question = quizData[currentQuestionIndex];
+                
                 // प्रश्न दिखाएँ
                 questionElement.textContent = question.question;
                 
@@ -664,11 +696,7 @@
         // नेविगेशन बटन अपडेट करें
         function updateNavigationButtons() {
             // पिछला बटन
-            if (currentQuestionIndex === 0) {
-                prevBtn.disabled = true;
-            } else {
-                prevBtn.disabled = false;
-            }
+            prevBtn.disabled = currentQuestionIndex === 0;
             
             // अगला/सबमिट बटन
             if (currentQuestionIndex === quizData.length - 1) {
@@ -719,13 +747,14 @@
             // परिणाम अपडेट करें
             finalScoreElement.textContent = `${score}/${quizData.length}`;
             percentageElement.textContent = `${percentage}%`;
+            correctCountElement.textContent = score;
             
             // परिणाम संदेश
             let message = "";
             if (percentage >= 90) {
-                message = "🎉 बहुत बढ़िया! आपको इस विषय की अत्यधिक गहरी समझ है। उत्कृष्ट प्रदर्शन!";
+                message = "🎉 उत्कृष्ट! आपको इस विषय की बहुत गहरी समझ है। बहुत बढ़िया प्रदर्शन!";
             } else if (percentage >= 70) {
-                message = "👍 अच्छा काम! आपका ज्ञान प्रभावशाली है। थोड़ा और अभ्यास से आप शीर्ष पर पहुँच सकते हैं।";
+                message = "👍 बहुत अच्छा! आपका ज्ञान प्रभावशाली है। थोड़ा और अभ्यास से आप शीर्ष पर पहुँच सकते हैं।";
             } else if (percentage >= 50) {
                 message = "👏 अच्छा प्रयास! आपके पास बुनियादी ज्ञान है। थोड़े और अध्ययन से आप और सुधार कर सकते हैं।";
             } else {
@@ -779,6 +808,9 @@
             // क्विज छिपाएं और परिणाम दिखाएं
             quizContent.style.display = 'none';
             resultsContainer.style.display = 'block';
+            
+            // परिणाम पेज के शीर्ष पर स्क्रॉल करें
+            window.scrollTo(0, 0);
         }
 
         // क्विज पुनः प्रारंभ करें
@@ -797,6 +829,9 @@
             
             // प्रगति अपडेट करें
             updateProgressDisplay();
+            
+            // क्विज पेज के शीर्ष पर स्क्रॉल करें
+            window.scrollTo(0, 0);
         }
 
         // पेज लोड होने पर क्विज शुरू करें
