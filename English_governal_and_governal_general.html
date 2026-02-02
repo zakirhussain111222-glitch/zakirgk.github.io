@@ -120,40 +120,6 @@
             border-color: #28a745;
         }
         
-        .option.correct {
-            background-color: #d4edda;
-            border-color: #28a745;
-        }
-        
-        .option.incorrect {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-        }
-        
-        .feedback {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        
-        .feedback.correct {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-        
-        .feedback.incorrect {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        
-        .correct-answer {
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        
         .navigation {
             display: flex;
             justify-content: space-between;
@@ -227,6 +193,14 @@
             margin-bottom: 30px;
         }
         
+        .score-message {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #007bff;
+        }
+        
         #restart-btn {
             background-color: #e63946;
             color: white;
@@ -273,14 +247,38 @@
         
         .status {
             font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .status-correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
         }
         
         .correct-answer-text {
             color: #28a745;
+            font-weight: bold;
         }
         
-        .incorrect-answer-text {
-            color: #dc3545;
+        .your-answer-text {
+            margin-top: 8px;
+        }
+        
+        .explanation {
+            background-color: #e7f1ff;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #004085;
         }
         
         @media (max-width: 768px) {
@@ -333,8 +331,8 @@
                 <div id="current-question" class="question-number">1/35</div>
             </div>
             <div class="score-box">
-                <div class="score-label">सही उत्तर</div>
-                <div id="correct-count" class="score-value">0</div>
+                <div class="score-label">उत्तर दिए गए</div>
+                <div id="answered-count" class="score-value">0/35</div>
             </div>
         </div>
         
@@ -346,10 +344,6 @@
                 
                 <div id="options" class="options">
                     <!-- विकल्प यहाँ लोड होंगे -->
-                </div>
-                
-                <div id="feedback" class="feedback">
-                    <!-- फीडबैक यहाँ दिखेगा -->
                 </div>
                 
                 <div class="navigation">
@@ -364,8 +358,11 @@
             <h2 class="results-title">क्विज पूर्ण!</h2>
             <div class="final-score" id="final-score">0/35</div>
             <div class="percentage" id="percentage">0%</div>
-            <p id="result-message"></p>
-            <button id="restart-btn">फिर से प्रारंभ करें</button>
+            
+            <div class="score-message">
+                <p id="result-message"></p>
+                <p>नीचे आप प्रत्येक प्रश्न का विस्तृत विश्लेषण देख सकते हैं:</p>
+            </div>
             
             <div class="question-list">
                 <h3>आपके उत्तरों का सारांश</h3>
@@ -373,6 +370,8 @@
                     <!-- प्रश्न सारांश यहाँ दिखेगा -->
                 </div>
             </div>
+            
+            <button id="restart-btn">फिर से प्रारंभ करें</button>
         </div>
     </div>
 
@@ -574,272 +573,4 @@
             {
                 question: "33. बोर्ड ऑफ कंट्रोल की स्थापना कब हुई?",
                 options: ["1772", "1773", "1784", "1793"],
-                correct: 2,
-                explanation: "सही उत्तर: बोर्ड ऑफ कंट्रोल की स्थापना 1784 में हुई।"
-            },
-            {
-                question: "34. वॉरेन हेस्टिंग्स पर महाभियोग कब लगाया गया?",
-                options: ["1780", "1785", "1790", "1795"],
-                correct: 1,
-                explanation: "सही उत्तर: वॉरेन हेस्टिंग्स पर महाभियोग 1785 में लगाया गया।"
-            },
-            {
-                question: "35. वॉरेन हेस्टिंग्स को आरोपों से कब मुक्त किया गया?",
-                options: ["1786", "1790", "1795", "1800"],
-                correct: 2,
-                explanation: "सही उत्तर: वॉरेन हेस्टिंग्स को आरोपों से 1795 में मुक्त किया गया।"
-            }
-        ];
-
-        // क्विज स्टेट वेरिएबल्स
-        let currentQuestion = 0;
-        let score = 0;
-        let userAnswers = new Array(quizData.length).fill(null);
-        let answeredQuestions = 0;
-
-        // DOM एलिमेंट्स
-        const questionElement = document.getElementById('question');
-        const optionsElement = document.getElementById('options');
-        const feedbackElement = document.getElementById('feedback');
-        const scoreElement = document.getElementById('score');
-        const correctCountElement = document.getElementById('correct-count');
-        const currentQuestionElement = document.getElementById('current-question');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const submitBtn = document.getElementById('submit-btn');
-        const quizContent = document.getElementById('quiz-content');
-        const resultsContainer = document.getElementById('results');
-        const finalScoreElement = document.getElementById('final-score');
-        const percentageElement = document.getElementById('percentage');
-        const resultMessageElement = document.getElementById('result-message');
-        const questionSummaryElement = document.getElementById('question-summary');
-        const restartBtn = document.getElementById('restart-btn');
-
-        // क्विज शुरू करें
-        function initQuiz() {
-            loadQuestion();
-            updateScoreDisplay();
-            
-            // इवेंट लिसनर्स
-            prevBtn.addEventListener('click', goToPrevQuestion);
-            nextBtn.addEventListener('click', goToNextQuestion);
-            submitBtn.addEventListener('click', showResults);
-            restartBtn.addEventListener('click', restartQuiz);
-        }
-
-        // प्रश्न लोड करें
-        function loadQuestion() {
-            const question = quizData[currentQuestion];
-            questionElement.textContent = question.question;
-            currentQuestionElement.textContent = `${currentQuestion + 1}/${quizData.length}`;
-            
-            // विकल्प लोड करें
-            optionsElement.innerHTML = '';
-            question.options.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.classList.add('option');
-                
-                // पहले से चुने गए उत्तर को चिह्नित करें
-                if (userAnswers[currentQuestion] === index) {
-                    optionElement.classList.add('selected');
-                }
-                
-                optionElement.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
-                optionElement.addEventListener('click', () => selectOption(index));
-                optionsElement.appendChild(optionElement);
-            });
-            
-            // फीडबैक छिपाएं
-            feedbackElement.style.display = 'none';
-            
-            // नेविगेशन बटन अपडेट करें
-            updateNavigationButtons();
-        }
-
-        // विकल्प चुनें
-        function selectOption(optionIndex) {
-            // यदि पहले से ही उत्तर दिया गया है, तो नए उत्तर की अनुमति न दें
-            if (userAnswers[currentQuestion] !== null) {
-                return;
-            }
-            
-            // सभी विकल्पों से चयन हटाएं
-            const allOptions = document.querySelectorAll('.option');
-            allOptions.forEach(option => {
-                option.classList.remove('selected');
-            });
-            
-            // चुने गए विकल्प को चिह्नित करें
-            allOptions[optionIndex].classList.add('selected');
-            
-            // उत्तर स्टोर करें
-            userAnswers[currentQuestion] = optionIndex;
-            
-            // उत्तर की जांच करें और फीडबैक दिखाएं
-            checkAnswer(optionIndex);
-            answeredQuestions++;
-            
-            // स्कोर अपडेट करें
-            updateScoreDisplay();
-            
-            // नेविगेशन बटन अपडेट करें
-            updateNavigationButtons();
-        }
-
-        // उत्तर की जांच करें
-        function checkAnswer(selectedIndex) {
-            const question = quizData[currentQuestion];
-            const allOptions = document.querySelectorAll('.option');
-            const correctIndex = question.correct;
-            
-            // सही उत्तर चिह्नित करें
-            allOptions[correctIndex].classList.add('correct');
-            
-            // यदि गलत उत्तर चुना गया है
-            if (selectedIndex !== correctIndex) {
-                allOptions[selectedIndex].classList.add('incorrect');
-                feedbackElement.textContent = `❌ गलत उत्तर! ${question.explanation}`;
-                feedbackElement.classList.remove('correct');
-                feedbackElement.classList.add('incorrect');
-            } else {
-                // सही उत्तर के लिए स्कोर बढ़ाएं
-                score++;
-                feedbackElement.textContent = `✅ सही उत्तर! ${question.explanation}`;
-                feedbackElement.classList.remove('incorrect');
-                feedbackElement.classList.add('correct');
-            }
-            
-            feedbackElement.style.display = 'block';
-        }
-
-        // स्कोर डिस्प्ले अपडेट करें
-        function updateScoreDisplay() {
-            scoreElement.textContent = score;
-            correctCountElement.textContent = score;
-        }
-
-        // नेविगेशन बटन अपडेट करें
-        function updateNavigationButtons() {
-            // पिछला बटन
-            prevBtn.disabled = currentQuestion === 0;
-            
-            // अगला/सबमिट बटन
-            if (currentQuestion === quizData.length - 1) {
-                nextBtn.style.display = 'none';
-                // सभी प्रश्नों के उत्तर दे दिए गए हैं तो सबमिट बटन दिखाएं
-                if (answeredQuestions === quizData.length) {
-                    submitBtn.style.display = 'inline-block';
-                }
-            } else {
-                nextBtn.style.display = 'inline-block';
-                submitBtn.style.display = 'none';
-                
-                // यदि अगले प्रश्न का उत्तर नहीं दिया गया है, तो अगला बटन डिसेबल करें
-                if (userAnswers[currentQuestion + 1] === null) {
-                    nextBtn.disabled = userAnswers[currentQuestion] === null;
-                } else {
-                    nextBtn.disabled = false;
-                }
-            }
-        }
-
-        // अगले प्रश्न पर जाएं
-        function goToNextQuestion() {
-            if (currentQuestion < quizData.length - 1) {
-                currentQuestion++;
-                loadQuestion();
-            }
-        }
-
-        // पिछले प्रश्न पर जाएं
-        function goToPrevQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion();
-            }
-        }
-
-        // परिणाम दिखाएं
-        function showResults() {
-            // अंतिम स्कोर की गणना करें
-            const percentage = Math.round((score / quizData.length) * 100);
-            
-            // परिणाम अपडेट करें
-            finalScoreElement.textContent = `${score}/${quizData.length}`;
-            percentageElement.textContent = `${percentage}%`;
-            
-            // परिणाम संदेश
-            let message = "";
-            if (percentage >= 90) {
-                message = "अतुल्य! आपको इस विषय की बहुत अच्छी समझ है।";
-            } else if (percentage >= 70) {
-                message = "बहुत बढ़िया! आपका ज्ञान प्रभावशाली है।";
-            } else if (percentage >= 50) {
-                message = "अच्छा प्रयास! कुछ और अध्ययन से आप और सुधार कर सकते हैं।";
-            } else {
-                message = "चिंता न करें! इस विषय पर पुनः अध्ययन करें और फिर प्रयास करें।";
-            }
-            resultMessageElement.textContent = message;
-            
-            // प्रश्न सारांश बनाएं
-            questionSummaryElement.innerHTML = '';
-            quizData.forEach((question, index) => {
-                const summary = document.createElement('div');
-                summary.classList.add('question-summary');
-                
-                const userAnswerIndex = userAnswers[index];
-                const isCorrect = userAnswerIndex === question.correct;
-                
-                if (isCorrect) {
-                    summary.classList.add('correct');
-                } else {
-                    summary.classList.add('incorrect');
-                }
-                
-                let answerText = "उत्तर नहीं दिया गया";
-                let statusText = "";
-                
-                if (userAnswerIndex !== null) {
-                    answerText = `आपका उत्तर: ${question.options[userAnswerIndex]}`;
-                    statusText = isCorrect ? "✅ सही" : "❌ गलत";
-                }
-                
-                const correctAnswerText = `सही उत्तर: ${question.options[question.correct]}`;
-                
-                summary.innerHTML = `
-                    <p><strong>प्रश्न ${index + 1}:</strong> ${question.question}</p>
-                    <p>${answerText}</p>
-                    <p class="${isCorrect ? 'correct-answer-text' : 'incorrect-answer-text'}">${correctAnswerText}</p>
-                    <p class="status">${statusText}</p>
-                `;
-                
-                questionSummaryElement.appendChild(summary);
-            });
-            
-            // क्विज छिपाएं और परिणाम दिखाएं
-            quizContent.style.display = 'none';
-            resultsContainer.style.display = 'block';
-        }
-
-        // क्विज पुनः प्रारंभ करें
-        function restartQuiz() {
-            // स्टेट रीसेट करें
-            currentQuestion = 0;
-            score = 0;
-            userAnswers = new Array(quizData.length).fill(null);
-            answeredQuestions = 0;
-            
-            // डिस्प्ले रीसेट करें
-            quizContent.style.display = 'block';
-            resultsContainer.style.display = 'none';
-            updateScoreDisplay();
-            
-            // पहला प्रश्न लोड करें
-            loadQuestion();
-        }
-
-        // पेज लोड होने पर क्विज शुरू करें
-        document.addEventListener('DOMContentLoaded', initQuiz);
-    </script>
-</body>
-</html>
+                corre
