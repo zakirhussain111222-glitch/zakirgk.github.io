@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 बंगाल का इतिहास – क्विज़ (द्वैध शासन व्यवस्था)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f5f0e7 0%, #e8dfd1 100%);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px 10px;
+        }
+        .quiz-wrapper {
+            max-width: 900px;
+            width: 100%;
+            background: #fffcf7;
+            border-radius: 42px 42px 32px 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #ccbca4;
+        }
+        .header {
+            background: #8b5a2b;
+            background-image: radial-gradient(circle at 10% 30%, #b07d48, #5a3a1c);
+            padding: 28px 25px 20px 25px;
+            color: #fff8e7;
+            text-align: center;
+            border-bottom: 4px solid #dbb87c;
+        }
+        .header h1 {
+            margin: 0 0 8px 0;
+            font-weight: 600;
+            font-size: 2.1rem;
+            letter-spacing: 1px;
+            text-shadow: 3px 3px 0 #3b260a;
+        }
+        .header p {
+            margin: 0;
+            font-size: 1.2rem;
+            font-style: italic;
+            background: #3f2c13b3;
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 40px;
+            backdrop-filter: blur(3px);
+            border: 1px solid #e3b87c;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            background: #e7d9c2;
+            padding: 12px 30px;
+            border-bottom: 2px dashed #a68963;
+            font-weight: 600;
+            color: #2d2d2d;
+            font-size: 1.2rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .status-item {
+            background: #fff2db;
+            padding: 5px 20px;
+            border-radius: 30px;
+            box-shadow: inset 0 2px 5px #b39b7c;
+            border: 1px solid #b48d5b;
+        }
+        .quiz-form {
+            padding: 25px 30px 15px 30px;
+            background: #fdf9f2;
+        }
+        .question-card {
+            background: #ffffffd9;
+            border-left: 8px solid #cdaa7b;
+            border-radius: 24px 8px 8px 24px;
+            padding: 18px 25px;
+            margin-bottom: 22px;
+            box-shadow: 0 5px 12px #d2b48c66;
+            backdrop-filter: blur(2px);
+            transition: 0.1s ease;
+            border-right: 2px solid #e4c7a2;
+        }
+        .question-card:hover {
+            background: #fffcf0;
+            border-left-color: #9b6e3e;
+        }
+        .q-num {
+            display: inline-block;
+            background: #4b2f15;
+            color: #ffddb0;
+            font-weight: bold;
+            padding: 5px 18px;
+            border-radius: 40px;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            border: 1px solid #dba567;
+        }
+        .q-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 5px 0 18px 0;
+            color: #2e241a;
+            line-height: 1.4;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px 25px;
+            margin: 8px 0 5px;
+        }
+        .option-item {
+            background: #f3ede2;
+            border-radius: 60px;
+            border: 2px solid #cbb089;
+            padding: 10px 15px 10px 30px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .option-item:hover {
+            background: #ecdbba;
+            border-color: #9f7e54;
+        }
+        .option-item input[type="radio"] {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #7b5f3a;
+            border-radius: 50%;
+            margin-right: 20px;
+            position: relative;
+            cursor: pointer;
+            background: white;
+        }
+        .option-item input[type="radio"]:checked {
+            background: #8b5a2b;
+            border-color: #4f321a;
+            box-shadow: inset 0 0 0 5px #f7e2c5;
+        }
+        .option-item label {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #2d281f;
+            width: 100%;
+            cursor: pointer;
+            letter-spacing: 0.3px;
+        }
+        /* correct / incorrect highlight (shown only after submission) */
+        .question-card.submitted.correct .q-num {
+            background: #1f7a3d;
+            color: white;
+        }
+        .question-card.submitted.incorrect .q-num {
+            background: #a1342b;
+            color: #ffcfcf;
+        }
+        .action-area {
+            padding: 20px 30px 30px 30px;
+            background: #efe3d4;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 3px solid #b4946a;
+        }
+        .btn {
+            background: #5f3f21;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding: 16px 42px;
+            border-radius: 60px;
+            box-shadow: 0 9px 0 #2f1f10, 0 6px 18px black;
+            cursor: pointer;
+            transition: 0.08s linear;
+            letter-spacing: 1px;
+            border: 1px solid #ad8b60;
+        }
+        .btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 3px 0 #2f1f10, 0 6px 16px #221b12;
+        }
+        .btn.reset-btn {
+            background: #424242;
+            box-shadow: 0 7px 0 #262626, 0 6px 18px #131313;
+            font-size: 1.3rem;
+            padding: 14px 32px;
+        }
+        .score-box {
+            background: #2d2d15;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fee2a3;
+            border: 3px solid #f5c489;
+            box-shadow: inset 0 -3px 0 #776633;
+            line-height: 1;
+        }
+        .score-box span {
+            color: #faf1b0;
+            font-size: 1.3rem;
+            margin-right: 10px;
+        }
+        .footnote {
+            text-align: center;
+            background: #dccfbb;
+            padding: 12px;
+            color: #2d1f0f;
+            font-weight: 500;
+            font-size: 1rem;
+            border-top: 1px solid #b8a78d;
+        }
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            .btn {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            .action-area {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-wrapper">
+    <div class="header">
+        <h1>🐘 बंगाल का द्वैध शासन</h1>
+        <p>रॉबर्ट क्लाइव से लेकर पिट्स इंडिया एक्ट तक</p>
+    </div>
+    <div class="status-bar">
+        <div class="status-item">📌 15 प्रश्न</div>
+        <div class="status-item" id="liveAttemptStatus">✔️ 0 उत्तर चयनित</div>
+    </div>
+
+    <form id="quizForm" class="quiz-form">
+        <!-- प्रश्न 1 -->
+        <div class="question-card" id="q1">
+            <span class="q-num">प्रश्न 1</span>
+            <div class="q-text">1. बंगाल में द्वैध शासन व्यवस्था किसने लागू की?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q1" value="A" id="q1a"><label for="q1a">A) वारेन हेस्टिंग्स</label></div>
+                <div class="option-item"><input type="radio" name="q1" value="B" id="q1b"><label for="q1b">B) कार्टियर</label></div>
+                <div class="option-item"><input type="radio" name="q1" value="C" id="q1c"><label for="q1c">C) रॉबर्ट क्लाइव</label></div>
+                <div class="option-item"><input type="radio" name="q1" value="D" id="q1d"><label for="q1d">D) वेरलस्ट</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 2 -->
+        <div class="question-card" id="q2">
+            <span class="q-num">प्रश्न 2</span>
+            <div class="q-text">2. द्वैध शासन व्यवस्था में राजस्व वसूलने का अधिकार किसके पास था?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q2" value="A" id="q2a"><label for="q2a">A) नवाब</label></div>
+                <div class="option-item"><input type="radio" name="q2" value="B" id="q2b"><label for="q2b">B) जमींदार</label></div>
+                <div class="option-item"><input type="radio" name="q2" value="C" id="q2c"><label for="q2c">C) ईस्ट इंडिया कंपनी</label></div>
+                <div class="option-item"><input type="radio" name="q2" value="D" id="q2d"><label for="q2d">D) मुगल सम्राट</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 3 -->
+        <div class="question-card" id="q3">
+            <span class="q-num">प्रश्न 3</span>
+            <div class="q-text">3. द्वैध शासन व्यवस्था में प्रशासन चलाने की जिम्मेदारी किसकी थी?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q3" value="A" id="q3a"><label for="q3a">A) कंपनी की</label></div>
+                <div class="option-item"><input type="radio" name="q3" value="B" id="q3b"><label for="q3b">B) नवाब की</label></div>
+                <div class="option-item"><input type="radio" name="q3" value="C" id="q3c"><label for="q3c">C) सेना की</label></div>
+                <div class="option-item"><input type="radio" name="q3" value="D" id="q3d"><label for="q3d">D) अंग्रेज गवर्नर की</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 4 -->
+        <div class="question-card" id="q4">
+            <span class="q-num">प्रश्न 4</span>
+            <div class="q-text">4. बंगाल के लिए उप-दीवान किसे नियुक्त किया गया?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q4" value="A" id="q4a"><label for="q4a">A) राजा शिताब राय</label></div>
+                <div class="option-item"><input type="radio" name="q4" value="B" id="q4b"><label for="q4b">B) मुहम्मद रजा खाँ</label></div>
+                <div class="option-item"><input type="radio" name="q4" value="C" id="q4c"><label for="q4c">C) वारेन हेस्टिंग्स</label></div>
+                <div class="option-item"><input type="radio" name="q4" value="D" id="q4d"><label for="q4d">D) कार्टियर</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 5 -->
+        <div class="question-card" id="q5">
+            <span class="q-num">प्रश्न 5</span>
+            <div class="q-text">5. बिहार के लिए उप-दीवान किसे बनाया गया?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q5" value="A" id="q5a"><label for="q5a">A) मुहम्मद रजा खाँ</label></div>
+                <div class="option-item"><input type="radio" name="q5" value="B" id="q5b"><label for="q5b">B) राजा शिताब राय</label></div>
+                <div class="option-item"><input type="radio" name="q5" value="C" id="q5c"><label for="q5c">C) रॉबर्ट क्लाइव</label></div>
+                <div class="option-item"><input type="radio" name="q5" value="D" id="q5d"><label for="q5d">D) वेरलस्ट</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 6 -->
+        <div class="question-card" id="q6">
+            <span class="q-num">प्रश्न 6</span>
+            <div class="q-text">6. 1772 में किस व्यवस्था को समाप्त किया गया?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q6" value="A" id="q6a"><label for="q6a">A) स्थायी बंदोबस्त</label></div>
+                <div class="option-item"><input type="radio" name="q6" value="B" id="q6b"><label for="q6b">B) द्वैध शासन व्यवस्था</label></div>
+                <div class="option-item"><input type="radio" name="q6" value="C" id="q6c"><label for="q6c">C) लगान व्यवस्था</label></div>
+                <div class="option-item"><input type="radio" name="q6" value="D" id="q6d"><label for="q6d">D) सैनिक शासन</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 7 -->
+        <div class="question-card" id="q7">
+            <span class="q-num">प्रश्न 7</span>
+            <div class="q-text">7. इजारेदारी प्रथा का मुख्य उद्देश्य क्या था?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q7" value="A" id="q7a"><label for="q7a">A) किसानों को लाभ देना</label></div>
+                <div class="option-item"><input type="radio" name="q7" value="B" id="q7b"><label for="q7b">B) व्यापार बढ़ाना</label></div>
+                <div class="option-item"><input type="radio" name="q7" value="C" id="q7c"><label for="q7c">C) अधिक राजस्व वसूल करना</label></div>
+                <div class="option-item"><input type="radio" name="q7" value="D" id="q7d"><label for="q7d">D) सेना मजबूत करना</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 8 -->
+        <div class="question-card" id="q8">
+            <span class="q-num">प्रश्न 8</span>
+            <div class="q-text">8. मनुस्मृति का अंग्रेज़ी अनुवाद किसने किया?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q8" value="A" id="q8a"><label for="q8a">A) विलियम जोन्स</label></div>
+                <div class="option-item"><input type="radio" name="q8" value="B" id="q8b"><label for="q8b">B) विलियम विल्किंस</label></div>
+                <div class="option-item"><input type="radio" name="q8" value="C" id="q8c"><label for="q8c">C) जोनाथन डंकन</label></div>
+                <div class="option-item"><input type="radio" name="q8" value="D" id="q8d"><label for="q8d">D) हेस्टिंग्स</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 9 -->
+        <div class="question-card" id="q9">
+            <span class="q-num">प्रश्न 9</span>
+            <div class="q-text">9. बनारस में संस्कृत विद्यालय की स्थापना किसने कराई?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q9" value="A" id="q9a"><label for="q9a">A) विलियम जोन्स</label></div>
+                <div class="option-item"><input type="radio" name="q9" value="B" id="q9b"><label for="q9b">B) जोनाथन डंकन</label></div>
+                <div class="option-item"><input type="radio" name="q9" value="C" id="q9c"><label for="q9c">C) क्लाइव</label></div>
+                <div class="option-item"><input type="radio" name="q9" value="D" id="q9d"><label for="q9d">D) कार्टियर</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 10 -->
+        <div class="question-card" id="q10">
+            <span class="q-num">प्रश्न 10</span>
+            <div class="q-text">10. 1784 में कलकत्ता में किस संस्था की स्थापना की गई?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q10" value="A" id="q10a"><label for="q10a">A) फोर्ट विलियम कॉलेज</label></div>
+                <div class="option-item"><input type="radio" name="q10" value="B" id="q10b"><label for="q10b">B) एशियाटिक लाइब्रेरी</label></div>
+                <div class="option-item"><input type="radio" name="q10" value="C" id="q10c"><label for="q10c">C) एशियाटिक सोसायटी ऑफ बंगाल</label></div>
+                <div class="option-item"><input type="radio" name="q10" value="D" id="q10d"><label for="q10d">D) हिंदू कॉलेज</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 11 -->
+        <div class="question-card" id="q11">
+            <span class="q-num">प्रश्न 11</span>
+            <div class="q-text">11. कलकत्ता में मुस्लिम शिक्षा के विकास हेतु प्रथम मदरसा कब स्थापित किया गया?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q11" value="A" id="q11a"><label for="q11a">A) 1770</label></div>
+                <div class="option-item"><input type="radio" name="q11" value="B" id="q11b"><label for="q11b">B) 1775</label></div>
+                <div class="option-item"><input type="radio" name="q11" value="C" id="q11c"><label for="q11c">C) 1781</label></div>
+                <div class="option-item"><input type="radio" name="q11" value="D" id="q11d"><label for="q11d">D) 1790</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 12 -->
+        <div class="question-card" id="q12">
+            <span class="q-num">प्रश्न 12</span>
+            <div class="q-text">12. 1784 में स्थापित एशियाटिक सोसायटी की स्थापना किसने की?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q12" value="A" id="q12a"><label for="q12a">A) क्लाइव</label></div>
+                <div class="option-item"><input type="radio" name="q12" value="B" id="q12b"><label for="q12b">B) हेस्टिंग्स</label></div>
+                <div class="option-item"><input type="radio" name="q12" value="C" id="q12c"><label for="q12c">C) विलियम जोन्स</label></div>
+                <div class="option-item"><input type="radio" name="q12" value="D" id="q12d"><label for="q12d">D) डंकन</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 13 -->
+        <div class="question-card" id="q13">
+            <span class="q-num">प्रश्न 13</span>
+            <div class="q-text">13. भारत का पहला समाचार-पत्र ‘बंगाल गजट’ 1780 ई. में किसने प्रकाशित किया?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q13" value="A" id="q13a"><label for="q13a">A) विलियम जोन्स</label></div>
+                <div class="option-item"><input type="radio" name="q13" value="B" id="q13b"><label for="q13b">B) जेम्स ऑगस्टस हिक्की</label></div>
+                <div class="option-item"><input type="radio" name="q13" value="C" id="q13c"><label for="q13c">C) वारेन हेस्टिंग्स</label></div>
+                <div class="option-item"><input type="radio" name="q13" value="D" id="q13d"><label for="q13d">D) जॉन मैकफर्सन</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 14 -->
+        <div class="question-card" id="q14">
+            <span class="q-num">प्रश्न 14</span>
+            <div class="q-text">14. पिट्स इंडिया एक्ट कब पारित हुआ?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q14" value="A" id="q14a"><label for="q14a">A) 1773</label></div>
+                <div class="option-item"><input type="radio" name="q14" value="B" id="q14b"><label for="q14b">B) 1780</label></div>
+                <div class="option-item"><input type="radio" name="q14" value="C" id="q14c"><label for="q14c">C) 1784</label></div>
+                <div class="option-item"><input type="radio" name="q14" value="D" id="q14d"><label for="q14d">D) 1793</label></div>
+            </div>
+        </div>
+        <!-- प्रश्न 15 -->
+        <div class="question-card" id="q15">
+            <span class="q-num">प्रश्न 15</span>
+            <div class="q-text">15. 1785–1786 के बीच अस्थायी गवर्नर-जनरल किसे नियुक्त किया गया?</div>
+            <div class="options">
+                <div class="option-item"><input type="radio" name="q15" value="A" id="q15a"><label for="q15a">A) क्लाइव</label></div>
+                <div class="option-item"><input type="radio" name="q15" value="B" id="q15b"><label for="q15b">B) सर जॉन मैकफर्सन</label></div>
+                <div class="option-item"><input type="radio" name="q15" value="C" id="q15c"><label for="q15c">C) कार्नवालिस</label></div>
+                <div class="option-item"><input type="radio" name="q15" value="D" id="q15d"><label for="q15d">D) हेस्टिंग्स</label></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="action-area">
+        <button class="btn" id="submitBtn">🔍 जांच करो & स्कोर</button>
+        <div class="score-box" id="scoreDisplay"><span>🏆</span>0/15</div>
+        <button class="btn reset-btn" id="resetBtn">⟲ पुनः प्रयास</button>
+    </div>
+    <div class="footnote">
+        ✦ उत्तर अंतिम जमा करने पर दिखेंगे • हर सही प्रश्न पर हरा निशान ✦
+    </div>
+</div>
+
+<script>
+    (function() {
+        // उत्तर कुंजी (आपके दिए गए सही विकल्प)
+        const correctAnswers = {
+            q1: 'C',
+            q2: 'C',
+            q3: 'B',
+            q4: 'B',
+            q5: 'B',
+            q6: 'B',
+            q7: 'C',
+            q8: 'B',
+            q9: 'B',
+            q10: 'C',
+            q11: 'C',
+            q12: 'C',
+            q13: 'B',
+            q14: 'C',
+            q15: 'B'
+        };
+
+        const form = document.getElementById('quizForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const liveAttempt = document.getElementById('liveAttemptStatus');
+
+        // सभी question cards (कक्ष 1-15)
+        const questionCards = [];
+        for (let i = 1; i <= 15; i++) {
+            questionCards.push(document.getElementById(`q${i}`));
+        }
+
+        // लाइव चयन गणना अपडेट
+        function updateSelectedCount() {
+            let totalSelected = 0;
+            for (let i = 1; i <= 15; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                for (let r of radios) {
+                    if (r.checked) {
+                        totalSelected++;
+                        break;
+                    }
+                }
+            }
+            liveAttempt.innerText = `✔️ ${totalSelected}/15 उत्तर चयनित`;
+        }
+
+        // सभी रेडियो पर इवेंट लगाओ
+        for (let i = 1; i <= 15; i++) {
+            const radios = document.getElementsByName(`q${i}`);
+            radios.forEach(r => r.addEventListener('change', updateSelectedCount));
+        }
+
+        // सबमिशन: अंक दिखाओ एवं सही/गलत कार्ड हाइलाइट करो
+        function submitQuiz() {
+            let score = 0;
+            // पहले सबमिटेड क्लास हटाओ अगर पहले से है
+            questionCards.forEach(card => {
+                card.classList.remove('submitted', 'correct', 'incorrect');
+            });
+
+            // प्रत्येक प्रश्न के लिए जांच
+            for (let i = 1; i <= 15; i++) {
+                const qName = `q${i}`;
+                const selected = document.querySelector(`input[name="${qName}"]:checked`);
+                const card = document.getElementById(`q${i}`);
+                if (selected) {
+                    const selectedValue = selected.value;
+                    if (selectedValue === correctAnswers[qName]) {
+                        score++;
+                        card.classList.add('submitted', 'correct');
+                    } else {
+                        card.classList.add('submitted', 'incorrect');
+                    }
+                } else {
+                    // यदि कोई उत्तर नहीं चुना, फिर भी गलत श्रेणी में डाल सकते हैं या बिना रंग के।
+                    // हम उसे incorrect गिनेंगे पर हाइलाइट करेंगे नहीं? बेहतर होगा बिना चुने पर भी दिखे (यहाँ न चुनने पर कोई हाइलाइट नहीं)
+                    // स्कोर में तो नहीं जुड़ेगा। पर हम चाहें तो ग्रे रंग दे सकते हैं। आइए बिना चुने को "अनुत्तरित" दिखाएँ : हल्का ग्रे
+                    card.classList.add('submitted'); // सिर्फ submitted, पर correct/incorrect नहीं
+                }
+            }
+
+            // स्कोर दिखाओ
+            scoreDisplay.innerHTML = `<span>🏆</span>${score}/15`;
+
+            // यदि स्कोर 15 हो तो हल्की तारीफ
+            if (score === 15) {
+                setTimeout(() => alert("🎉 बधाई! शत-प्रतिशत अंक! आप इतिहास के जानकार हैं।"), 100);
+            }
+        }
+
+        // रीसेट: सारे रेडियो साफ़, कार्ड से क्लास हटाओ, स्कोर 0/15, काउंट 0
+        function resetQuiz() {
+            for (let i = 1; i <= 15; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                radios.forEach(r => r.checked = false);
+                const card = document.getElementById(`q${i}`);
+                card.classList.remove('submitted', 'correct', 'incorrect');
+            }
+            scoreDisplay.innerHTML = `<span>🏆</span>0/15`;
+            updateSelectedCount(); // 0 दिखेगा
+        }
+
+        submitBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // फॉर्म सबमिट न हो
+            submitQuiz();
+            updateSelectedCount(); // अभी चयनित संख्या वैसी ही रहेगी, पर बस अपडेट हो
+        });
+
+        resetBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            resetQuiz();
+        });
+
+        // आरंभिक स्थिति में count 0
+        window.addEventListener('load', function() {
+            resetQuiz(); // सुनिश्चित सब साफ और स्कोर 0
+        });
+    })();
+</script>
+</body>
+</html>
