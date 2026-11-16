@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>संयोजकता MCQ क्विज़</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  body {
+    min-height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 15px;
+  }
+  .container {
+    width: 100%; max-width: 650px;
+    background: #fff; border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    padding: 30px 25px;
+  }
+  .header {
+    text-align: center; margin-bottom: 20px;
+  }
+  .header h1 { font-size: 1.4rem; color: #4a3f8f; }
+  .progress-bar {
+    height: 8px; background: #e0e0e0; border-radius: 10px;
+    margin: 15px 0; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%; border-radius: 10px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.4s ease;
+  }
+  .counter { font-size: 0.9rem; color: #777; text-align: right; }
+  .question {
+    font-size: 1.15rem; font-weight: 600; color: #222;
+    margin: 20px 0; line-height: 1.6;
+  }
+  .options { display: flex; flex-direction: column; gap: 12px; }
+  .option {
+    padding: 14px 18px; border: 2px solid #d0d0d0;
+    border-radius: 12px; cursor: pointer;
+    font-size: 1rem; background: #fafafa;
+    transition: all 0.2s ease;
+  }
+  .option:hover:not(.disabled) {
+    border-color: #667eea; background: #f0f0ff; transform: translateX(4px);
+  }
+  .option.correct {
+    background: #d4f8d4; border-color: #28a745; color: #155724;
+    font-weight: 600;
+  }
+  .option.wrong {
+    background: #fdd4d4; border-color: #dc3545; color: #721c24;
+    font-weight: 600;
+  }
+  .option.disabled { cursor: not-allowed; }
+  .solution {
+    margin-top: 18px; padding: 15px;
+    background: #eef3ff; border-left: 4px solid #667eea;
+    border-radius: 8px; font-size: 0.95rem; color: #333;
+    display: none; line-height: 1.6;
+  }
+  .solution.show { display: block; }
+  .solution strong { color: #4a3f8f; }
+  .btn {
+    display: none; width: 100%; margin-top: 20px;
+    padding: 14px; border: none; border-radius: 12px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: #fff; font-size: 1.05rem; font-weight: 600;
+    cursor: pointer; transition: transform 0.2s;
+  }
+  .btn:hover { transform: scale(1.02); }
+  .btn.show { display: block; }
+  .result {
+    text-align: center; display: none;
+  }
+  .result.show { display: block; }
+  .result h2 { color: #4a3f8f; margin-bottom: 15px; }
+  .score-circle {
+    width: 140px; height: 140px; border-radius: 50%;
+    margin: 20px auto;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff; font-weight: bold;
+  }
+  .score-circle .num { font-size: 2.2rem; }
+  .score-circle .total { font-size: 0.9rem; opacity: 0.9; }
+  .result p { color: #555; font-size: 1.05rem; margin-top: 10px; }
+  .restart {
+    margin-top: 25px; padding: 12px 30px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: #fff; border: none; border-radius: 12px;
+    font-size: 1rem; cursor: pointer; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Quiz area -->
+  <div id="quizArea">
+    <div class="header"><h1>🧪 संयोजकता MCQ क्विज़</h1></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="counter" id="counter"></div>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="solution" id="solution"></div>
+    <button class="btn" id="nextBtn">अगला प्रश्न ➡️</button>
+  </div>
+
+  <!-- Result area -->
+  <div class="result" id="resultArea">
+    <h2>🎉 क्विज़ पूरी हुई!</h2>
+    <div class="score-circle">
+      <span class="num" id="scoreNum">0</span>
+      <span class="total" id="scoreTotal">/ 20</span>
+    </div>
+    <p id="scoreMsg"></p>
+    <button class="restart" onclick="location.reload()">🔄 फिर से खेलें</button>
+  </div>
+</div>
+
+<script>
+const quizData = [
+  {
+    q: "CO₂ में कार्बन की संयोजकता कितनी है?",
+    options: ["2", "3", "4", "6"],
+    correct: 2,
+    solution: "CO₂ = O=C=O, कार्बन 2 द्वि-बंध बनाता है → 2×2 = 4"
+  },
+  {
+    q: "N₂O में नाइट्रोजन की संयोजकता कितनी है?",
+    options: ["1", "2", "3", "4"],
+    correct: 0,
+    solution: "सूत्र से: 2×N = 1×2 → N = 1 (औसत संयोजकता)"
+  },
+  {
+    q: "NH₃ में नाइट्रोजन की संयोजकता है:",
+    options: ["1", "2", "3", "5"],
+    correct: 2,
+    solution: "N 3 हाइड्रोजन से 3 एकल बंध बनाता है → संयोजकता 3"
+  },
+  {
+    q: "HNO₃ में नाइट्रोजन की संयोजकता है:",
+    options: ["3", "4", "5", "2"],
+    correct: 2,
+    solution: "1 + x + 3(−2) = 0 → x = +5; संरचना में 1 एकल + 2 द्वि-बंध = 5"
+  },
+  {
+    q: "किस तत्व की संयोजकता सदैव 4 रहती है?",
+    options: ["नाइट्रोजन", "कार्बन", "ऑक्सीजन", "सल्फर"],
+    correct: 1,
+    solution: "कार्बन हमेशा 4 बंध बनाता है (CO₂, CH₄, CCl₄ सभी में 4)"
+  },
+  {
+    q: "CH₄ में कार्बन की संयोजकता है:",
+    options: ["2", "3", "4", "1"],
+    correct: 2,
+    solution: "कार्बन 4 हाइड्रोजन से 4 एकल बंध बनाता है → 4"
+  },
+  {
+    q: "NO में नाइट्रोजन की संयोजकता है:",
+    options: ["1", "2", "3", "4"],
+    correct: 1,
+    solution: "N=O द्वि-बंध → नाइट्रोजन 2 इलेक्ट्रॉन साझा करता है → 2"
+  },
+  {
+    q: "NO₂ में नाइट्रोजन की संयोजकता है:",
+    options: ["2", "3", "4", "5"],
+    correct: 2,
+    solution: "एक द्वि-बंध (2) + एक एकल बंध (1) + उपसहसंयोजक बंध (1) = 4"
+  },
+  {
+    q: "Fe की सामान्य संयोजकताएँ हैं:",
+    options: ["1 और 2", "2 और 3", "3 और 4", "1 और 3"],
+    correct: 1,
+    solution: "Fe²⁺ (फेरस) और Fe³⁺ (फेरिक) — d-कक्षक इलेक्ट्रॉन भाग लेते हैं"
+  },
+  {
+    q: "Cu की सामान्य संयोजकताएँ हैं:",
+    options: ["1 और 2", "2 और 3", "1 और 3", "2 और 4"],
+    correct: 0,
+    solution: "Cu⁺ (क्यूप्रस) और Cu²⁺ (क्यूप्रिक)"
+  },
+  {
+    q: "सल्फर की संभावित संयोजकताएँ हैं:",
+    options: ["1, 2, 3", "2, 4, 6", "1, 3, 5", "2, 3, 4"],
+    correct: 1,
+    solution: "H₂S (2), SO₂ (4), SO₃/H₂SO₄ (6) — खाली d-कक्षक के कारण"
+  },
+  {
+    q: "N₂O में ऑक्सीजन की संयोजकता है:",
+    options: ["1", "2", "3", "4"],
+    correct: 1,
+    solution: "ऑक्सीजन की संयोजकता लगभग हमेशा 2 होती है"
+  },
+  {
+    q: "संक्रमण धातुओं में चर संयोजकता का कारण है:",
+    options: ["s-कक्षक", "p-कक्षक", "d-कक्षक", "f-कक्षक"],
+    correct: 2,
+    solution: "आंतरिक अधूरे d-कक्षक के इलेक्ट्रॉन भी बंधन में भाग लेते हैं"
+  },
+  {
+    q: "निम्न में किसकी संयोजकता स्थिर रहती है?",
+    options: ["Fe", "Cu", "कार्बन", "Sn"],
+    correct: 2,
+    solution: "कार्बन की संयोजकता हमेशा 4; Fe, Cu, Sn चर संयोजकता दर्शाते हैं"
+  },
+  {
+    q: "\"संयोजकता तत्व की विशेषता है, यौगिक की नहीं\" — यह किसके लिए सर्वाधिक सत्य है?",
+    options: ["नाइट्रोजन", "कार्बन", "लोहा", "तांबा"],
+    correct: 1,
+    solution: "कार्बन हर यौगिक में 4 ही रहता है, यौगिक बदलने पर नहीं बदलता"
+  },
+  {
+    q: "PCl₅ में फॉस्फोरस की संयोजकता है:",
+    options: ["3", "4", "5", "6"],
+    correct: 2,
+    solution: "P 5 क्लोरीन से 5 एकल बंध बनाता है → 5"
+  },
+  {
+    q: "SO₂ में सल्फर की संयोजकता है:",
+    options: ["2", "4", "6", "3"],
+    correct: 1,
+    solution: "S एक O से द्वि-बंध + दूसरे O से द्वि-बंध (या 1 द्वि + 2 एकल) = 4"
+  },
+  {
+    q: "CO₂ की संरचना में कार्बन कितने बंध बनाता है?",
+    options: ["2", "3", "4", "6"],
+    correct: 2,
+    solution: "O=C=O → 2 द्वि-बंध × 2 = 4 बंध"
+  },
+  {
+    q: "निम्न में किस तत्व की संयोजकता 1 से 5 तक बदल सकती है?",
+    options: ["कार्बन", "ऑक्सीजन", "नाइट्रोजन", "हाइड्रोजन"],
+    correct: 2,
+    solution: "N₂O(1), NO(2), NH₃(3), NO₂(4), HNO₃(5)"
+  },
+  {
+    q: "N₂O की संरचना में पहले नाइट्रोजन की संयोजकता है:",
+    options: ["1", "2", "3", "4"],
+    correct: 2,
+    solution: "संरचना N≡N⁺—O⁻ में पहला N त्रि-बंध बनाता है → 3"
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+const quizArea = document.getElementById('quizArea');
+const questionEl = document.getElementById('question');
+const optionsEl = document.getElementById('options');
+const solutionEl = document.getElementById('solution');
+const nextBtn = document.getElementById('nextBtn');
+const counterEl = document.getElementById('counter');
+const progressFill = document.getElementById('progressFill');
+const resultArea = document.getElementById('resultArea');
+
+function loadQuestion() {
+  answered = false;
+  const q = quizData[current];
+
+  counterEl.textContent = `प्रश्न ${current + 1} / ${quizData.length}`;
+  progressFill.style.width = `${((current) / quizData.length) * 100}%`;
+
+  questionEl.textContent = `${current + 1}. ${q.q}`;
+  optionsEl.innerHTML = '';
+  solutionEl.classList.remove('show');
+  solutionEl.innerHTML = '';
+  nextBtn.classList.remove('show');
+
+  q.options.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.textContent = `${String.fromCharCode(97 + idx)}) ${opt}`;
+    div.onclick = () => selectOption(idx);
+    optionsEl.appendChild(div);
+  });
+}
+
+function selectOption(selected) {
+  if (answered) return;
+  answered = true;
+
+  const q = quizData[current];
+  const optionDivs = optionsEl.querySelectorAll('.option');
+
+  optionDivs.forEach((div, idx) => {
+    div.classList.add('disabled');
+    if (idx === q.correct) {
+      div.classList.add('correct');   // सही उत्तर हमेशा हरा
+    }
+    if (idx === selected && idx !== q.correct) {
+      div.classList.add('wrong');     // गलत चयन लाल
+    }
+  });
+
+  if (selected === q.correct) score++;
+
+  solutionEl.innerHTML = `<strong>✅ सही उत्तर:</strong> ${q.options[q.correct]}<br><strong>📘 समाधान:</strong> ${q.solution}`;
+  solutionEl.classList.add('show');
+
+  nextBtn.textContent = (current === quizData.length - 1) ? 'परिणाम देखें 🎯' : 'अगला प्रश्न ➡️';
+  nextBtn.classList.add('show');
+}
+
+nextBtn.onclick = () => {
+  current++;
+  if (current < quizData.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+};
+
+function showResult() {
+  quizArea.style.display = 'none';
+  resultArea.classList.add('show');
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scoreTotal').textContent = `/ ${quizData.length}`;
+
+  const pct = (score / quizData.length) * 100;
+  let msg = '';
+  if (pct === 100) msg = '🏆 शानदार! आपने सभी सही किए!';
+  else if (pct >= 80) msg = '🌟 बहुत बढ़िया! लगभग सब सही!';
+  else if (pct >= 60) msg = '👍 अच्छा प्रयास! थोड़ा और अभ्यास करें।';
+  else if (pct >= 40) msg = '📖 ठीक है, रिवीजन जरूरी है।';
+  else msg = '💪 चिंता न करें, दोबारा अभ्यास करें!';
+
+  document.getElementById('scoreMsg').textContent = msg;
+  progressFill.style.width = '100%';
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
